@@ -1,0 +1,67 @@
+{
+  "name": "toybox4lucy",
+  "version": "1.0.0",
+  "description": "A web application for managing toy donations",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+    "optimize-images": "node ./optimize-image.mjs",
+    "img-build": " npm run optimize-images && cd client && npm run build",
+    "build": "cd client && npm run build",
+    "install": "cd client && npm i && cd ../server && npm i",
+    "a11y-test": "pa11y-ci",
+    "test": "jest",
+    "color-contrast-test": "node contrast-checker-script.js",
+    "all-tests": "npm run test && npm run a11y-test && npm run color-contrast-test",
+    "predeploy": "npm run dev-build",
+    "deploy": "gh-pages -d client/build",
+    "postbuild": "echo 'www.quartzion.com' > build/CNAME"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quartzion/ToyBox4Lucy.git"
+  },
+  "keywords": [
+    "Node",
+    "JavaScript",
+    "MERN"
+  ],
+  "author": "Peter Smith for Quartzion Technology Solutions Corp.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Quartzion/ToyBox4Lucy/issues"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.7",
+    "compression": "^1.8.0",
+    "dotenv": "^16.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-router-dom": "^6.23.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^14.0.0",
+    "babel-jest": "^30.0.4",
+    "color-contrast-checker": "^2.1.0",
+    "concurrently": "^9.2.0",
+    "css": "^3.0.0",
+    "css-select": "4.3.0",
+    "gh-pages": "^6.3.0",
+    "globby": "^14.1.0",
+    "imagemin": "^9.0.1",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^10.0.0",
+    "imagemin-webp": "^8.0.0",
+    "jest": "^30.0.3",
+    "jest-axe": "^10.0.0",
+    "jest-environment-jsdom": "^30.0.2",
+    "pa11y-ci": "^3.1.0"
+  }
+}

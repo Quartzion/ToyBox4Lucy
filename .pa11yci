@@ -1,0 +1,10 @@
+
+{
+  "urls": [
+    "http://localhost:3333/"
+  ],
+  "defaults": {
+    "timeout": 30000,
+    "standard": "WCAG2AA"
+  }
+}
