@@ -15,8 +15,8 @@ export default function Page1() {
     return (
         <>
             <Helmet>
-                <title>Quartzion.com</title>
-                <link rel="canonical" href="https://www.quartzion.com" />
+                <title>Lucy's Toy Box</title>
+                <link rel="canonical" href="" />
             </Helmet>
             < HelmetJsonLd />
             <a href="#main-content" className="skip-link">Skip to main content</a>
