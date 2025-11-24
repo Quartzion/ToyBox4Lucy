@@ -9,6 +9,7 @@
     "optimize-images": "node ./optimize-image.mjs",
     "img-build": " npm run optimize-images && cd client && npm run build",
     "build": "cd client && npm run build",
+    "superStar": "npm run build && npm run develop",
     "install": "cd client && npm i && cd ../server && npm i",
     "a11y-test": "pa11y-ci",
     "test": "jest",

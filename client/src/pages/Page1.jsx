@@ -21,13 +21,13 @@ export default function Page1() {
             < HelmetJsonLd />
             <a href="#main-content" className="skip-link">Skip to main content</a>
             <main id="main-content" className="py-2">
-                <WelcomeBanner />
-                <TeamSection />
+                {/* <WelcomeBanner /> */}
+                {/* <TeamSection /> */}
                 <AboutUs />
-                <ConnectWithUs />
-                <hr className="divider"/>
+                {/* <ConnectWithUs />
+                <hr className="divider"/> */}
                 <Services />
-                <Blogs />
+                {/* <Blogs /> */}
             </main>
             <Outlet />
         </>
