@@ -7,4 +7,4 @@ export const numberOfGirls = 7;
 export const numberOfGiftsNeeded = numberOfBoys + numberOfGirls;
 
 // Carousel display configuration - how many cards to show at a time
-export const VISIBLE_CARD_COUNT = 20;
+export const VISIBLE_CARD_COUNT = numberOfGiftsNeeded;

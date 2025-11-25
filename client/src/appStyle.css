@@ -75,7 +75,8 @@
 .services-content {
     display: flex;
     flex-direction: row;
-    
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .gift-card {
@@ -85,7 +86,7 @@
     border-radius: 2.5%;
     box-shadow: 0 2% 3% rgba(0, 0, 0, 0.2);
     transition: transform 0.2s;
-    width: 50vw;
+    width: calc(20% - 2%);
 }
 
 .service-image {
