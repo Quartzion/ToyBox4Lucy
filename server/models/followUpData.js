@@ -6,10 +6,10 @@ const followUpDataSchema = new Schema(
             type: String,
             required: true,
         },
-        organization: {
-            type: String,
-            required: false,
-        },
+        // organization: {
+        //     type: String,
+        //     required: false,
+        // },
         email: {
             type: String,
             required: true,
@@ -21,23 +21,23 @@ const followUpDataSchema = new Schema(
             trim: true,
             match: [/^\+?[0-9\s\-()]{7,20}$/, 'Please enter a valid phone number']
         },
-        budget: {
-            type: String,
-            required: false,
-            trim: true
-        },
-        service: {
-            type: String,
-            required: false,
-        },
-        orgSize: {
-            type: String,
-            required: false,
-        },
-        priority: {
-            type: String,
-            required: false,
-        },
+        // budget: {
+        //     type: String,
+        //     required: false,
+        //     trim: true
+        // },
+        // service: {
+        //     type: String,
+        //     required: false,
+        // },
+        // orgSize: {
+        //     type: String,
+        //     required: false,
+        // },
+        // priority: {
+        //     type: String,
+        //     required: false,
+        // },
         notes: {
             type: String,
             required: false
