@@ -3,7 +3,8 @@ import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import ReactDOM from "react-dom";
 import {Button} from 'react-bootstrap';
 import Overlay from "../Overlay";
-import qtsServices from '../../utils/servicesData';
+import { generateQtsServices } from '../../utils/servicesData';
+import { numberOfBoys, numberOfGirls, VISIBLE_CARD_COUNT } from '../../utils/cardConfig';
 import {
     getExpandedIdx,
     handleToggle,
@@ -20,13 +21,15 @@ export default function Services() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    // Generate cards based on configuration
+    const qtsServices = generateQtsServices(numberOfBoys, numberOfGirls);
+
     const expandedIdx = getExpandedIdx(qtsServices, slug);
 
-    const VISIBLE_COUNT = 10;
     const [startIdx, setStartIdx] = useState(0);
 
-    // get 3 cards in a loop for carousel
-    const visibleServices = Array.from({ length: VISIBLE_COUNT }).map((_, i) =>
+    // get cards in a loop for carousel
+    const visibleServices = Array.from({ length: VISIBLE_CARD_COUNT }).map((_, i) =>
         qtsServices[(startIdx + i) % qtsServices.length]
     );
 
