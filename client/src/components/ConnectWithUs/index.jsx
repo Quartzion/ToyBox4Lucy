@@ -1,8 +1,16 @@
 import React, { useState, Suspense } from "react";
-import { Button, Alert } from "react-bootstrap";
+import { Button, Alert, Spinner } from "react-bootstrap";
 import { isProd, getApiBaseUrl } from '../../utils/env';
 import ConnectWithUsForm from "../ConnectWithUsForm";
-const QtsPayPal = React.lazy(()=> import("../QtsPayPal"))
+const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
+
+const PayPalFallback = () => (
+    <div style={{ textAlign: 'center', padding: '2rem' }}>
+        <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading payment options...</span>
+        </Spinner>
+    </div>
+);
 
 export default function ConnectWithUs() {
     const [expanded, setExpanded] = useState(false);
@@ -75,7 +83,9 @@ export default function ConnectWithUs() {
                     </div>
                 )}
                 <br />
-                <QtsPayPal />
+                <Suspense fallback={<PayPalFallback />}>
+                    <QtsPayPal />
+                </Suspense>
             </article>
         </section>
     );
