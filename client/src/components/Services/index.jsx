@@ -4,7 +4,6 @@ import ReactDOM from "react-dom";
 import {Button} from 'react-bootstrap';
 import Overlay from "../Overlay";
 import { generateQtsServices } from '../../utils/servicesData';
-import { numberOfBoys, numberOfGirls, VISIBLE_CARD_COUNT } from '../../utils/cardConfig';
 import {
     getExpandedIdx,
     handleToggle,
@@ -21,29 +20,33 @@ export default function Services() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Generate cards based on configuration
-    const qtsServices = generateQtsServices(numberOfBoys, numberOfGirls);
-
-    const expandedIdx = getExpandedIdx(qtsServices, slug);
-
+    // Local state for services and configuration fetched from API
+    const [qtsServices, setQtsServices] = useState([]);
+    const [visibleCount, setVisibleCount] = useState(10); // fallback if API doesn't provide
     const [startIdx, setStartIdx] = useState(0);
 
-    // get cards in a loop for carousel
-    const visibleServices = Array.from({ length: VISIBLE_CARD_COUNT }).map((_, i) =>
-        qtsServices[(startIdx + i) % qtsServices.length]
-    );
+    // Compute expandedIdx from the currently generated services
+    const expandedIdx = getExpandedIdx(qtsServices, slug);
+
+    // get cards in a loop for carousel (only when qtsServices is available)
+    const visibleServices = qtsServices.length > 0
+        ? Array.from({ length: Math.min(visibleCount, qtsServices.length) }).map((_, i) =>
+            qtsServices[(startIdx + i) % qtsServices.length]
+        )
+        : [];
 
     // pause carousel on hover
     const [isPaused, setIsPaused] = useState(false);
 
     useEffect(() => {
         if (isPaused) return;
+        if (qtsServices.length === 0) return;
         const interval = setInterval(() => {
             setStartIdx((prev) => (prev + 1) % qtsServices.length);
         }, 7000); //7 seconds
 
         return () => clearInterval(interval);
-    }, [isPaused]);
+    }, [isPaused, qtsServices.length]);
 
     useEffect(() => {
         setIsPaused(expandedIdx !== -1);
@@ -51,6 +54,38 @@ export default function Services() {
 
     // overlay effect imported from utils
     useOverlayEffect(location, expandedIdx, setSearchParams);
+
+    // Fetch toy box settings from the API on mount
+    useEffect(() => {
+        let cancelled = false;
+        async function fetchSettings() {
+            try {
+                const res = await fetch('/api/toyBoxSettings');
+                if (!res.ok) {
+                    console.warn('Could not fetch toyBoxSettings, status:', res.status);
+                    return;
+                }
+                const data = await res.json();
+                if (cancelled) return;
+
+                // Expecting an array of documents; take the first
+                const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
+                if (!doc) return;
+
+                const numberOfBoys = parseInt(doc.numberOfBoys, 10) || 0;
+                const numberOfGirls = parseInt(doc.numberOfGirls, 10) || 0;
+                const visible = parseInt( numberOfBoys + numberOfGirls, 10) || 10;
+
+                setVisibleCount(visible);
+                const generated = generateQtsServices(numberOfBoys, numberOfGirls);
+                setQtsServices(generated);
+            } catch (err) {
+                console.error('Error fetching toyBoxSettings:', err);
+            }
+        }
+        fetchSettings();
+        return () => { cancelled = true; };
+    }, []);
 
     // toggle handler
     const handleToggleFn = (actualIdx) => handleToggle(qtsServices, navigate, expandedIdx, actualIdx, "services");
@@ -67,7 +102,7 @@ export default function Services() {
             >
 
                 {visibleServices.map((service, i) => {
-                    const actualIdx = (startIdx + i) % qtsServices.length;
+                    const actualIdx = qtsServices.length > 0 ? (startIdx + i) % qtsServices.length : i;
                     const isExpanded = expandedIdx === actualIdx;
                     return expandedIdx !== -1 & isExpanded
                         ? (
@@ -77,8 +112,16 @@ export default function Services() {
                 })}
             </section>
             <div className="carousel-controls">
-                <button className="svc-fwrd-btn" onClick={() => setStartIdx((prev) => (prev - 1 + qtsServices.length) % qtsServices.length)} aria-label="Previous services">◀</button>
-                <button className="svc-bkwrd-btn" onClick={() => setStartIdx((prev) => (prev + 1) % qtsServices.length)} aria-label="Next services">▶</button>
+                <button
+                    className="svc-fwrd-btn"
+                    onClick={() => qtsServices.length > 0 && setStartIdx((prev) => (prev - 1 + qtsServices.length) % qtsServices.length)}
+                    aria-label="Previous services"
+                >◀</button>
+                <button
+                    className="svc-bkwrd-btn"
+                    onClick={() => qtsServices.length > 0 && setStartIdx((prev) => (prev + 1) % qtsServices.length)}
+                    aria-label="Next services"
+                >▶</button>
             </div>
             {expandedIdx !== -1 &&
                 ReactDOM.createPortal(
