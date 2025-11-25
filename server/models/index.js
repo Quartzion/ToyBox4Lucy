@@ -1,3 +1,7 @@
-const FollowUpdData = require('./followUpData')
+const FollowUpdData = require('./followUpData');
+const ToyBoxData = require('./toyBoxData');
 
-module.exports = { FollowUpdData };
+module.exports = { 
+    FollowUpdData,
+    ToyBoxData
+};

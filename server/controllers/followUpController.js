@@ -1,6 +1,6 @@
-require('dotenv').config()
+require('dotenv').config();
 const { now } = require('mongoose');
-const FollowUpData = require('../models/followUpData')
+const FollowUpData = require('../models/followUpData');
 
 module.exports = {
     async createFollowUpRequest({ body }, res) {
