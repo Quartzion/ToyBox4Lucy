@@ -1,8 +1,11 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
+const env = process.env.NODE_ENV;
+const sslBool = env === 'production'
+
 mongoose.connect(process.env.MONGOURI, {
-  ssl: true,
+  ssl: sslBool,
 })
 
   .then(() => console.log('MongoDB connected'))
