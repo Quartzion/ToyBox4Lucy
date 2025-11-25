@@ -105,7 +105,9 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
     <>
     <section className="cwu-disclaimer">
       <p> Please send gifts to:</p>
-      <p> 2379 Navarez Ave, Safety Harbor FL 34695</p>
+      <p> Peter Smith - Quartzion Technology Solutions </p>
+      <p> </p>
+      <p> 690 Navarez Ave #253,  Safety Harbor FL 34695</p>
     </section>
     <article>
       <GeneralForm

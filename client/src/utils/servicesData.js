@@ -2,12 +2,12 @@ const qtsServices = [
     {
         title: "Boy Gift ",
         img: "./b-present.png",
-        content: `This gift is for a boy ages 4 - 9 years`,
+        content: `This gift is for a boy ages 5 - 7 years`,
     },
     {
         title: "Girl Gift",
         img: "./g-present.png",
-        content: `This gift is for a girl ages 4 - 9 years`,
+        content: `This gift is for a girl ages 5 - 7 years`,
     },
     {
         title: "ITEM 3",
