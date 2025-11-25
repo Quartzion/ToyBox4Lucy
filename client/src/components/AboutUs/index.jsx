@@ -3,9 +3,6 @@ export default function AboutUs() {
     return (
         <section aria-labelledby="about-us" className="about-us-section">
             <hr className="divider" />
-            <header className="about-us-header">
-                <h2 id="about-us">About Us</h2>
-            </header>
             <article className="about-us-content">
                 <div className="about-us-text">
                     <h3>Welcome to Lucy's Toy Box!</h3>

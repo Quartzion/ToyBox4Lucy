@@ -55,7 +55,7 @@ export default function Services() {
     return (
         <section className="services-section" role="region" aria-label="Services">
             <header className="services-header">
-                <h3 id="services">Services</h3>
+                <h3 id="services">Select a box below to see donation details. </h3>
             </header>
             <section
                 className="services-content"
@@ -70,7 +70,7 @@ export default function Services() {
                         ? (
                             <div key={actualIdx} style={{ visibility: "hidden", height: 0 }} />
                         )
-                        : renderCard(service, actualIdx, expandedIdx, cardRefs, handleToggleFn, false, "service");
+                        : renderCard(service, actualIdx, expandedIdx, cardRefs, handleToggleFn, false, "gift");
                 })}
             </section>
             <div className="carousel-controls">

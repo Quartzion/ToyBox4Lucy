@@ -1,6 +1,6 @@
 import React,  { Suspense } from 'react';
 import { Container } from 'react-bootstrap'
-const QtsPayPal = React.lazy(() => import("../QtsPayPal"))
+// const QtsPayPal = React.lazy(() => import("../QtsPayPal"))
 
 export default function Header() {
 
@@ -20,7 +20,7 @@ export default function Header() {
                 <section className="header-text">
                     <div className="slogan">
                         <h2 className="header-slogan">Help us make a great day for kids!</h2>
-                        <QtsPayPal />
+                        {/* <QtsPayPal /> */}
                     </div>
                     <div className="title">
                         <h2 className="header-title">Lucy's Toy Box</h2>

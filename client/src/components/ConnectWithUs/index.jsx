@@ -36,19 +36,18 @@ export default function ConnectWithUs() {
     return (
         <section className="connect-with-us-section" role="region" aria-label="Connect With Us today for more information">
             <header className="connect-with-us-header">
-                <h3>Connect with Quartzion Today!</h3>
-                <p>Submit your follow-up request today! Click the button below and submit the form to our engineers for review. We will analyze the request and get back to you as soon as possible!</p>
+                <p>Please provide your email so we can send you an update with confirmation for recieving and delivering your donated gift!</p>
             </header>
             <br />
             <article>
                 <Button
-                    aria-label={expanded ? "Hide Connect with Us Form" : "Show Connect with Us Form"}
+                    aria-label={expanded ? "Hide the email Form" : "click here to show the email form"}
                     className="show-connect-with-us-form-button"
                     onClick={handleToggle}
                     aria-expanded={expanded}
                     aria-controls="connect-with-us-form"
                 >
-                    {expanded ? "Hide follow-up request form" : "Click here to submit your follow-up request!"}
+                    {expanded ? "Hide email request form" : "Click here to submit your email!"}
                 </Button>
                 {successMessage && (
                     <Alert variant="success" className="mt-3">

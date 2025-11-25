@@ -95,7 +95,7 @@ export function renderCard(item, idx, expandedIdx, cardRefs, handleToggle, isOve
                         }}
                         aria-label={`Read more about ${item.title}`}
                     >
-                        {expandedIdx === idx ? "Show less" : `Click here to expand this ${type}`}
+                        {expandedIdx === idx ? "Show less" : `Click to select this ${type}`}
                     </Button>
                 </div>
             </article>

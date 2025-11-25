@@ -7,7 +7,7 @@ import {
 
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-const QtsPayPal = React.lazy(()=> import("../QtsPayPal"))
+// const QtsPayPal = React.lazy(()=> import("../QtsPayPal"))
 export default function Footer() {
     return (
         <footer className="QTS-Header">
@@ -17,17 +17,17 @@ export default function Footer() {
                     <section className="footer-left">
                         <h2 className="visually-hidden">Company Logo</h2>
                         <picture>
-                            <source srcSet="./QTS_L2_W_C.webp" type="image/webp" />
+                            <source srcSet="./<UPDATE>" type="image/webp" />
                             <img 
-                                src="./QTS_L2_W_C.png" 
-                                alt="Quartzion Logo" 
+                                src="./<UPDATE>.png" 
+                                alt="<UPDATE>" 
                                 className="header-logo" 
                                 loading='lazy'
                             />
                         </picture>
                     </section>
                     <section className="footer-right">
-                        <nav id="footer-social-links" aria-label="Follow Quartzion on Social Media" className="footer-links">
+                        {/* <nav id="footer-social-links" aria-label="Follow us on Social Media" className="footer-links">
                             <h2 className="visually-hidden">connect with us</h2>
                             <Nav>
                                 <Nav.Link
@@ -61,12 +61,12 @@ export default function Footer() {
                                     </FaXTwitter>
                                 </Nav.Link>
                             </Nav>
-                        </nav>
+                        </nav> */}
                     </section>
                     <section className="footer-center">
                         <h2 className="visually-hidden">legal</h2>
-                        &copy; {new Date().getFullYear()} - Quartzion Technology Solutions Corp. All rights reserved. - version - {getQtsVersion()}
-                    <QtsPayPal />
+                        &copy; {new Date().getFullYear()} - Lucy's Toy Box. All rights reserved. - version - {getQtsVersion()}
+                    {/* <QtsPayPal /> */}
                     </section>
                 </section>
             </Container>

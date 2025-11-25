@@ -54,222 +54,11 @@
     padding-top: 0;
 }
 
-/* Welcome Banner */
-.welcome-banner {
-    position: relative;
-    color: #F0FFFF;
-    text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
-    width: 100%;
-    aspect-ratio: 3 / 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 1rem;
-    overflow: hidden;
-    background-color: #000;
-}
-
-.welcome-banner picture {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-.welcome-banner picture img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* Semi-transparent overlay */
-.welcome-banner::before, .about-us-header::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 0;
-}
-
-.welcome-banner-content {
-    position: relative;
-    z-index: 2;
-}
-
-
-/* TeamSection */
-.team-dialogue {
-    background-color: #555;
-    color: #F0FFFF;
-    display: flex;
-    padding: 2%;
-    flex-direction: column;
-}
-
-.team-dialogue-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2%;
-}
-
-.team-dialogue-header {
-    align-items: left;
-}
-
-.team-qts-socials {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2%;
-    gap: .625rem;
-}
-
-.team-qts-socials-icon {
-    width: 1.875rem;
-    height: 1.875rem;
-    color: #F0FFFF;
-    transition: transform 0.2s ease;
-}
-
-.team-members {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    background-color: #222;
-}
-
-.team-member {
- display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    color: #F0FFFF;
-    box-sizing: border-box;
-    text-align: center;
-    min-height: 300px;
-}
-
-.team-member-details {
-    flex: 1;
-    padding: 2%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: left;
-}
-
-.team-member-socials {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 5%;
-    padding-right: 15%;
-    gap: 2rem;
-    font-size: 1.5rem;
-
-}
-
 /* about us */
-.about-team-member h2,
-.about-team-member h3 {
-    text-align: center;
-}
-
-.team-member-image {
- width: 20vw;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.team-member-image img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
-
-.about-us-header {
-    position: relative;
+.about-us-section {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    gap:5%;
-    font-weight: bold;
-    background-color: #555;
-    color: #F0FFFF;
-    background-image: image-set(
-    url('/welcome-banner-1.webp') type('image/webp'),
-    url('/welcome-banner-1.png') type('image/png')
-  );
-    background-size: stretch;
-    text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
-
-}
- .about-us-header::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 0;
-}
-
-.about-us-header > * {
-    position: relative;
-    z-index: 1;
-}
-
-.about-us-header h2{
-    display: flex;
-    font-size: 5rem;
-    text-align: right;
-}
-
-.abt-logo {
-    max-width: 20vw;
-    height: auto;
-    flex-shrink: 0;
-    padding-right: 2%;
-    padding-bottom: 2%;
-    padding-top: 2%;
-}
-
-.about-us-content {
-    display: flex;
-    flex-direction: row;
-}
-
-.about-us-image {
-    width: 100%;
-    height: 50%;
-}
-
-.divider {
-    width: 100%;
-    height: 2px;
-    background-color: #F0FFFF;
-    margin: .5% 0;
-    border: none;
-}
-
-.about-us-text {
     padding: 2%;
-    color: #F0FFFF;
-    background-color: #555;
 }
 
 /* Services */
@@ -290,7 +79,7 @@
     
 }
 
-.service-card {
+.gift-card {
     background-color: #555;
     color: #F0FFFF;
     margin: 1%;
@@ -608,6 +397,12 @@ body:has(.card-overlay-bg) {
     }
 
     /* About us */
+    .about-us-section {
+        display: flex;
+        flex-direction: row;
+
+    }
+
     .about-us-content {
         flex-direction: column;
         width: 100%;
@@ -619,21 +414,7 @@ body:has(.card-overlay-bg) {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .abt-logo {
-        max-width: 95%;
-        padding-left: 5%;
-        padding-bottom: 10%;
-
-    }
-
-    .about-us-image {
-        width: 100%;
-        height: auto;
-        max-height: 50vh;
-        object-fit: cover;
+        align-items: flex-start;
     }
 
     /* services */
