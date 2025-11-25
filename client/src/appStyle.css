@@ -36,21 +36,20 @@
 
 .slogan {
     position: absolute;
-    left: 40%;
+    left: 55%;
     transform: translateX(-45%);
     text-align: center;
 }
 
 .title {
-    margin-left: auto;
-    text-align: right;
+    text-align: left;
 }
 
 .header-slogan,
 .header-title {
     margin: 0;
     color: #F0FFFF;
-    font-size: 1rem;
+    font-size: 2rem;
     padding-top: 0;
 }
 

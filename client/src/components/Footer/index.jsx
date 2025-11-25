@@ -17,10 +17,10 @@ export default function Footer() {
                     <section className="footer-left">
                         <h2 className="visually-hidden">Company Logo</h2>
                         <picture>
-                            <source srcSet="./<UPDATE>" type="image/webp" />
+                            <source srcSet="./lt4b-logo-1.webp" type="image/webp" />
                             <img 
-                                src="./<UPDATE>.png" 
-                                alt="<UPDATE>" 
+                                src="./lt4b-logo-1.png" 
+                                alt="Lucy's Toy Box Logo" 
                                 className="header-logo" 
                                 loading='lazy'
                             />
