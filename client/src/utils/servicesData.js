@@ -11,24 +11,46 @@ const serviceTemplates = [
     },
 ];
 
-// Generate cards based on number of boys and girls
+// Generate cards with even distribution for better visual aesthetics
 export function generateQtsServices(numberOfBoys, numberOfGirls) {
     const qtsServices = [];
+    let boysAdded = 0;
+    let girlsAdded = 0;
+    const total = numberOfBoys + numberOfGirls;
     
-    // Add boy gift cards
-    for (let i = 0; i < numberOfBoys; i++) {
-        qtsServices.push({
-            ...serviceTemplates[0],
-            id: `boy-${i}`
-        });
-    }
+    // Calculate ratio to distribute evenly
+    const boyRatio = numberOfBoys / total;
+    const girlRatio = numberOfGirls / total;
     
-    // Add girl gift cards
-    for (let i = 0; i < numberOfGirls; i++) {
-        qtsServices.push({
-            ...serviceTemplates[1],
-            id: `girl-${i}`
-        });
+    // Alternate between boys and girls, but respect the ratio
+    for (let i = 0; i < total; i++) {
+        const expectedBoys = Math.round((i + 1) * boyRatio);
+        const expectedGirls = Math.round((i + 1) * girlRatio);
+        
+        // Add a boy if we haven't reached the expected count yet
+        if (boysAdded < expectedBoys && boysAdded < numberOfBoys) {
+            qtsServices.push({
+                ...serviceTemplates[0],
+                id: `boy-${boysAdded}`
+            });
+            boysAdded++;
+        }
+        // Otherwise add a girl if available
+        else if (girlsAdded < numberOfGirls) {
+            qtsServices.push({
+                ...serviceTemplates[1],
+                id: `girl-${girlsAdded}`
+            });
+            girlsAdded++;
+        }
+        // If girls are exhausted, add remaining boys
+        else if (boysAdded < numberOfBoys) {
+            qtsServices.push({
+                ...serviceTemplates[0],
+                id: `boy-${boysAdded}`
+            });
+            boysAdded++;
+        }
     }
     
     return qtsServices;
