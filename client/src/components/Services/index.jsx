@@ -22,7 +22,7 @@ export default function Services() {
 
     const expandedIdx = getExpandedIdx(qtsServices, slug);
 
-    const VISIBLE_COUNT = 3;
+    const VISIBLE_COUNT = 10;
     const [startIdx, setStartIdx] = useState(0);
 
     // get 3 cards in a loop for carousel

@@ -55,7 +55,7 @@ export function useOverlayEffect(location, expandedIdx, setSearchParams) {
     }, [location, expandedIdx, setSearchParams]);
 };
 
-// render blog card
+// render card
 export function renderCard(item, idx, expandedIdx, cardRefs, handleToggle, isOverlay = false, type = "blog") {
     return (
         <section
