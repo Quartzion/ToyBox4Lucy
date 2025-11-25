@@ -48,7 +48,7 @@ const connectWithUsFormFields = [
   //     { label: "medium", value: "medium" },
   //     { label: "high", value: "high" }
   // ] },
-  { label: "Additional Notes for The engineers", name: "notes", type: "textarea", required: false, autoComplete: "off" },
+  { label: "Additional Notes", name: "notes", type: "textarea", required: false, autoComplete: "off" },
 ];
 
 export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fields", onSuccess, onError }) {

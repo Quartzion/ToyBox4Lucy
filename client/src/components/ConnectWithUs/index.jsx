@@ -62,7 +62,7 @@ export default function ConnectWithUs() {
                     <div className="connect-with-us-form" id="connect-with-us-form">
                         <ConnectWithUsForm
                             onSuccess={() => {
-                                setSuccessMessage("Your request has been successfully submitted to Quartzion's Engineering Team!");
+                                setSuccessMessage("Thank you for helping make a kid smile!");
                                 setErrorMessage(null);
                                 setExpanded(false);
                             }}
