@@ -1,7 +1,16 @@
-import { useState } from 'react';
-import { Alert } from 'react-bootstrap';
+import React, { useState, Suspense } from 'react';
+import { Alert, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm';
 import { createFollowUpRequest } from '../../utils/API';
+const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
+
+const PayPalFallback = () => (
+    <div style={{ textAlign: 'center', padding: '2rem' }}>
+        <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading payment options...</span>
+        </Spinner>
+    </div>
+);
 
 const connectWithUsFormFields = [
   { label: "Your Name", name: "name", type: "text", required: true, placeholder: "Name", autoComplete: "on" },
@@ -93,10 +102,15 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
   };
 
   return (
+    <>
+    <section className="cwu-disclaimer">
+      <p> Please send gifts to:</p>
+      <p> 2379 Navarez Ave, Safety Harbor FL 34695</p>
+    </section>
     <article>
       <GeneralForm
         fields={connectWithUsFormFields}
-        submitLabel='Submit'
+        submitLabel='Click here to confirm'
         formClass={formClass}
         onSubmit={handleFormSubmit}
       />
@@ -107,6 +121,11 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
           Sorry, something went wrong. Please try again later.
         </Alert>
       )}
+      <br/>
+      <Suspense fallback={<PayPalFallback />}>
+        <QtsPayPal />
+      </Suspense>
     </article>
+    </>
   );
 }

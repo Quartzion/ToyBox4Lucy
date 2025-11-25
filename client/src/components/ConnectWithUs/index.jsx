@@ -1,16 +1,7 @@
-import React, { useState, Suspense } from "react";
-import { Button, Alert, Spinner } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Alert } from "react-bootstrap";
 import { isProd, getApiBaseUrl } from '../../utils/env';
 import ConnectWithUsForm from "../ConnectWithUsForm";
-const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
-
-const PayPalFallback = () => (
-    <div style={{ textAlign: 'center', padding: '2rem' }}>
-        <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading payment options...</span>
-        </Spinner>
-    </div>
-);
 
 export default function ConnectWithUs() {
     const [expanded, setExpanded] = useState(false);
@@ -55,7 +46,7 @@ export default function ConnectWithUs() {
                     aria-expanded={expanded}
                     aria-controls="connect-with-us-form"
                 >
-                    {expanded ? "Hide email request form" : "Click here to submit your email!"}
+                    {expanded ? "Hide email request form" : "Click here to submit your email and confirm your gift donation!"}
                 </Button>
                 {successMessage && (
                     <Alert variant="success" className="mt-3">
@@ -82,10 +73,6 @@ export default function ConnectWithUs() {
                         />
                     </div>
                 )}
-                <br />
-                <Suspense fallback={<PayPalFallback />}>
-                    <QtsPayPal />
-                </Suspense>
             </article>
         </section>
     );

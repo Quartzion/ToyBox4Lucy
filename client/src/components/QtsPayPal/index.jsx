@@ -5,6 +5,8 @@ import Overlay from "../Overlay";
 import { jsPDF } from "jspdf";
 import QtsLogo from "../../assets/QTS_L2_B_C.png"
 
+const businessName = import.meta.env.VITE_BIZ_NAME;
+
 export default function QtsPayPal() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [amount, setAmount] = useState("25.00");
@@ -64,7 +66,7 @@ export default function QtsPayPal() {
         variant="primary"
         onClick={() => setShowOverlay(true)}
       >
-        💙 Donate to Quartzion 💙
+        💙 Donate to {businessName} 💙
       </Button>
 
       {showOverlay && (
