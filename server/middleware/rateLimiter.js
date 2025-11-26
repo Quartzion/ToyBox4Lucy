@@ -10,6 +10,10 @@ const apiLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  // Skip rate limiting for toy box settings endpoints
+  skip: (req) => {
+    return req.path === '/toyBoxSettings' || req.path === '/toyBoxSettings/decrement';
+  }
 });
 
 module.exports = apiLimiter;

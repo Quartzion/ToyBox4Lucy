@@ -55,9 +55,11 @@ export default function Services() {
     // overlay effect imported from utils
     useOverlayEffect(location, expandedIdx, setSearchParams);
 
-    // Fetch toy box settings from the API on mount
+    // Fetch toy box settings from the API on mount and set up polling
     useEffect(() => {
         let cancelled = false;
+        let pollInterval;
+
         async function fetchSettings() {
             try {
                 const res = await fetch('/api/toyBoxSettings');
@@ -83,8 +85,17 @@ export default function Services() {
                 console.error('Error fetching toyBoxSettings:', err);
             }
         }
+
+        // Fetch immediately on mount
         fetchSettings();
-        return () => { cancelled = true; };
+
+        // Poll for updates every 10 seconds (reduced from 5 to minimize rate limit impact)
+        pollInterval = setInterval(fetchSettings, 10000);
+
+        return () => {
+            cancelled = true;
+            if (pollInterval) clearInterval(pollInterval);
+        };
     }, []);
 
     // toggle handler

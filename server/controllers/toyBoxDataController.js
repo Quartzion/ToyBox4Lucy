@@ -2,24 +2,67 @@ require('dotenv').config();
 const ToyBoxData = require('../models/toyBoxData');
 
 module.exports = {
-    async updateToyBoxData({ body}, res ){
+    // update toy box data with password protection
+    async updateToyBoxDataWithPassword({ body }, res) {
         try {
+            const { adminPassword, totalKidsForCampaign, numberOfBoys, numberOfGirls, campaignRun } = body;
 
-            const toyBoxDataRequest = await ToyBoxData.updateOne(body);
-            if(!toyBoxDataRequest) {
+            // Validate password
+            if (!adminPassword) {
                 return res.status(400).json({
-                    message: "Please provide the necessary data in the body of the request, thank you"
-                })
+                    message: "Admin password is required"
+                });
             }
-            // Success
-            return res.status(200).json(toyBoxDataRequest);
+
+            const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+            if (!ADMIN_PASSWORD) {
+                console.error("ADMIN_PASSWORD environment variable not set");
+                return res.status(500).json({
+                    message: "Server configuration error"
+                });
+            }
+
+            if (adminPassword !== ADMIN_PASSWORD) {
+                return res.status(403).json({
+                    message: "Invalid admin password"
+                });
+            }
+
+            // Build update object, excluding the password field
+            const updateData = {};
+            if (totalKidsForCampaign !== undefined && totalKidsForCampaign !== null) {
+                updateData.totalKidsForCampaign = String(totalKidsForCampaign);
+            }
+            if (numberOfBoys !== undefined && numberOfBoys !== null) {
+                updateData.numberOfBoys = String(numberOfBoys);
+            }
+            if (numberOfGirls !== undefined && numberOfGirls !== null) {
+                updateData.numberOfGirls = String(numberOfGirls);
+            }
+            if (campaignRun !== undefined && campaignRun !== null) {
+                updateData.campaignRun = String(campaignRun);
+            }
+
+            // Update the first toy box data document
+            const updatedData = await ToyBoxData.findOneAndUpdate({}, updateData, { new: true });
+
+            if (!updatedData) {
+                return res.status(404).json({
+                    message: "Toy box data not found"
+                });
+            }
+
+            return res.status(200).json({
+                message: "Toy box settings updated successfully",
+                data: updatedData
+            });
 
         } catch (err) {
-            console.error("Sorry, Something went wrong here is the error for the engineers", err);
+            console.error("Error updating toy box data:", err);
             return res.status(501).json({
                 message: "Something went wrong...we're sorry",
                 error: err.message
-            })
+            });
         }
     },
 

@@ -25,3 +25,13 @@ export const decrementToyBoxGiftCount = async (giftType) => {
     body: JSON.stringify({ giftType }),
   });
 };
+
+export const updateToyBoxSettings = async (settingsData) => {
+  return await fetch(`${API_BASE_URL}/api/toyBoxSettings`, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(settingsData),
+  });
+};
