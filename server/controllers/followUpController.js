@@ -32,31 +32,19 @@ module.exports = {
  * /cwu:
  *   get:
  *     summary: Get all follow-up requests
- *     description: Requires x-api-secret header. Returns all follow-up request data.
+ *     description: Requires adminPassword in body or x-api-secret header. Returns all follow-up request data.
  *     tags:
  *       - FollowUpRequests
- *     parameters:
- *       - in: header
- *         name: x-api-secret
- *         schema:
- *           type: string
- *         required: true
- *         description: Internal API secret key
  *     responses:
  *       200:
  *         description: A list of follow-up requests
  *       204:
  *         description: No data found
  *       403:
- *         description: Forbidden - invalid or missing secret
+ *         description: Forbidden - invalid or missing password
  */
 
     async getAllFollowUpRequests(req, res) {
-
-        const auth = req.headers['x-api-secret']
-        if (auth !== process.env.INTERNAL_API_SECRET) {
-            return res.status(403).json({ message: 'forbidden' })
-        }
         try {
             const followUpRequests = await FollowUpData.find({});
 
@@ -71,10 +59,6 @@ module.exports = {
 
     async deleteOneFollowUpRequest(req, res) {
         try {
-            const auth = req.headers['x-api-secret']
-            if (auth !== process.env.INTERNAL_API_SECRET) {
-                return res.status(403).json({ message: 'forbidden' })
-            }
             const followUpRequest = await FollowUpData.findByIdAndDelete(req.params.id);
             if (!followUpRequest) {
                 return res.status(404).json({ message: "No records found with this id, please check again" })
@@ -86,10 +70,6 @@ module.exports = {
     },
 
     async deleteAllFollowUpRequests(req, res) {
-        const auth = req.headers['x-api-secret']
-        if (auth !== process.env.INTERNAL_API_SECRET) {
-            return res.status(403).json({ message: 'forbidden' })
-        }
         try {
             const followUpRequests = await FollowUpData.deleteMany({});
             if (!followUpRequests.deletedCount) {

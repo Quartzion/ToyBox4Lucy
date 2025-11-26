@@ -1,5 +1,6 @@
 const express = require('express');
 const apiLimiter = require('../../middleware/rateLimiter');
+const adminAuth = require('../../middleware/adminAuth');
 const router = require('express').Router();
 
 
@@ -12,9 +13,9 @@ const {
 
 router.route('/cwu')
     .post(apiLimiter, createFollowUpRequest)
-    .get(getAllFollowUpRequests)
-    .delete(deleteAllFollowUpRequests);
+    .get(adminAuth, getAllFollowUpRequests)
+    .delete(adminAuth, deleteAllFollowUpRequests);
     
-router.route('/cwu/:id').delete(deleteOneFollowUpRequest);
+router.route('/cwu/:id').delete(adminAuth, deleteOneFollowUpRequest);
 
 module.exports = router;

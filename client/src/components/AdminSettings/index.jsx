@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from 'react'
-import { Alert } from 'react-bootstrap';
+import { Alert, Button, Table, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm'
-import { updateToyBoxSettings } from '../../utils/API';
+import { updateToyBoxSettings, getFollowUpRecords } from '../../utils/API';
 
 const adminSettingsFields = [
     { label: "Admin Password", name: "adminPassword", type: "password", required: true, placeholder: "Enter admin password"},
@@ -15,10 +15,17 @@ export default function AdminSettings({formClass = "admin-settings", onSuccess})
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
     const [alertVariant, setAlertVariant] = useState("success");
+    const [formData, setFormData] = useState({});
+    const [adminPassword, setAdminPassword] = useState("");
+    const [donorRecords, setDonorRecords] = useState(null);
+    const [isLoadingRecords, setIsLoadingRecords] = useState(false);
+    const [showRecords, setShowRecords] = useState(false);
 
-    const handleAdminSubmit = async (formData) => {
+    const handleAdminSubmit = async (data) => {
+        setFormData(data);
+        setAdminPassword(data.adminPassword);
         try {
-            const response = await updateToyBoxSettings(formData);
+            const response = await updateToyBoxSettings(data);
             const result = await response.json();
 
             if (!response.ok) {
@@ -45,6 +52,46 @@ export default function AdminSettings({formClass = "admin-settings", onSuccess})
         }
     };
 
+    const handleGetDonorRecords = async () => {
+        if (!adminPassword) {
+            setAlertVariant("warning");
+            setAlertMessage("Please enter the admin password in the form above to retrieve donor records");
+            setShowAlert(true);
+            return;
+        }
+
+        setIsLoadingRecords(true);
+        try {
+            const response = await getFollowUpRecords(adminPassword);
+            const result = await response.json();
+
+            if (!response.ok) {
+                console.error(result);
+                setAlertVariant("danger");
+                setAlertMessage(result?.message || 'Failed to retrieve donor records');
+                setShowAlert(true);
+                setDonorRecords(null);
+                setShowRecords(false);
+                return;
+            }
+
+            setDonorRecords(result);
+            setShowRecords(true);
+            setAlertVariant("success");
+            setAlertMessage(`Retrieved ${result.length || 0} donor record(s)`);
+            setShowAlert(true);
+        } catch (err) {
+            console.error("Error retrieving donor records:", err);
+            setAlertVariant("danger");
+            setAlertMessage("An error occurred while retrieving donor records");
+            setShowAlert(true);
+            setDonorRecords(null);
+            setShowRecords(false);
+        } finally {
+            setIsLoadingRecords(false);
+        }
+    };
+
     return (
         <>
         <section className="admin-settings-panel" id="admin-settings-panel">
@@ -61,7 +108,68 @@ export default function AdminSettings({formClass = "admin-settings", onSuccess})
             />
         </section>
         <section className='donor-details'>
-            
+            <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+                <h5>Retrieve Donor Records</h5>
+                <p style={{ fontSize: '0.9rem', color: '#666' }}>Enter your admin password to view donation records</p>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
+                    <div style={{ flex: 1 }}>
+                        <label htmlFor="donor-password-input" style={{ display: 'block', marginBottom: '0.5rem' }}>Admin Password: </label>
+                        <input
+                            id="donor-password-input"
+                            type="password"
+                            value={adminPassword}
+                            onChange={(e) => setAdminPassword(e.target.value)}
+                            placeholder="Enter admin password"
+                            style={{ width: '100%', padding: '0.5rem' }}
+                        />
+                    </div>
+                    <Button 
+                        onClick={handleGetDonorRecords}
+                        disabled={isLoadingRecords}
+                        variant="info"
+                        size="sm"
+                    >
+                        {isLoadingRecords ? (
+                            <>
+                                <Spinner animation="border" size="sm" style={{ marginRight: '0.5rem' }} />
+                                Loading...
+                            </>
+                        ) : (
+                            'Get Records'
+                        )}
+                    </Button>
+                </div>
+            </div>
+            {showRecords && donorRecords && donorRecords.length > 0 && (
+                <div style={{ marginTop: '1rem', overflowX: 'auto' }}>
+                    <Table striped bordered hover size="sm" responsive>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Gift Type</th>
+                                <th>Campaign</th>
+                                <th>Notes</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {donorRecords.map((record) => (
+                                <tr key={record._id}>
+                                    <td>{record.name}</td>
+                                    <td>{record.email}</td>
+                                    <td>{record.phone}</td>
+                                    <td>{record.giftType || 'N/A'}</td>
+                                    <td>{record.campaignRun || 'N/A'}</td>
+                                    <td>{record.notes || '-'}</td>
+                                    <td>{new Date(record.createdAt).toLocaleDateString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </div>
+            )}
         </section>
         </>
     )

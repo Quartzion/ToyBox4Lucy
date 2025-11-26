@@ -35,3 +35,12 @@ export const updateToyBoxSettings = async (settingsData) => {
     body: JSON.stringify(settingsData),
   });
 };
+
+export const getFollowUpRecords = async (adminPassword) => {
+  return await fetch(`${API_BASE_URL}/api/cwu?adminPassword=${encodeURIComponent(adminPassword)}`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+    },
+  });
+};
