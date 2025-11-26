@@ -114,8 +114,12 @@ module.exports = {
             const currentValue = parseInt(toyBoxData[fieldToUpdate], 10) || 0;
             const newValue = Math.max(currentValue - 1, 0); // Ensure it doesn't go below 0
 
-            // Update with the new numeric value
-            const updateQuery = { [fieldToUpdate]: newValue.toString() };
+            // Also decrement totalKidsForCampaign by 1 (but not below 0)
+            const currentTotal = parseInt(toyBoxData.totalKidsForCampaign, 10) || 0;
+            const newTotal = Math.max(currentTotal - 1, 0);
+
+            // Update with the new numeric values
+            const updateQuery = { [fieldToUpdate]: newValue.toString(), totalKidsForCampaign: newTotal.toString() };
             const updatedData = await ToyBoxData.findOneAndUpdate({}, updateQuery, { new: true });
 
             return res.status(200).json({
