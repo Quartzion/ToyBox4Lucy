@@ -47,7 +47,11 @@ export default function Footer() {
                         >
                             {showAdminSettings ? "Hide Admin Settings" : "Show Admin Settings"}
                         </Button>
-                        {showAdminSettings && <AdminSettings />}
+                        {showAdminSettings && (
+                            <AdminSettings 
+                                onSuccess={() => setShowAdminSettings(false)}
+                            />
+                        )}
                         {/* <nav id="footer-social-links" aria-label="Follow us on Social Media" className="footer-links">
                             <h2 className="visually-hidden">connect with us</h2>
                             <Nav>

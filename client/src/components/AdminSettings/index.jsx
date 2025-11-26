@@ -11,7 +11,7 @@ const adminSettingsFields = [
     { label: "Campaign", name: "campaignRun", type:"text"}
 ];
 
-export default function AdminSettings({formClass = "admin-settings"}) {
+export default function AdminSettings({formClass = "admin-settings", onSuccess}) {
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
     const [alertVariant, setAlertVariant] = useState("success");
@@ -33,8 +33,10 @@ export default function AdminSettings({formClass = "admin-settings"}) {
             setAlertMessage("Toy box settings updated successfully!");
             setShowAlert(true);
 
-            // Optionally hide alert after 5 seconds
-            setTimeout(() => setShowAlert(false), 5000);
+            // Call onSuccess callback and close panel after brief delay
+            setTimeout(() => {
+                onSuccess?.();
+            }, 1500);
         } catch (err) {
             console.error("Error updating settings:", err);
             setAlertVariant("danger");
@@ -44,6 +46,7 @@ export default function AdminSettings({formClass = "admin-settings"}) {
     };
 
     return (
+        <>
         <section className="admin-settings-panel" id="admin-settings-panel">
             {showAlert && (
                 <Alert variant={alertVariant} onClose={() => setShowAlert(false)} dismissible>
@@ -57,5 +60,9 @@ export default function AdminSettings({formClass = "admin-settings"}) {
                 onSubmit={handleAdminSubmit}
             />
         </section>
+        <section className='donor-details'>
+            
+        </section>
+        </>
     )
 };
