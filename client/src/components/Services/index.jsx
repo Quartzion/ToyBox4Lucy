@@ -118,7 +118,7 @@ export default function Services() {
     const handleToggleFn = (actualIdx) => handleToggle(qtsServices, navigate, expandedIdx, actualIdx, "services");
 
     return (
-        <section className="services-section" role="region" aria-label="Services">
+        <section className="services-section image-overlay" role="region" aria-label="Services">
             <header className="services-header">
                 <h3 id="services" aria-live="polite">
                     {visibleServices.length === 0

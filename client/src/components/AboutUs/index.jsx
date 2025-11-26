@@ -41,13 +41,14 @@ export default function AboutUs() {
     }, []);
 
     return (
-        <section aria-labelledby="about-us" className="about-us-section">
+        <section aria-labelledby="about-us" className="about-us-section image-overlay">
             <hr className="divider" />
             <article className="about-us-content">
                 <div className="about-us-text">
                     <div className="about-us-intro">
                         <h3>Welcome to Lucy's Toy Box!</h3>
                         <p>Thanks for dropping in! This is Lucy's Toy Box, an app designed to help with organizing toy donations for kids! Please review the details below: </p>
+                        <p>Today we are collecting gifts for the kids in the <strong>P.C.A.T program</strong> of Hillsborough county school district.</p>
                     </div>
                     <section className="admin-notice">
                         <p>Currently we have <strong>{totalGifts}</strong> presents to deliver!</p>

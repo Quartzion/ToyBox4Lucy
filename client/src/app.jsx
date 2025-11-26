@@ -39,9 +39,11 @@ export default function App() {
 
     return (
         <PayPalScriptProvider options={{ "client-id": `${VITE_PAYPAL_APP_CLIENT}`}}>
-            <Header />
-            <Outlet />
-            <Footer />
+            <div className='appStyle-main-content'>
+                <Header />
+                <Outlet />
+                <Footer />
+            </div>
         </PayPalScriptProvider>
     );
 };

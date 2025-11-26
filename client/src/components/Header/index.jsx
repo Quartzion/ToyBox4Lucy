@@ -33,7 +33,7 @@ export default function Header() {
     }, []);
 
     return (
-        <header className="tb4l-Header">
+        <header className="tb4l-Header image-overlay">
             <Container fluid className="header-container">
                 <section className="header-text">
                     <div className="tb4l-title">
