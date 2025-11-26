@@ -51,6 +51,9 @@ const connectWithUsFormFields = [
   { label: "Additional Notes", name: "notes", type: "textarea", required: false, autoComplete: "off" },
 ];
 
+const connectWithUsFormDetails = "By clicking confirm you are agreeing to send a gift to the address listed above, Thank you!";
+
+
 export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fields", onSuccess, onError, giftType }) {
   const [cwuFormdata, setCwuFormData] = useState({
     name: '',
@@ -130,11 +133,9 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
         fields={connectWithUsFormFields}
         submitLabel='Click here to confirm'
         formClass={formClass}
+        formDetails={connectWithUsFormDetails}
         onSubmit={handleFormSubmit}
       />
-      <section className='form-details'>
-        <p>By clicking confirm you are agreeing to send a gift to the address listed above, Thank you!</p>
-      </section>
       <br/>
       {/*Error Alert */}
       {showAlert && (

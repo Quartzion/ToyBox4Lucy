@@ -6,6 +6,7 @@ export default function GeneralForm({
   onSubmit,
   submitLabel = "Submit",
   formClass = "",
+  formDetails = null,
   children
 }) {
 
@@ -66,6 +67,12 @@ export default function GeneralForm({
 
       {/* Render children (LinksForm and toggle button) above the submit button */}
       {children}
+      {/* Render formDetails if provided */}
+      {formDetails && (
+        <section className='form-details'>
+          {typeof formDetails === 'string' ? <p>{formDetails}</p> : formDetails}
+        </section>
+      )}
       <br />
       <Button className="general-form-submit" type="submit">{submitLabel}</Button>
     </Form>
