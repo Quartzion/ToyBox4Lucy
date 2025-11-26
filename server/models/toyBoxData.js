@@ -18,6 +18,9 @@ const toyBoxDataSchema = new Schema(
             type: String,
             required: true
         },
+        lastDayForGifts: {
+            type: String,
+        },
         campaignRun: {
             type: String,
             required: true

@@ -6,11 +6,12 @@ const ToyBoxData = require('../models/toyBoxData');
 
 const seedToyBoxData = [
   {
-    totalKidsForCampaign: process.env.SEED_TOTAL_KIDS || '105',
+    totalKidsForCampaign: process.env.SEED_TOTAL_KIDS || '36',
     numberOfBoys: process.env.SEED_NUMBER_BOYS || '29',
     numberOfGirls: process.env.SEED_NUMBER_GIRLS || '7',
     campaignRun: process.env.SEED_CAMPAIGN_RUN || '2025-Fall',
-    totalGifts: process.env.SEED_TOTAL_GIFTS || '45'
+    totalGifts: process.env.SEED_TOTAL_GIFTS || '105',
+    lastDayForGifts: process.env.SEED_LAST_DAY_FOR_GIFTS || '12-19-2025'
   }
 ];
 

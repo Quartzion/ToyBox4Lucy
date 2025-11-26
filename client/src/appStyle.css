@@ -105,6 +105,20 @@
     border-radius: 30%;
 }
 
+.admin-notice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.admin-notice p {
+    text-align: left;
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
 /* connect with us */
 .connect-with-us-section {
     background-color: #222;

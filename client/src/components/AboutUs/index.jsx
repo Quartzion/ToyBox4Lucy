@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import QtsPayPal from '../QtsPayPal';
 
 export default function AboutUs() {
     const [totalKidsForCampaign, setTotalKidsForCampaign] = useState(0);
+    const [totalGifts, setTotalGifts] = useState(0);
+    const [lastDayForGifts, setLastDayForGifts] = useState('');
+
 
     useEffect(() => {
         async function fetchTotalKids() {
@@ -17,10 +21,17 @@ export default function AboutUs() {
                 const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
                 if (!doc) return;
 
-                const total = parseInt(doc.totalKidsForCampaign, 10) || 0;
-                setTotalKidsForCampaign(total);
+                const totalKidsForCampaign = parseInt(doc.totalKidsForCampaign, 10) || 0;
+                setTotalKidsForCampaign(totalKidsForCampaign);
+
+                const totalGifts = parseInt(doc.totalGifts, 10) || 0;
+                setTotalGifts(totalGifts);
+
+                const lastDay = doc.lastDayForGifts || '';
+                setLastDayForGifts(lastDay);
+
             } catch (err) {
-                console.error('Error fetching totalKidsForCampaign:', err);
+                console.error('Error fetching', err);
             }
         }
 
@@ -33,13 +44,21 @@ export default function AboutUs() {
             <article className="about-us-content">
                 <div className="about-us-text">
                     <h3>Welcome to Lucy's Toy Box!</h3>
-                    <p>Thanks for dropping in! This is Lucy's Toy Box, an app designed to help with organizing toy donations for kids!</p>
-                    <p>Currently we are working to collect gifts for {totalKidsForCampaign} kids in this campaign.</p>
-                    <p>Lucy's Toy Box is a web app developed by Quartzion Technology Solutions, for assisting with the management of toy donations.
-                    </p>  
+                    <p>Thanks for dropping in! This is Lucy's Toy Box, an app designed to help with organizing toy donations for kids! Please review the details below: </p>
+                    <section className="admin-notice">
+                        <p>Currently we have <strong>{totalGifts}</strong> presents to deliver!</p>
+                        <p>we need to collect gifts for <strong>{totalKidsForCampaign}</strong> remaining kids.</p>
+                        {/* <p>Please ensure all gifts are recieved by <strong>{lastDayForGifts}</strong>.</p> */}
+                        {lastDayForGifts && !['N/A', 'n/a'].includes(lastDayForGifts.trim()) && (
+                            <p>Last day for gifts: <strong>{lastDayForGifts}</strong></p>
+                        )}
+                    </section>
+                    <br />
+                    <p>If you would like to help us, please see below for donation instructions. If you would like us to purchase the gift on your behalf please follow the donation link below</p>
                 </div>
+                <QtsPayPal />
             </article>
-            <hr className="divider"/>
+            <hr className="divider" />
         </section>
     );
 };
