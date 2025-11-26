@@ -15,3 +15,13 @@ export const createFollowUpRequest = async (furData) => {
     body: JSON.stringify(furData),
   });
 };
+
+export const decrementToyBoxGiftCount = async (giftType) => {
+  return await fetch(`${API_BASE_URL}/api/toyBoxSettings/decrement`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ giftType }),
+  });
+};

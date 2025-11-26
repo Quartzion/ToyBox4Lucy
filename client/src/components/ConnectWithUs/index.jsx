@@ -3,7 +3,7 @@ import { Button, Alert } from "react-bootstrap";
 import { isProd, getApiBaseUrl } from '../../utils/env';
 import ConnectWithUsForm from "../ConnectWithUsForm";
 
-export default function ConnectWithUs() {
+export default function ConnectWithUs({ giftType }) {
     const [expanded, setExpanded] = useState(false);
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -61,6 +61,7 @@ export default function ConnectWithUs() {
                 {expanded && (
                     <div className="connect-with-us-form" id="connect-with-us-form">
                         <ConnectWithUsForm
+                            giftType={giftType}
                             onSuccess={() => {
                                 setSuccessMessage("Thank you for helping make a kid smile!");
                                 setErrorMessage(null);

@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from 'react';
 import { Alert, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm';
-import { createFollowUpRequest } from '../../utils/API';
+import { createFollowUpRequest, decrementToyBoxGiftCount } from '../../utils/API';
 const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
 
 const PayPalFallback = () => (
@@ -51,7 +51,7 @@ const connectWithUsFormFields = [
   { label: "Additional Notes", name: "notes", type: "textarea", required: false, autoComplete: "off" },
 ];
 
-export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fields", onSuccess, onError }) {
+export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fields", onSuccess, onError, giftType }) {
   const [cwuFormdata, setCwuFormData] = useState({
     name: '',
     // organization: '',
@@ -79,6 +79,19 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
       if (!response.ok) {
         console.error(result);
         throw new Error(result?.message || 'Sorry, something went wrong with this request.');
+      }
+
+      // If followUp was created successfully, decrement the toy box gift count
+      if (giftType) {
+        try {
+          const decrementRes = await decrementToyBoxGiftCount(giftType);
+          if (!decrementRes.ok) {
+            console.warn('Warning: followUp created but failed to decrement gift count', decrementRes.status);
+          }
+        } catch (err) {
+          console.error('Error decrementing gift count:', err);
+          // Don't throw - the followUp was already created successfully
+        }
       }
 
       onSuccess?.();   

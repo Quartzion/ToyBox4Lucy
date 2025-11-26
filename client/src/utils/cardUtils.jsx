@@ -84,7 +84,7 @@ export function renderCard(item, idx, expandedIdx, cardRefs, handleToggle, isOve
                         : item.content.slice(0, 250) + (item.content.length > 250 ? "..." : "")
                         }
                     </ReactMarkdown>
-                    {expandedIdx === idx ? <ConnectWithUs /> : ''}
+                    {expandedIdx === idx ? <ConnectWithUs giftType={item.title} /> : ''}
                 <div className="card-footer">
                     <Button
                         className='card-btn'
