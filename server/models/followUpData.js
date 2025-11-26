@@ -48,6 +48,11 @@ const followUpDataSchema = new Schema(
             enum: ['Boy Gift', 'Girl Gift'],
             trim: true
         },
+        campaignRun: {
+            type: String,
+            required: false,
+            trim: true
+        },
 
     },
     {

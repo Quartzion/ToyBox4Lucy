@@ -68,17 +68,36 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
   });
 
   const [showAlert, setShowAlert] = useState(false);
+  const [campaignRun, setCampaignRun] = useState(null);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setCwuFormData({ ...cwuFormdata, [name]: value });
   };
 
+  // Fetch campaignRun from toy box settings on mount
+  React.useEffect(() => {
+    const fetchCampaignRun = async () => {
+      try {
+        const res = await fetch('/api/toyBoxSettings');
+        if (!res.ok) return;
+        const data = await res.json();
+        const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
+        if (doc?.campaignRun) {
+          setCampaignRun(doc.campaignRun);
+        }
+      } catch (err) {
+        console.error('Error fetching campaignRun:', err);
+      }
+    };
+    fetchCampaignRun();
+  }, []);
+
   const handleFormSubmit = async (formData) => {
     try {
-      // Include giftType in the submission data
-      const dataWithGiftType = { ...formData, giftType };
-      const response = await createFollowUpRequest(dataWithGiftType);
+      // Include giftType and campaignRun in the submission data
+      const dataWithMetadata = { ...formData, giftType, campaignRun };
+      const response = await createFollowUpRequest(dataWithMetadata);
       const result = await response.json();
 
       if (!response.ok) {
