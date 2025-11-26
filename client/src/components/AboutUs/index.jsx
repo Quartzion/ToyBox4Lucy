@@ -3,6 +3,8 @@ import QtsPayPal from '../QtsPayPal';
 
 export default function AboutUs() {
     const [totalKidsForCampaign, setTotalKidsForCampaign] = useState(0);
+    const [numberOfBoys, setNumberOfBoys] = useState(0);
+    const [numberOfGirls, setNumberOfGirls] = useState(0)
     const [totalGifts, setTotalGifts] = useState(0);
     const [lastDayForGifts, setLastDayForGifts] = useState('');
 
@@ -21,7 +23,7 @@ export default function AboutUs() {
                 const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
                 if (!doc) return;
 
-                const totalKidsForCampaign = parseInt(doc.totalKidsForCampaign, 10) || 0;
+                const totalKidsForCampaign = parseInt(doc.numberOfBoys, 10) + parseInt(doc.numberOfGirls, 10) || 0;
                 setTotalKidsForCampaign(totalKidsForCampaign);
 
                 const totalGifts = parseInt(doc.totalGifts, 10) || 0;
@@ -48,7 +50,6 @@ export default function AboutUs() {
                     <section className="admin-notice">
                         <p>Currently we have <strong>{totalGifts}</strong> presents to deliver!</p>
                         <p>we need to collect gifts for <strong>{totalKidsForCampaign}</strong> remaining kids.</p>
-                        {/* <p>Please ensure all gifts are recieved by <strong>{lastDayForGifts}</strong>.</p> */}
                         {lastDayForGifts && !['N/A', 'n/a'].includes(lastDayForGifts.trim()) && (
                             <p>Last day for gifts: <strong>{lastDayForGifts}</strong></p>
                         )}

@@ -7,7 +7,6 @@ const ToyBoxData = require('../models/toyBoxData');
 const seedToyBoxData = [
   {
     occasion:process.env.TB4L_OCCASION || 'Christmas',
-    totalKidsForCampaign: process.env.SEED_TOTAL_KIDS || '36',
     numberOfBoys: process.env.SEED_NUMBER_BOYS || '29',
     numberOfGirls: process.env.SEED_NUMBER_GIRLS || '7',
     campaignRun: process.env.SEED_CAMPAIGN_RUN || '2025-Fall',

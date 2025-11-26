@@ -5,7 +5,7 @@ module.exports = {
     // update toy box data with password protection
     async updateToyBoxDataWithPassword({ body }, res) {
         try {
-            const { adminPassword, totalKidsForCampaign, numberOfBoys, numberOfGirls, campaignRun, totalGifts, lastDayForGifts, occasion } = body;
+            const { adminPassword, numberOfBoys, numberOfGirls, campaignRun, totalGifts, lastDayForGifts, occasion } = body;
 
             // Validate password
             if (!adminPassword) {
@@ -30,9 +30,6 @@ module.exports = {
 
             // Build update object, excluding the password field
             const updateData = {};
-            if (totalKidsForCampaign !== undefined && totalKidsForCampaign !== null) {
-                updateData.totalKidsForCampaign = String(totalKidsForCampaign);
-            }
             if (numberOfBoys !== undefined && numberOfBoys !== null) {
                 updateData.numberOfBoys = String(numberOfBoys);
             }
@@ -117,12 +114,8 @@ module.exports = {
             const currentValue = parseInt(toyBoxData[fieldToUpdate], 10) || 0;
             const newValue = Math.max(currentValue - 1, 0); // Ensure it doesn't go below 0
 
-            // Also decrement totalKidsForCampaign by 1 (but not below 0)
-            const currentTotal = parseInt(toyBoxData.totalKidsForCampaign, 10) || 0;
-            const newTotal = Math.max(currentTotal - 1, 0);
-
             // Update with the new numeric values
-            const updateQuery = { [fieldToUpdate]: newValue.toString(), totalKidsForCampaign: newTotal.toString() };
+            const updateQuery = { [fieldToUpdate]: newValue.toString() };
             const updatedData = await ToyBoxData.findOneAndUpdate({}, updateQuery, { new: true });
 
             return res.status(200).json({

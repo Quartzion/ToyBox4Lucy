@@ -10,10 +10,6 @@ const toyBoxDataSchema = new Schema(
             type: String,
             required: true
         },
-        totalKidsForCampaign: {
-            type: String,
-            required: true
-        },
         numberOfBoys: {
             type: String,
             required: true
