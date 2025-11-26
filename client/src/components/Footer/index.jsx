@@ -7,7 +7,9 @@ import {
 
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import AdminSettings from '../AdminSettings';
 // const QtsPayPal = React.lazy(()=> import("../QtsPayPal"))
+
 export default function Footer() {
     return (
         <footer className="QTS-Header">
@@ -27,6 +29,7 @@ export default function Footer() {
                         </picture>
                     </section>
                     <section className="footer-right">
+                        <AdminSettings />
                         {/* <nav id="footer-social-links" aria-label="Follow us on Social Media" className="footer-links">
                             <h2 className="visually-hidden">connect with us</h2>
                             <Nav>
