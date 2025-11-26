@@ -2,6 +2,10 @@ const { Schema, model } = require('mongoose');
 
 const toyBoxDataSchema = new Schema(
     {
+        totalGifts: {
+            type: String,
+            required: true
+        },
         totalKidsForCampaign: {
             type: String,
             required: true
@@ -10,12 +14,10 @@ const toyBoxDataSchema = new Schema(
             type: String,
             required: true
         },
-
         numberOfGirls: {
             type: String,
             required: true
         },
-
         campaignRun: {
             type: String,
             required: true

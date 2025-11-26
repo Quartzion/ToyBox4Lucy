@@ -9,7 +9,8 @@ const seedToyBoxData = [
     totalKidsForCampaign: process.env.SEED_TOTAL_KIDS || '105',
     numberOfBoys: process.env.SEED_NUMBER_BOYS || '29',
     numberOfGirls: process.env.SEED_NUMBER_GIRLS || '7',
-    campaignRun: process.env.SEED_CAMPAIGN_RUN || '2025-Fall'
+    campaignRun: process.env.SEED_CAMPAIGN_RUN || '2025-Fall',
+    totalGifts: process.env.SEED_TOTAL_GIFTS || '45'
   }
 ];
 

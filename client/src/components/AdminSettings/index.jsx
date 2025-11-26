@@ -8,6 +8,7 @@ const adminSettingsFields = [
     { label: "Total number of kids for this campaign", name: "totalKidsForCampaign", type: "text" },
     { label: "Number of Boys", name: "numberOfBoys", type: "text"},
     { label: "Number of Girls", name: "numberOfGirls", type: "text"},
+    { label: "Total Gifts", name: "totalGifts", type:"text"},
     { label: "Campaign", name: "campaignRun", type:"text"}
 ];
 
