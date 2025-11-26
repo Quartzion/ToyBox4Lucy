@@ -36,62 +36,80 @@ export default function Footer() {
                             {showAdminSettings ? "Hide Admin Settings" : "Show Admin Settings"}
                         </Button>
                         {showAdminSettings && (
-                            <AdminSettings 
+                            <AdminSettings
                                 onSuccess={() => setShowAdminSettings(false)}
                             />
                         )}
+                        <br />
+                        <h2 className="visually-hidden">legal</h2>
+                        &copy; {new Date().getFullYear()} - Lucy's Toy Box. All rights reserved. - version - {getQtsVersion()}
                     </section>
                     <section className="footer-right">
                         <h2 className="visually-hidden">Company Logo</h2>
                         <picture>
                             <source srcSet="./lt4b-logo-1.webp" type="image/webp" />
-                            <img 
-                                src="./lt4b-logo-1.png" 
-                                alt="Lucy's Toy Box Logo" 
-                                className="header-logo" 
+                            <img
+                                src="./lt4b-logo-1.png"
+                                alt="Lucy's Toy Box Logo"
+                                className="header-logo"
                                 loading='lazy'
                             />
-                        </picture>                        
-                        {/* <nav id="footer-social-links" aria-label="Follow us on Social Media" className="footer-links">
-                            <h2 className="visually-hidden">connect with us</h2>
-                            <Nav>
-                                <Nav.Link
-                                    href="https://github.com/Quartzion"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="Quartzion GitHub"
-                                >
-                                    <FaGithub aria-hidden="true">
-                                        <span className="visually-hidden">GitHub</span>
-                                    </FaGithub>
-                                </Nav.Link>
-                                <Nav.Link
-                                    href="https://www.linkedin.com/company/quartzion-technology-solutions-corp"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="Quartzion LinkedIn"
-                                >
-                                    <FaLinkedin aria-hidden="true">
-                                        <span className="visually-hidden">LinkedIn</span>
-                                    </FaLinkedin>
-                                </Nav.Link>
-                                <Nav.Link
-                                    href="https://x.com/QuartzionTech"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="Quartzion X formerly twitter"
-                                >
-                                    <FaXTwitter aria-hidden="true">
-                                        <span className="visually-hidden">X (formerly Twitter)</span>
-                                    </FaXTwitter>
-                                </Nav.Link>
-                            </Nav>
-                        </nav> */}
+                        </picture>
                     </section>
                     <section className="footer-center">
-                        <h2 className="visually-hidden">legal</h2>
-                        &copy; {new Date().getFullYear()} - Lucy's Toy Box. All rights reserved. - version - {getQtsVersion()}
-                    {/* <QtsPayPal /> */}
+                        <div className="developer-promo">
+                            <p>This app is brought to you by Quartzion Technology Solutions.</p>
+                            <Nav.Link
+                                href="https://www.quartzion.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Go to Quartzion website"
+                                title="www.quartzion.com"   // <-- Tooltip on hover
+                                className="qts-logo-link"
+                            >
+                                <img
+                                    src="./qts-icon-2-sm.png"
+                                    alt="Quartzion Technology Solutions Logo"
+                                    className="dev-logo"
+                                    loading="lazy"
+                                />
+                            </Nav.Link>
+                            <nav id="footer-social-links" aria-label="Follow us on Social Media" className="footer-links">
+                                <h2 className="visually-hidden">connect with us</h2>
+                                <Nav>
+                                    <Nav.Link
+                                        href="https://github.com/Quartzion"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Quartzion GitHub"
+                                    >
+                                        <FaGithub aria-hidden="true">
+                                            <span className="visually-hidden">GitHub</span>
+                                        </FaGithub>
+                                    </Nav.Link>
+                                    <Nav.Link
+                                        href="https://www.linkedin.com/company/quartzion-technology-solutions-corp"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Quartzion LinkedIn"
+                                    >
+                                        <FaLinkedin aria-hidden="true">
+                                            <span className="visually-hidden">LinkedIn</span>
+                                        </FaLinkedin>
+                                    </Nav.Link>
+                                    <Nav.Link
+                                        href="https://x.com/QuartzionTech"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Quartzion X formerly twitter"
+                                    >
+                                        <FaXTwitter aria-hidden="true">
+                                            <span className="visually-hidden">X (formerly Twitter)</span>
+                                        </FaXTwitter>
+                                    </Nav.Link>
+                                </Nav>
+                            </nav>
+                        </div>
                     </section>
                 </section>
             </Container>

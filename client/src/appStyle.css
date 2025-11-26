@@ -304,19 +304,20 @@ body:has(.card-overlay-bg) {
 
 /* Footer */
 .footer-section {
-    /* background-color: #000000;
-    color: #F0FFFF; */
+    color: #F0FFFF;
     background-image: url('/toys-9.png');
     background-size: cover;
-    /* background-position: center; */
     background-attachment: fixed;
 }
 
-.footer-right {
-    transform: translate(+25%);
-    z-index: 2000;
-    margin: 0;
+.footer-left {
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    align-items:flex-start;
+    font-size: 0.625rem;
 }
+
 
 .footer-content {
     display: flex;
@@ -327,7 +328,25 @@ body:has(.card-overlay-bg) {
 }
 
 .footer-center {
+    display: flex;
+    flex-direction: row;
+
     font-size: 0.625rem;
+}
+
+.qts-logo-link img {
+    transition: transform 0.2s ease;
+}
+
+.qts-logo-link:hover img {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.qts-logo-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .footer-links {
@@ -335,7 +354,6 @@ body:has(.card-overlay-bg) {
     flex-direction: row;
     gap: 2rem;
     align-items: center;
-    padding-left: 7rem;
 }
 
 .footer-links svg {
@@ -346,17 +364,21 @@ body:has(.card-overlay-bg) {
 
 .footer-links svg:hover, 
 .team-qts-socials svg:hover,
-.team-member-socials svg:hover,
-.header-logo:hover,
-.welcome-banner-content:hover
+.header-logo:hover
 {
     transform: scale(1.2);
 }
 
-.service-card:hover,
-.blog-card:hover
-{
-    transform: scale(1.02);
+.developer-promo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dev-logo {
+    /* width: 80%;
+    height: 80%; */
 }
 
 /* media query for mobile */
