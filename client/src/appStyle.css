@@ -332,6 +332,12 @@ body:has(.card-overlay-bg) {
     color: #F0FFFF;
 }
 
+.footer-right {
+    transform: translate(+25%, -5%);
+    z-index: 2000;
+    margin: 0;
+}
+
 .footer-content {
     display: flex;
     flex-direction: row;
