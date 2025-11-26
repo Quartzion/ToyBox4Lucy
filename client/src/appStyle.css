@@ -58,6 +58,11 @@
     display: flex;
     flex-direction: row;
     padding: 2%;
+
+}
+
+.about-us-content {
+    width: 100%;
 }
 
 /* Services */
@@ -109,7 +114,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 25%;
     margin: 0 auto;
 }
 
@@ -252,6 +257,16 @@ color: #7BB0FE
     padding: 2rem 1.5rem 1.5rem 1.5rem;
     min-height: 0;
     box-sizing: border-box;
+}
+
+/* When PayPal renders inside the AboutUs section, center it in the viewport */
+.about-us-section .paypal-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    margin: 0;
 }
 
 .close-donate-window-btn {
