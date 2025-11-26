@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react'
+import React, { useState, Suspense, useEffect } from 'react'
 import { Alert, Button, Table, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm'
 import { updateToyBoxSettings, getFollowUpRecords } from '../../utils/API';
@@ -23,6 +23,14 @@ export default function AdminSettings({formClass = "admin-settings", onSuccess})
     const [donorRecords, setDonorRecords] = useState(null);
     const [isLoadingRecords, setIsLoadingRecords] = useState(false);
     const [showRecords, setShowRecords] = useState(false);
+
+    // When AdminSettings is mounted (visible), add a body class so other components can pause behavior (e.g., carousel)
+    useEffect(() => {
+        document.body.classList.add('overlay-open');
+        return () => {
+            document.body.classList.remove('overlay-open');
+        };
+    }, []);
 
     const handleAdminSubmit = async (data) => {
         setFormData(data);

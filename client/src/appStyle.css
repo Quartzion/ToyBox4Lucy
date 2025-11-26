@@ -333,7 +333,7 @@ body:has(.card-overlay-bg) {
 }
 
 .footer-right {
-    transform: translate(+25%, -5%);
+    transform: translate(+25%);
     z-index: 2000;
     margin: 0;
 }

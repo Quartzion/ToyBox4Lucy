@@ -41,12 +41,17 @@ export default function Services() {
     useEffect(() => {
         if (isPaused) return;
         if (qtsServices.length === 0) return;
+        // Also pause carousel when other overlays or admin panels are open
+        const bodyHasOverlay = typeof document !== 'undefined' && document.body.classList.contains('overlay-open');
+        const domOverlay = typeof document !== 'undefined' && !!document.querySelector('.card-overlay-bg');
+        if (expandedIdx !== -1 || bodyHasOverlay || domOverlay) return;
+
         const interval = setInterval(() => {
             setStartIdx((prev) => (prev + 1) % qtsServices.length);
         }, 7000); //7 seconds
 
         return () => clearInterval(interval);
-    }, [isPaused, qtsServices.length]);
+    }, [isPaused, qtsServices.length, expandedIdx]);
 
     useEffect(() => {
         setIsPaused(expandedIdx !== -1);
@@ -59,6 +64,17 @@ export default function Services() {
     useEffect(() => {
         let cancelled = false;
         let pollInterval;
+
+        // Check if any overlay is open
+        const isOverlayOpen = expandedIdx !== -1 || document.body.classList.contains('overlay-open');
+
+        if (isOverlayOpen) {
+            // Don't start polling while overlays are open
+            return () => {
+                cancelled = true;
+                if (pollInterval) clearInterval(pollInterval);
+            };
+        }
 
         async function fetchSettings() {
             try {
@@ -96,7 +112,7 @@ export default function Services() {
             cancelled = true;
             if (pollInterval) clearInterval(pollInterval);
         };
-    }, []);
+    }, [expandedIdx]);
 
     // toggle handler
     const handleToggleFn = (actualIdx) => handleToggle(qtsServices, navigate, expandedIdx, actualIdx, "services");

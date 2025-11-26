@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react';
 import { Alert, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm';
 import { createFollowUpRequest, decrementToyBoxGiftCount } from '../../utils/API';
@@ -69,6 +69,14 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
 
   const [showAlert, setShowAlert] = useState(false);
   const [campaignRun, setCampaignRun] = useState(null);
+
+  // When ConnectWithUsForm is mounted (visible), add a body class so other components can pause behavior (e.g., carousel)
+  useEffect(() => {
+    document.body.classList.add('overlay-open');
+    return () => {
+      document.body.classList.remove('overlay-open');
+    };
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
