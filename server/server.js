@@ -2,6 +2,7 @@ require('dotenv').config();
 const Redis = require('ioredis');
 const redis = new Redis(process.env.REDIS_URL);
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const apiLimiter = require('./middleware/rateLimiter');
 const noCache = require('./middleware/cacheControl');
@@ -18,6 +19,7 @@ const app = express();
 app.set('trust proxy', 1);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 //Redis connection test
 async function testRedis() {

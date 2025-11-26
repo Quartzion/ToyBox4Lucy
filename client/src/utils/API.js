@@ -36,11 +36,28 @@ export const updateToyBoxSettings = async (settingsData) => {
   });
 };
 
-export const getFollowUpRecords = async (adminPassword) => {
-  return await fetch(`${API_BASE_URL}/api/cwu?adminPassword=${encodeURIComponent(adminPassword)}`, {
+export const getFollowUpRecords = async () => {
+  return await fetch(`${API_BASE_URL}/api/cwu`, {
     method: 'GET',
     headers: {
       'content-type': 'application/json',
     },
+    credentials: 'include'
+  });
+};
+
+export const adminLogin = async (adminPassword) => {
+  return await fetch(`${API_BASE_URL}/api/admin/login`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ password: adminPassword }),
+  });
+};
+
+export const adminLogout = async () => {
+  return await fetch(`${API_BASE_URL}/api/admin/logout`, {
+    method: 'POST',
+    credentials: 'include'
   });
 };

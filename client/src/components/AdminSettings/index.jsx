@@ -1,7 +1,7 @@
 import React, { useState, Suspense, useEffect } from 'react'
 import { Alert, Button, Table, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm'
-import { updateToyBoxSettings, getFollowUpRecords } from '../../utils/API';
+import { updateToyBoxSettings, getFollowUpRecords, adminLogin } from '../../utils/API';
 
 const adminSettingsFields = [
     { label: "Admin Password", name: "adminPassword", type: "password", required: true, placeholder: "Enter admin password"},
@@ -72,7 +72,18 @@ export default function AdminSettings({formClass = "admin-settings", onSuccess})
 
         setIsLoadingRecords(true);
         try {
-            const response = await getFollowUpRecords(adminPassword);
+            // First authenticate (login) to receive HttpOnly admin cookie
+            const loginRes = await adminLogin(adminPassword);
+            if (!loginRes.ok) {
+                const errBody = await loginRes.json().catch(() => ({}));
+                setAlertVariant("danger");
+                setAlertMessage(errBody?.message || 'Invalid admin credentials');
+                setShowAlert(true);
+                setIsLoadingRecords(false);
+                return;
+            }
+
+            const response = await getFollowUpRecords();
             const result = await response.json();
 
             if (!response.ok) {
