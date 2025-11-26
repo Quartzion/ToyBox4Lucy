@@ -11,15 +11,12 @@ const adminSettingsFields = [
 
 export default function AdminSettings({formClass = "admin-settings"}) {
 
-
-
 return (
-    <section className="admin-settings-panel">
+    <section className="admin-settings-panel" id="admin-settings-panel">
         <GeneralForm 
             fields={adminSettingsFields}
             submitLabel='set toy box data'
             formClass={formClass}
-            
         />
     </section>
 )

@@ -67,13 +67,7 @@ export default function GeneralForm({
       {/* Render children (LinksForm and toggle button) above the submit button */}
       {children}
       <br />
-      <section className='form-details'>
-        <p>By clicking confirm you are agreeing to send a gift to the address listed above, Thank you!</p>
-      </section>
       <Button className="general-form-submit" type="submit">{submitLabel}</Button>
-      <section className='additional-form-details'>
-        <p>If you would like our team to purchase a gift on your behalf, you can use the donate options below to make a financial contribution for your gift!</p>
-      </section>
     </Form>
   );
 }

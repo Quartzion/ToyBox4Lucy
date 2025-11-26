@@ -125,12 +125,16 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
       <p> 690 Navarez Ave #253,  Safety Harbor FL 34695</p>
     </section>
     <article>
+
       <GeneralForm
         fields={connectWithUsFormFields}
         submitLabel='Click here to confirm'
         formClass={formClass}
         onSubmit={handleFormSubmit}
       />
+      <section className='form-details'>
+        <p>By clicking confirm you are agreeing to send a gift to the address listed above, Thank you!</p>
+      </section>
       <br/>
       {/*Error Alert */}
       {showAlert && (

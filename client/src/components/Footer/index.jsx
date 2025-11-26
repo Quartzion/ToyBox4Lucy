@@ -1,8 +1,9 @@
-import React, {Suspense} from 'react';
+import React, { useState, Suspense } from 'react';
 import { getQtsVersion } from '../../utils/env';
 import {
     Container,
-    Nav
+    Nav,
+    Button
 } from 'react-bootstrap';
 
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
@@ -11,6 +12,12 @@ import AdminSettings from '../AdminSettings';
 // const QtsPayPal = React.lazy(()=> import("../QtsPayPal"))
 
 export default function Footer() {
+    const [showAdminSettings, setShowAdminSettings] = useState(false);
+
+    const toggleAdminSettings = () => {
+        setShowAdminSettings(!showAdminSettings);
+    };
+
     return (
         <footer className="QTS-Header">
             <h1 className="visually-hidden">Footer Navigation</h1>
@@ -29,7 +36,18 @@ export default function Footer() {
                         </picture>
                     </section>
                     <section className="footer-right">
-                        <AdminSettings />
+                        <Button
+                            variant="outline-secondary"
+                            size="sm"
+                            onClick={toggleAdminSettings}
+                            aria-label={showAdminSettings ? "Hide admin settings" : "Show admin settings"}
+                            aria-expanded={showAdminSettings}
+                            aria-controls="admin-settings-panel"
+                            className="admin-settings-toggle"
+                        >
+                            {showAdminSettings ? "Hide Admin Settings" : "Show Admin Settings"}
+                        </Button>
+                        {showAdminSettings && <AdminSettings />}
                         {/* <nav id="footer-social-links" aria-label="Follow us on Social Media" className="footer-links">
                             <h2 className="visually-hidden">connect with us</h2>
                             <Nav>

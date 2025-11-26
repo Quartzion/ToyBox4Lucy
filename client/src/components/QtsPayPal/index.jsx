@@ -61,6 +61,9 @@ export default function QtsPayPal() {
 
   return (
     <>
+      <section className='additional-form-details'>
+        <p>If you would like our team to purchase a gift on your behalf, you can use the donate options below to make a financial contribution for your gift!</p>
+      </section>
       <Button
         className="donate-to-qts-btn"
         variant="primary"
