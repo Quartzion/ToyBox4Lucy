@@ -5,6 +5,7 @@ import { updateToyBoxSettings, getFollowUpRecords } from '../../utils/API';
 
 const adminSettingsFields = [
     { label: "Admin Password", name: "adminPassword", type: "password", required: true, placeholder: "Enter admin password"},
+    { label: "Occasion", name: "occasion", type:"text"},
     { label: "Total number of kids for this campaign", name: "totalKidsForCampaign", type: "text" },
     { label: "Number of Boys", name: "numberOfBoys", type: "text"},
     { label: "Number of Girls", name: "numberOfGirls", type: "text"},

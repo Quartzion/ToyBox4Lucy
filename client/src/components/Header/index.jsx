@@ -1,9 +1,36 @@
-import React,  { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap'
 // const QtsPayPal = React.lazy(() => import("../QtsPayPal"))
-const occasion = 'Christmas'
 
 export default function Header() {
+    const [occasion, setOccasion] = useState('Christmas');
+
+    useEffect(() => {
+        let cancelled = false;
+
+        async function fetchOccasion() {
+            try {
+                const res = await fetch('/api/toyBoxSettings');
+                if (!res.ok) {
+                    console.warn('Could not fetch toyBoxSettings, status:', res.status);
+                    return;
+                }
+                const data = await res.json();
+                const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
+                if (!doc) return;
+
+                // prefer `occasion` field but fall back to `campaignRun` if present
+                const occ = doc.occasion || doc.campaignRun;
+                if (occ && !cancelled) setOccasion(occ);
+            } catch (err) {
+                console.warn('Error fetching occasion from toyBoxSettings:', err);
+            }
+        }
+
+        fetchOccasion();
+
+        return () => { cancelled = true };
+    }, []);
 
     return (
         <header className="tb4l-Header">

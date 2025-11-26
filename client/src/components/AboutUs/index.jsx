@@ -54,7 +54,6 @@ export default function AboutUs() {
                         )}
                     </section>
                     <br />
-                    {/* <p>If you would like to help us, please see below for donation instructions. If you would like us to purchase the gift on your behalf please follow the donation link below</p> */}
                 </div>
                 <QtsPayPal />
             </article>
