@@ -24,18 +24,6 @@ export default function Footer() {
             <Container className="QTS-Header navbar navbar-expand-md navbar-light">
                 <section className="footer-content">
                     <section className="footer-left">
-                        <h2 className="visually-hidden">Company Logo</h2>
-                        <picture>
-                            <source srcSet="./lt4b-logo-1.webp" type="image/webp" />
-                            <img 
-                                src="./lt4b-logo-1.png" 
-                                alt="Lucy's Toy Box Logo" 
-                                className="header-logo" 
-                                loading='lazy'
-                            />
-                        </picture>
-                    </section>
-                    <section className="footer-right">
                         <Button
                             variant="outline-secondary"
                             size="sm"
@@ -52,6 +40,18 @@ export default function Footer() {
                                 onSuccess={() => setShowAdminSettings(false)}
                             />
                         )}
+                    </section>
+                    <section className="footer-right">
+                        <h2 className="visually-hidden">Company Logo</h2>
+                        <picture>
+                            <source srcSet="./lt4b-logo-1.webp" type="image/webp" />
+                            <img 
+                                src="./lt4b-logo-1.png" 
+                                alt="Lucy's Toy Box Logo" 
+                                className="header-logo" 
+                                loading='lazy'
+                            />
+                        </picture>                        
                         {/* <nav id="footer-social-links" aria-label="Follow us on Social Media" className="footer-links">
                             <h2 className="visually-hidden">connect with us</h2>
                             <Nav>

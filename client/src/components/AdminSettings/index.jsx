@@ -80,6 +80,9 @@ export default function AdminSettings({formClass = "admin-settings", onSuccess})
             setAlertVariant("success");
             setAlertMessage(`Retrieved ${result.length || 0} donor record(s)`);
             setShowAlert(true);
+            // Clear the admin password so the user must re-enter it for the next query
+            setAdminPassword("");
+            setFormData(prev => ({ ...prev, adminPassword: "" }));
         } catch (err) {
             console.error("Error retrieving donor records:", err);
             setAlertVariant("danger");

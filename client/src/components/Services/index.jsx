@@ -104,7 +104,11 @@ export default function Services() {
     return (
         <section className="services-section" role="region" aria-label="Services">
             <header className="services-header">
-                <h3 id="services">Select a box below to see donation details. </h3>
+                <h3 id="services" aria-live="polite">
+                    {visibleServices.length === 0
+                        ? "Thank you! We have collected all the presents for this campaign, thanks for making a kids day awesome!!"
+                        : "Select a box below to see donation details."}
+                </h3>
             </header>
             <section
                 className="services-content"
