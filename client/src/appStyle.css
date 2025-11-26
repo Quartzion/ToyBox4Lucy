@@ -1,7 +1,12 @@
 /* Header */
-.QTS-Header {
+.tb4l-Header {
     background-color: #000000;
     color: #F0FFFF;
+    background-image: url('./32VCapture.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
 .header-logo {
