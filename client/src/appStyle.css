@@ -2,7 +2,7 @@
 .tb4l-Header {
     background-color: #000000;
     color: #F0FFFF;
-    background-image: url('./32VCapture.webp');
+    background-image: url('/Untitled-3.webp');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -25,7 +25,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 2rem;
-    background-color: #000000;
+    background-color: transparent;
     color: #F0FFFF;
 }
 
