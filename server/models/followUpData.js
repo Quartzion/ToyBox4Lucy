@@ -42,6 +42,12 @@ const followUpDataSchema = new Schema(
             type: String,
             required: false
         },
+        giftType: {
+            type: String,
+            required: false,
+            enum: ['Boy Gift', 'Girl Gift'],
+            trim: true
+        },
 
     },
     {

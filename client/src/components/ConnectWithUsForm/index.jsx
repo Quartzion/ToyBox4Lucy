@@ -73,7 +73,9 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
 
   const handleFormSubmit = async (formData) => {
     try {
-      const response = await createFollowUpRequest(formData);
+      // Include giftType in the submission data
+      const dataWithGiftType = { ...formData, giftType };
+      const response = await createFollowUpRequest(dataWithGiftType);
       const result = await response.json();
 
       if (!response.ok) {
