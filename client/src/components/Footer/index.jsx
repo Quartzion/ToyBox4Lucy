@@ -19,7 +19,7 @@ export default function Footer() {
     };
 
     return (
-        <footer className="QTS-Header">
+        <footer className="footer-section">
             <h1 className="visually-hidden">Footer Navigation</h1>
             <Container className="QTS-Header navbar navbar-expand-md navbar-light">
                 <section className="footer-content">

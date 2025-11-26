@@ -2,7 +2,7 @@
 .tb4l-Header {
     background-color: #000000;
     color: #F0FFFF;
-    background-image: url('/Untitled-3.webp');
+    background-image: url('/toys-1.PNG');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -39,15 +39,18 @@
     position: relative;
 }
 
-.slogan {
+.tb4l-slogan {
     position: absolute;
     left: 55%;
     transform: translateX(-45%);
     text-align: center;
+    background-color: #000;
 }
 
-.title {
+.tb4l-title {
     text-align: left;
+    background-color: #000;
+    padding: 1%;
 }
 
 .header-slogan,
@@ -62,6 +65,8 @@
 .about-us-section {
     display: flex;
     flex-direction: row;
+    background-image: url('/toys-3.png');
+    background-attachment: fixed;
     padding: 2%;
 
 }
@@ -70,18 +75,56 @@
     width: 100%;
 }
 
+.about-us-intro {
+    background-color: #000;
+    color: #fff;
+    padding-left: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.admin-notice {
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    color: #fff;
+    align-items: center;
+    padding-left: 3%;
+    padding-bottom: 2%;
+    width: 25%;
+    margin: 0 auto;
+}
+
+.admin-notice p {
+    text-align: left;
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+.additional-form-details {
+    display: flex;
+    background-color: #000;
+    color: #fff;
+    justify-content: center;
+    padding-top: 1%;
+}
+
 /* Services */
 .services-section {
     background-color: #222;
-    color: #F0FFFF;
+    color: #000;
+    background-image: url('/toys-4.png');
+    background-attachment: fixed;
     padding: 2%;
 }
 
 .services-header h3 {
     display: flex;
+    background-color: #fff;
     font-size: 1.5rem;
     font-weight: bold;
     justify-content: center;
+    padding: 1%;
 }
 
 .services-content {
@@ -92,8 +135,8 @@
 }
 
 .gift-card {
-    background-color: #555;
-    color: #F0FFFF;
+    background-color: #F0FFFF;
+    color: #000;
     margin: 1%;
     border-radius: 2.5%;
     box-shadow: 0 2% 3% rgba(0, 0, 0, 0.2);
@@ -115,19 +158,6 @@
     border-radius: 30%;
 }
 
-.admin-notice {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 25%;
-    margin: 0 auto;
-}
-
-.admin-notice p {
-    text-align: left;
-    width: 100%;
-    margin: 0.5rem 0;
-}
 
 /* connect with us */
 .connect-with-us-section {
@@ -332,9 +362,13 @@ body:has(.card-overlay-bg) {
 }
 
 /* Footer */
-.footer {
-    background-color: #000000;
-    color: #F0FFFF;
+.footer-section {
+    /* background-color: #000000;
+    color: #F0FFFF; */
+    background-image: url('/toys-9.png');
+    background-size: cover;
+    /* background-position: center; */
+    background-attachment: fixed;
 }
 
 .footer-right {

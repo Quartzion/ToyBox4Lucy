@@ -36,10 +36,10 @@ export default function Header() {
         <header className="tb4l-Header">
             <Container fluid className="header-container">
                 <section className="header-text">
-                    <div className="title">
+                    <div className="tb4l-title">
                         <h2 className="header-title">Lucy's Toy Box</h2>
                     </div>
-                    <div className="slogan">
+                    <div className="tb4l-slogan">
                         <h2 className="header-slogan">Help us make a great day for kids this {occasion}!</h2>
                         {/* <QtsPayPal /> */}
                     </div>
