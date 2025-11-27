@@ -1,12 +1,12 @@
 const serviceTemplates = [
     {
         title: "Boy Gift",
-        img: "./b-present.png",
+        img: "./b-present.webp",
         content: `This gift is for a boy ages 5 - 7 years`,
     },
     {
         title: "Girl Gift",
-        img: "./g-present.png",
+        img: "./g-present.webp",
         content: `This gift is for a girl ages 5 - 7 years`,
     },
 ];

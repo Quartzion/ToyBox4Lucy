@@ -68,7 +68,7 @@ export default function Footer() {
                                 className="qts-logo-link"
                             >
                                 <img
-                                    src="./qts-icon-2-sm.png"
+                                    src="./qts-icon-2-sm.webp"
                                     alt="Quartzion Technology Solutions Logo"
                                     className="dev-logo"
                                     loading="lazy"

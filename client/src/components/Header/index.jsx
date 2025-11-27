@@ -1,6 +1,5 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap'
-// const QtsPayPal = React.lazy(() => import("../QtsPayPal"))
 
 export default function Header() {
     const [occasion, setOccasion] = useState('Christmas');

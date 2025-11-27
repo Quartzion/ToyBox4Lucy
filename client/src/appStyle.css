@@ -29,7 +29,7 @@
 .tb4l-Header {
     background-color: #000000;
     color: #F0FFFF;
-    background-image: url('/toys-1.PNG');
+    background-image: url('/toys-1.webp');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -93,7 +93,7 @@
 .about-us-section {
     display: flex;
     flex-direction: row;
-    background-image: url('/toys-3.png');
+    background-image: url('/toys-3.webp');
     background-attachment: fixed;
     padding: 2%;
 
@@ -141,7 +141,7 @@
 .services-section {
     background-color: #222;
     color: #000;
-    background-image: url('/toys-4.png');
+    background-image: url('/toys-4.webp');
     background-attachment: fixed;
     padding: 2%;
 }
@@ -321,7 +321,7 @@ body:has(.card-overlay-bg) {
 /* Footer */
 .footer-section {
     color: #F0FFFF;
-    background-image: url('/toys-9.png');
+    background-image: url('/toys-9.webp');
     background-size: cover;
     background-attachment: fixed;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import QtsPayPal from '../QtsPayPal';
+const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
 
 export default function AboutUs() {
     const [totalKidsForCampaign, setTotalKidsForCampaign] = useState(0);
