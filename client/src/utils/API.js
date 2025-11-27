@@ -76,14 +76,15 @@ export const decrementToyBoxGiftCount = async (giftType) => {
 };
 
 // Update toy box settings (admin only)
-export const updateToyBoxSettings = async (settingsData, adminPassword) => {
-  if (!adminPassword) throw new Error("Admin password required");
+export const updateToyBoxSettings = async (settingsData) => {
+  if (!settingsData.adminPassword) {
+    throw new Error("Admin password required");
+  }
 
   return await fetch(`${API_BASE_URL}/api/toyBoxSettings`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-secret': adminPassword,
     },
     body: JSON.stringify(settingsData),
   });
