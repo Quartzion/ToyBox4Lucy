@@ -40,7 +40,7 @@ export const getFollowUpRecords = async () => {
   return await fetch(`${API_BASE_URL}/api/cwu`, {
     method: 'GET',
     headers: {
-      'content-type': 'application/json',
+      'x-api-secret': ADMIN_PASSWORD
     },
     credentials: 'include'
   });
