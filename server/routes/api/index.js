@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const cwuRoutes = require('./cwu-routes');
-const toyBoxSettingsRoutes = require('./toyBoxData-routes')
+const toyBoxSettingsRoutes = require('./tbd-routes')
 const ping = require('./ping')
 const adminAuthRoutes = require('./admin-auth');
 
