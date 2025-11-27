@@ -11,7 +11,8 @@ const seedToyBoxData = [
     numberOfGirls: process.env.SEED_NUMBER_GIRLS || '7',
     campaignRun: process.env.SEED_CAMPAIGN_RUN || '2025-Fall',
     totalGifts: process.env.SEED_TOTAL_GIFTS || '105',
-    lastDayForGifts: process.env.SEED_LAST_DAY_FOR_GIFTS || '12-19-2025'
+    lastDayForGifts: process.env.SEED_LAST_DAY_FOR_GIFTS || '12-19-2025',
+    sendGiftsAddress: process.env.SEED_SEND_GIFT_ADDRESS ||  'Quartzion'
   }
 ];
 

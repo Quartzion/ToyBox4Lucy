@@ -10,7 +10,8 @@ const adminSettingsFields = [
     { label: "Number of Girls", name: "numberOfGirls", type: "text"},
     { label: "Total Gifts", name: "totalGifts", type:"text"},
     { label: "Campaign", name: "campaignRun", type:"text"},
-    { label: "Last Day for Gifts", name:"lastDayForGifts", placeholder: "MM-DD-YYYY", type:"text"}
+    { label: "Last Day for Gifts", name:"lastDayForGifts", placeholder: "MM-DD-YYYY", type:"text"},
+    { label: "Address For Gifts", name:"sendGiftsAddress", type:"text"}
 ];
 
 export default function AdminSettings({formClass = "admin-settings", onSuccess}) {

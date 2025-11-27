@@ -24,6 +24,10 @@ const toyBoxDataSchema = new Schema(
         campaignRun: {
             type: String,
             required: true
+        },
+        sendGiftsAddress: {
+            type: String,
+            required: true
         }
     }
 );
