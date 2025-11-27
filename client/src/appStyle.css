@@ -253,6 +253,16 @@
     padding: 2rem 1.5rem 1.5rem 1.5rem;
     min-height: 0;
     box-sizing: border-box;
+
+    /* NEW FIXES */
+    max-height: 90vh;
+    /* limits height to viewport */
+    overflow-y: auto;
+    /* allows vertical scrolling */
+    position: relative;
+    /* removes fixed positioning so scrolling works */
+    margin: 5vh auto;
+    /* centers within viewport with breathing room */
 }
 
 /* When PayPal renders inside the AboutUs section, center it in the viewport */
