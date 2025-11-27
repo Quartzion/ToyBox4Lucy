@@ -728,4 +728,32 @@ body:has(.card-overlay-bg) {
         height: auto;
         margin-bottom: 0.5rem;
     }
+
+    /* iOS Safari background zoom fix for header/footer */
+    @supports (-webkit-overflow-scrolling: touch) {
+        @media screen and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 2) {
+
+            /* header fix */
+            .tb4l-Header {
+                background-attachment: scroll !important;
+                /* overrides fixed */
+                -webkit-background-size: cover !important;
+                background-size: cover !important;
+                transform: translateZ(0);
+                /* stabilizes GPU rendering */
+                backface-visibility: hidden;
+            }
+
+            /* footer fix */
+            .footer-section {
+                background-attachment: scroll !important;
+                /* overrides fixed */
+                -webkit-background-size: cover !important;
+                background-size: cover !important;
+                transform: translateZ(0);
+                backface-visibility: hidden;
+            }
+        }
+    }
+
 }
