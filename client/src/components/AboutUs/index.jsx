@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { getApiBaseUrl } from '../../utils/env';
 const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
 
 export default function AboutUs() {

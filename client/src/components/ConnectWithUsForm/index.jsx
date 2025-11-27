@@ -2,7 +2,7 @@ import React, { useState, Suspense, useEffect } from 'react';
 import { Alert, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm';
 import { createFollowUpRequest, decrementToyBoxGiftCount } from '../../utils/API';
-import { isProd, getApiBaseUrl } from '../../utils/env';
+import { getApiBaseUrl } from '../../utils/env';
 const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
 
 const PayPalFallback = () => (

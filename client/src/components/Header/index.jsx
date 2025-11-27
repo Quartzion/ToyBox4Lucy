@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from 'react';
-import { isProd, getApiBaseUrl } from '../../utils/env';
+import { getApiBaseUrl } from '../../utils/env';
 import { Container } from 'react-bootstrap'
 
 export default function Header() {

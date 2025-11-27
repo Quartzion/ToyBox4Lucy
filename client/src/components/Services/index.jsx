@@ -11,7 +11,7 @@ import {
     useOverlayEffect,
     renderCard
 } from '../../utils/cardUtils';
-import { isProd, getApiBaseUrl, getPayPalClientId } from '../../utils/env';
+import { getApiBaseUrl } from '../../utils/env';
 
 const API_BASE_URL = getApiBaseUrl();
 
