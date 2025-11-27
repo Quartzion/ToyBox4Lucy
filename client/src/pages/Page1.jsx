@@ -14,7 +14,7 @@ export default function Page1() {
                 <link rel="canonical" href="" />
             </Helmet>
             < HelmetJsonLd />
-            <a href="#main-content" className="skip-link">Skip to main content</a>
+            <a href="#main-content" className="skip-link visually-hidden">Skip to main content</a>
             <main id="main-content" className="py-2">
                 <AboutUs />
                 <Services />
