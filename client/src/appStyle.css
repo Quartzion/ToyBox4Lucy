@@ -13,13 +13,14 @@
     bottom: 0;
 
     /* Stronger contrast for accessibility */
-    background: rgba(0, 0, 0, 0.55); /* WCAG-friendly */
+    background: rgba(0, 0, 0, 0.55);
+    /* WCAG-friendly */
 
     /* Places overlay above background image but below actual content */
     z-index: -1;
 }
 
-.image-overlay > * {
+.image-overlay>* {
     position: relative;
     z-index: 1;
 }
@@ -187,7 +188,8 @@
     border-bottom-right-radius: 0;
 }
 
-.svc-fwrd-btn, .svc-bkwrd-btn {
+.svc-fwrd-btn,
+.svc-bkwrd-btn {
     background: none;
     border-radius: 30%;
 }
@@ -197,8 +199,9 @@
 .connect-with-us-section {
     background-color: #222;
     color: #F0FFFF;
-    padding: 2%; 
+    padding: 2%;
 }
+
 .connect-with-us-form {
     margin-top: 2%;
     padding: 2%;
@@ -246,7 +249,7 @@
 }
 
 .close-donate-window-btn {
-    background-color:#fd6978;
+    background-color: #fd6978;
     color: #333
 }
 
@@ -270,36 +273,49 @@ body:has(.card-overlay-bg) {
 
 /* Donate to QTS button */
 .donate-to-qts-btn {
-  background: linear-gradient(270deg, #ff7a18, #af002d, #319197);
-  background-size: 600% 600%;
-  animation: gradientShift 8s ease infinite;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 2rem;
-  padding: 0.75rem 1.5rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: linear-gradient(270deg, #ff7a18, #af002d, #319197);
+    background-size: 600% 600%;
+    animation: gradientShift 8s ease infinite;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.75rem 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.donate-to-qts-btn:hover, .admin-notice:hover, .gift-card:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 20px rgba(255, 122, 24, 0.6);
+.donate-to-qts-btn:hover,
+.admin-notice:hover,
+.gift-card:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 20px rgba(255, 122, 24, 0.6);
 }
 
-.card-btn, .show-connect-with-us-form-button, .carousel-controls, .donate-to-qts-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem auto 0 auto;
-  padding: 0.5rem 1.5rem;
-  text-align: center;
-  max-width: fit-content;
+.card-btn,
+.show-connect-with-us-form-button,
+.carousel-controls,
+.donate-to-qts-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem auto 0 auto;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    max-width: fit-content;
 }
 
 /* Footer */
@@ -314,7 +330,7 @@ body:has(.card-overlay-bg) {
     display: flex;
     flex-direction: column;
     width: 15%;
-    align-items:flex-start;
+    align-items: flex-start;
     font-size: 0.625rem;
 }
 
@@ -362,10 +378,9 @@ body:has(.card-overlay-bg) {
     transition: transform 0.2s ease;
 }
 
-.footer-links svg:hover, 
+.footer-links svg:hover,
 .team-qts-socials svg:hover,
-.header-logo:hover
-{
+.header-logo:hover {
     transform: scale(1.2);
 }
 
@@ -385,7 +400,8 @@ body:has(.card-overlay-bg) {
         align-items: center;
         text-align: center;
         gap: 1rem;
-        padding: 2rem 1rem; /* more breathing room */
+        padding: 2rem 1rem;
+        /* more breathing room */
     }
 
     .header-text {
@@ -393,12 +409,13 @@ body:has(.card-overlay-bg) {
         align-items: center;
         text-align: center;
         gap: 0.75rem;
-        position: static; /* removes desktop positioning conflicts */
+        position: static;
+        /* removes desktop positioning conflicts */
     }
 
     /* --- FIX ABSOLUTE-POSITION OVERLAP --- */
     .tb4l-slogan {
-        position: static !important; 
+        position: static !important;
         left: auto;
         transform: none;
         width: 100%;
@@ -417,7 +434,8 @@ body:has(.card-overlay-bg) {
 
     .header-title,
     .header-slogan {
-        font-size: 1.5rem; /* scaled down for mobile readability */
+        font-size: 1.5rem;
+        /* scaled down for mobile readability */
         line-height: 1.2;
         margin: 0;
     }
@@ -448,23 +466,29 @@ body:has(.card-overlay-bg) {
     }
 
     /* ---------- ABOUT US ---------- */
-/* ---------- ABOUT US: Admin Notice MOBILE FIX ---------- */
-.about-us-section .admin-notice {
-    width: 90%;         /* use most of the screen width */
-    max-width: 400px;   /* optional: prevent it from stretching too wide on tablets */
-    padding: 1rem;      /* add breathing room */
-    margin: 0 auto;     /* center horizontally */
-    text-align: center; /* make text more readable */
-    box-sizing: border-box;
-}
+    /* ---------- ABOUT US: Admin Notice MOBILE FIX ---------- */
+    .about-us-section .admin-notice {
+        width: 90%;
+        /* use most of the screen width */
+        max-width: 400px;
+        /* optional: prevent it from stretching too wide on tablets */
+        padding: 1rem;
+        /* add breathing room */
+        margin: 0 auto;
+        /* center horizontally */
+        text-align: center;
+        /* make text more readable */
+        box-sizing: border-box;
+    }
 
-.about-us-section .admin-notice p {
-    text-align: center;  /* center each line */
-    margin-bottom: 0.5rem;
-    font-size: 1rem;     /* scale text for readability */
-    line-height: 1.4;
-}
-
+    .about-us-section .admin-notice p {
+        text-align: center;
+        /* center each line */
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+        /* scale text for readability */
+        line-height: 1.4;
+    }
 
     /* ---------- SERVICES ---------- */
     .services-content {
