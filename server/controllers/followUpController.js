@@ -46,14 +46,25 @@ module.exports = {
 
     async getAllFollowUpRequests(req, res) {
         try {
+            const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+            if (!ADMIN_PASSWORD) {
+                return res.status(500).json({ message: "Server configuration error" });
+            }
+
+            // Accept password from body, query, or x-api-secret header
+            const adminPassword = req.body.adminPassword || req.query.adminPassword || req.headers['x-api-secret'];
+            if (!adminPassword || adminPassword !== ADMIN_PASSWORD) {
+                return res.status(403).json({ message: "Admin credentials required" });
+            }
+
             const followUpRequests = await FollowUpData.find({});
 
             if (!followUpRequests || followUpRequests.length === 0) {
                 return res.status(204).json({ message: "No Follow Up Requests At This Time" })
             }
-            return res.status(200).json(followUpRequests)
+            return res.status(200).json(followUpRequests);
         } catch (err) {
-            return res.status(400).json({ message: "sorry something went wrong, our engineers have been notified. Please try again later, thank you." })
+            return res.status(400).json({ message: "Sorry, something went wrong, please try again later." });
         }
     },
 
