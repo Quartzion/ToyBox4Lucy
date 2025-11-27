@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { isProd, getApiBaseUrl, getPayPalClientId } from '../../utils/env';
 const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
 
 export default function AboutUs() {
@@ -8,11 +9,12 @@ export default function AboutUs() {
     const [totalGifts, setTotalGifts] = useState(0);
     const [lastDayForGifts, setLastDayForGifts] = useState('');
 
+    const API_BASE_URL = getApiBaseUrl();
 
     useEffect(() => {
         async function fetchTotalKids() {
             try {
-                const res = await fetch('/api/toyBoxSettings');
+                const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
                 if (!res.ok) {
                     console.warn('Could not fetch toyBoxSettings, status:', res.status);
                     return;

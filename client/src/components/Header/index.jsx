@@ -1,15 +1,17 @@
 import React, { Suspense, useState, useEffect } from 'react';
+import { isProd, getApiBaseUrl } from '../../utils/env';
 import { Container } from 'react-bootstrap'
 
 export default function Header() {
     const [occasion, setOccasion] = useState('Christmas');
+    const API_BASE_URL = getApiBaseUrl();
 
     useEffect(() => {
         let cancelled = false;
 
         async function fetchOccasion() {
             try {
-                const res = await fetch('/api/toyBoxSettings');
+                const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
                 if (!res.ok) {
                     console.warn('Could not fetch toyBoxSettings, status:', res.status);
                     return;

@@ -11,6 +11,9 @@ import {
     useOverlayEffect,
     renderCard
 } from '../../utils/cardUtils';
+import { isProd, getApiBaseUrl, getPayPalClientId } from '../../utils/env';
+
+const API_BASE_URL = getApiBaseUrl();
 
 export default function Services() {
 
@@ -78,7 +81,7 @@ export default function Services() {
 
         async function fetchSettings() {
             try {
-                const res = await fetch('/api/toyBoxSettings');
+                const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
                 if (!res.ok) {
                     console.warn('Could not fetch toyBoxSettings, status:', res.status);
                     return;

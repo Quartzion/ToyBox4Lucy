@@ -2,6 +2,7 @@ import React, { useState, Suspense, useEffect } from 'react';
 import { Alert, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm';
 import { createFollowUpRequest, decrementToyBoxGiftCount } from '../../utils/API';
+import { isProd, getApiBaseUrl } from '../../utils/env';
 const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
 
 const PayPalFallback = () => (
@@ -11,6 +12,8 @@ const PayPalFallback = () => (
         </Spinner>
     </div>
 );
+
+const API_BASE_URL = getApiBaseUrl();
 
 const connectWithUsFormFields = [
   { label: "Your Name", name: "name", type: "text", required: true, placeholder: "Name", autoComplete: "on" },
@@ -87,7 +90,7 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
   React.useEffect(() => {
     const fetchCampaignRun = async () => {
       try {
-        const res = await fetch('/api/toyBoxSettings');
+        const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
         if (!res.ok) return;
         const data = await res.json();
         const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
