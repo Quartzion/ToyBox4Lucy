@@ -83,7 +83,7 @@ export default function AdminSettings({formClass = "admin-settings", onSuccess})
                 return;
             }
 
-            const response = await getFollowUpRecords();
+            const response = await getFollowUpRecords(adminPassword);
             const result = await response.json();
 
             if (!response.ok) {
