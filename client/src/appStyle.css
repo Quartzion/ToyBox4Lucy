@@ -134,7 +134,7 @@
     background-color: #000;
     color: #fff;
     justify-content: center;
-    padding-top: 1%;
+    padding: 1%;
 }
 
 /* Services */
@@ -163,7 +163,6 @@
 }
 
 .gift-card {
-    /* background-color: #F0FFFF; */
     color: #F0FFFF;
     margin: 1%;
     border-radius: 2.5%;
@@ -172,7 +171,25 @@
     width: calc(20% - 2%);
 }
 
-.gift-card-content {
+.card-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:#F0FFFF
+}
+
+.cwu-disclaimer {
+    background-color: #000;
+    padding: 1%;
+    color:#d6be0c;
+}
+
+.bold-text {
+    color:#d6be0c;
+}
+
+.blog-card-content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -544,6 +561,12 @@ body:has(.card-overlay-bg) {
     .blog-card {
         width: 90vw;
         margin: 0 auto;
+    }
+
+    .card-details p{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     /* ---------- FOOTER ---------- */

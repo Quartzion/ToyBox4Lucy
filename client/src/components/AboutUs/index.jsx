@@ -50,14 +50,14 @@ export default function AboutUs() {
                     <div className="about-us-intro">
                         <h3>Welcome to Lucy's Toy Box!</h3>
                         <p>Thanks for dropping in! This is Lucy's Toy Box, an app designed to help with organizing toy donations for kids! Please review the details below: </p>
-                        <p>Today we are collecting gifts for the kids in the <strong>P.C.A.T program</strong> of Hillsborough county school district.</p>
+                        <p>Today we are collecting gifts for the kids in the <strong className='bold-text'>P.C.A.T program</strong> of Hillsborough county school district.</p>
                     </div>
                     <br />
                     <section className="admin-notice">
-                        <p>Currently we have <strong>{totalGifts}</strong> presents to deliver!</p>
-                        <p>we need to collect gifts for <strong>{totalKidsForCampaign}</strong> remaining kids.</p>
+                        <p>Currently we have <strong className='bold-text'>{totalGifts}</strong> presents to deliver!</p>
+                        <p>we need to collect gifts for <strong className='bold-text'>{totalKidsForCampaign}</strong> remaining kids.</p>
                         {lastDayForGifts && !['N/A', 'n/a'].includes(lastDayForGifts.trim()) && (
-                            <p>Last day for gifts: <strong>{lastDayForGifts}</strong></p>
+                            <p>Last day for gifts: <strong className='bold-text'>{lastDayForGifts}</strong></p>
                         )}
                     </section>
                     <br />

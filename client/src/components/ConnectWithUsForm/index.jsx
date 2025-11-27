@@ -157,8 +157,8 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
       <p> </p>
       <p> 690 Navarez Ave #253,  Safety Harbor FL 34695</p>
     </section>
+    <br />
     <article>
-
       <GeneralForm
         fields={connectWithUsFormFields}
         submitLabel='Click here to confirm'

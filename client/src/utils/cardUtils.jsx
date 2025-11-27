@@ -75,6 +75,7 @@ export function renderCard(item, idx, expandedIdx, cardRefs, handleToggle, isOve
                 loading='lazy'
             />
             <article id={`${type}-card-${idx}`} className={`${type}-card-content`}>
+                <div className="card-details">
                 <header>
                     <h4>{item.title}</h4>
                 </header>
@@ -85,6 +86,7 @@ export function renderCard(item, idx, expandedIdx, cardRefs, handleToggle, isOve
                         }
                     </ReactMarkdown>
                     {expandedIdx === idx ? <ConnectWithUs giftType={item.title} /> : ''}
+                </div>
                 <div className="card-footer">
                     <Button
                         className='card-btn'
