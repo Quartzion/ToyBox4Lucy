@@ -48,6 +48,7 @@ export default function GeneralForm({
           ) : (
             <>
               <Form.Label htmlFor={field.name}>{field.label}</Form.Label>
+              <div className="form-fields">
               <Form.Control
                 as={field.type === 'textarea' ? 'textarea' : 'input'}
                 type={field.type === 'textarea' ? undefined : field.type}
@@ -59,6 +60,7 @@ export default function GeneralForm({
                 required={field.required}
                 autoComplete={field.autoComplete || "on"}
               />
+              </div>
             </>
           )}
 

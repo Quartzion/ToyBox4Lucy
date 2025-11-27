@@ -176,17 +176,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color:#F0FFFF
+    color: #F0FFFF
 }
 
 .cwu-disclaimer {
     background-color: #000;
     padding: 1%;
-    color:#d6be0c;
+    color: #d6be0c;
 }
 
 .bold-text {
-    color:#d6be0c;
+    color: #d6be0c;
 }
 
 .blog-card-content {
@@ -274,7 +274,7 @@
 .card-overlay-bg {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(2px);
     z-index: 2000;
     display: flex;
@@ -289,14 +289,18 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 450px;              /* keep your original compact size */
-    max-width: 90vw;           /* responsive but never massive */
-    max-height: 85vh;          /* stops overflow */
-    overflow-y: auto;          /* scroll *inside* card only if needed */
-    
+    width: 450px;
+    /* keep your original compact size */
+    max-width: 90vw;
+    /* responsive but never massive */
+    max-height: 85vh;
+    /* stops overflow */
+    overflow-y: auto;
+    /* scroll *inside* card only if needed */
+
     background: #222;
     border-radius: 1rem;
-    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
     padding: 1.5rem;
     z-index: 2001;
     animation: fadeInCard 0.25s ease-out;
@@ -308,8 +312,15 @@ body:has(.card-overlay-bg) {
 }
 
 @keyframes fadeInCard {
-    from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
-    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 /* Donate to QTS button */
@@ -563,28 +574,153 @@ body:has(.card-overlay-bg) {
         margin: 0 auto;
     }
 
-    .card-details p{
+    .card-details p {
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
     /* ---------- FOOTER ---------- */
+    /* 1) Make footer columns stack and use full width on mobile */
     .footer-content {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 1rem;
-        padding: 1rem 0;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding: 1rem;
+        box-sizing: border-box;
     }
 
-    .footer-links {
-        padding-left: 0;
-        justify-content: center;
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        width: 100% !important;
+        /* override desktop 15% width on .footer-left */
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 0.25rem 0;
+    }
+
+    /* 2) Expand admin settings panel so form controls are not squished */
+    .admin-settings-toggle {
+        display: inline-block;
+        width: auto;
+        margin-bottom: 0.5rem;
+    }
+
+    .admin-settings-panel {
+        width: 100% !important;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 0.75rem;
+        background: rgba(0, 0, 0, 0.5);
+        /* optional, helps readability over bg image */
+        border-radius: 6px;
+        margin-bottom: 0.75rem;
+        position: static !important;
+        /* ensures it's not constrained by an absolute parent */
+    }
+
+    /* Make each admin field expand to full width */
+    .admin-settings,
+    .admin-settings .form-fields,
+    .admin-settings-panel input,
+    .admin-settings-panel select,
+    .admin-settings-panel textarea,
+    .admin-settings-panel .form-control {
+        width: 100% !important;
+        min-width: 0;
+        /* allow shrinking inside flex containers */
+        box-sizing: border-box;
+    }
+
+    /* If GeneralForm uses .form-group rows, ensure they stack well */
+    .admin-settings-panel .form-group,
+    .admin-settings-panel .form-row {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    /* 3) Constrain donor table and enable horizontal scroll without breaking footer */
+    .donor-details {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 0.5rem;
+    }
+
+    /* This wrapper ensures the table scrolls horizontally only inside its area */
+    .donor-details>div {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: visible;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.02);
+        /* subtle contrast so the scroll area is obvious */
+        padding: 0.25rem 0;
+    }
+
+    /* Make the table render as an intrinsic width element so it can scroll */
+    .donor-details table,
+    .donor-details .table {
+        display: table;
+        width: max-content;
+        /* allow table to be wider than container and enable scroll */
+        min-width: 600px;
+        /* keep columns readable; adjust as needed */
+        margin: 0;
+        /* prevent extra spacing */
+        box-sizing: border-box;
+    }
+
+    /* Keep footer text readable and prevent it from wrapping oddly */
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        font-size: 0.85rem;
+    }
+
+    .footer-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* <-- centers images/text horizontally */
+        text-align: center;
     }
 
     .footer-center {
-        font-size: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center !important;
+        /* <-- key */
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Ensure the toy-box image itself centers */
+    .footer-right img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-left img {
+        margin-left: auto;
+        margin-right: auto;
+        /* <-- ensure the image itself centers */
+        display: block;
+    }
+
+    /* Optional: nicer small scrollbar on WebKit for mobile */
+    .donor-details>div::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .donor-details>div::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
     }
 
     .dev-logo {
