@@ -474,8 +474,8 @@ body:has(.card-overlay-bg) {
         gap: 1.5rem;
     }
 
-    .service-card {
-        width: 90vw;
+    .gift-card {
+        width: 40vw;
         margin: 0 auto;
     }
 
