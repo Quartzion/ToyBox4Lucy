@@ -253,22 +253,46 @@
     color: #333
 }
 
-/* Overlay card styling */
-.blog-card.overlay {
-    max-width: 95vw;
-    max-height: 90vh;
-    width: 40%;
-    background: #222;
-    box-shadow: 0 2% 8% rgba(0, 0, 0, 0.7);
-    z-index: 1001;
-    transform: scale(1.06);
-    transition: transform 0.3s, box-shadow 0.3s;
-    overflow-y: auto;
+/* === Card Overlay Background (modal-like) === */
+.card-overlay-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(2px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Prevent background scroll when overlay is open */
+/* === Gift Card Expanded (modal) === */
+.gift-card.overlay,
+.blog-card.overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;              /* keep your original compact size */
+    max-width: 90vw;           /* responsive but never massive */
+    max-height: 85vh;          /* stops overflow */
+    overflow-y: auto;          /* scroll *inside* card only if needed */
+    
+    background: #222;
+    border-radius: 1rem;
+    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    padding: 1.5rem;
+    z-index: 2001;
+    animation: fadeInCard 0.25s ease-out;
+}
+
+/* Prevent background scroll */
 body:has(.card-overlay-bg) {
     overflow: hidden;
+}
+
+@keyframes fadeInCard {
+    from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 /* Donate to QTS button */
