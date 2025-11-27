@@ -379,32 +379,54 @@ body:has(.card-overlay-bg) {
 @media (max-width: 768px) {
 
     /* ---------- HEADER ---------- */
+    /* HEADER MOBILE FIX */
     .header-container {
         flex-direction: column;
         align-items: center;
         text-align: center;
         gap: 1rem;
-        padding: 1rem 0;
+        padding: 2rem 1rem; /* more breathing room */
     }
 
     .header-text {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
+        position: static; /* removes desktop positioning conflicts */
     }
 
-    .slogan,
-    .title {
-        position: static;
+    /* --- FIX ABSOLUTE-POSITION OVERLAP --- */
+    .tb4l-slogan {
+        position: static !important; 
+        left: auto;
         transform: none;
-        margin: 0;
+        width: 100%;
+        text-align: center;
+        background-color: #000;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    .tb4l-title {
+        background-color: #000;
+        padding: 1rem;
+        width: 100%;
         text-align: center;
     }
 
+    .header-title,
+    .header-slogan {
+        font-size: 1.5rem; /* scaled down for mobile readability */
+        line-height: 1.2;
+        margin: 0;
+    }
+
     .header-logo {
-        max-width: 45%;
+        max-width: 50%;
+        min-width: 120px;
         height: auto;
+        margin-top: 1rem;
     }
 
     /* ---------- TEAM SECTION ---------- */
@@ -425,38 +447,24 @@ body:has(.card-overlay-bg) {
         height: auto;
     }
 
-    /* ---------- BLOGS ---------- */
-    .blogs-content {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-
-    .blog-card {
-        width: 90vw;
-        margin: 0 auto;
-    }
-
     /* ---------- ABOUT US ---------- */
-    .about-us-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        padding: 1rem;
-    }
+/* ---------- ABOUT US: Admin Notice MOBILE FIX ---------- */
+.about-us-section .admin-notice {
+    width: 90%;         /* use most of the screen width */
+    max-width: 400px;   /* optional: prevent it from stretching too wide on tablets */
+    padding: 1rem;      /* add breathing room */
+    margin: 0 auto;     /* center horizontally */
+    text-align: center; /* make text more readable */
+    box-sizing: border-box;
+}
 
-    .about-us-header {
-        text-align: center;
-        width: 100%;
-    }
+.about-us-section .admin-notice p {
+    text-align: center;  /* center each line */
+    margin-bottom: 0.5rem;
+    font-size: 1rem;     /* scale text for readability */
+    line-height: 1.4;
+}
 
-    .about-us-content {
-        flex-direction: column;
-        width: 100%;
-        align-items: center;
-        text-align: center;
-        gap: 1rem;
-    }
 
     /* ---------- SERVICES ---------- */
     .services-content {

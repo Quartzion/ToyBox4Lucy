@@ -41,7 +41,6 @@ export default function Header() {
                     </div>
                     <div className="tb4l-slogan">
                         <h2 className="header-slogan">Help us make a great day for kids this {occasion}!</h2>
-                        {/* <QtsPayPal /> */}
                     </div>
                 </section>
                 <h1 className="visually-hidden">Lucy's Toy Box Logo</h1>

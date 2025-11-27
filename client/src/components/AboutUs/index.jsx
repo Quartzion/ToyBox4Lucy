@@ -50,6 +50,7 @@ export default function AboutUs() {
                         <p>Thanks for dropping in! This is Lucy's Toy Box, an app designed to help with organizing toy donations for kids! Please review the details below: </p>
                         <p>Today we are collecting gifts for the kids in the <strong>P.C.A.T program</strong> of Hillsborough county school district.</p>
                     </div>
+                    <br />
                     <section className="admin-notice">
                         <p>Currently we have <strong>{totalGifts}</strong> presents to deliver!</p>
                         <p>we need to collect gifts for <strong>{totalKidsForCampaign}</strong> remaining kids.</p>
