@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { PayPalButtons } from "@paypal/react-paypal-js";
+import { createFollowUpRequest } from "../../utils/API"; 
 import Overlay from "../Overlay";
 import { jsPDF } from "jspdf";
 import QtsLogo from "../../assets/QTS_L2_B_C.png"
@@ -107,12 +108,24 @@ export default function QtsPayPal() {
                 });
               }}
               onApprove={(data, actions) => {
-                return actions.order.capture().then((details) => {
+                return actions.order.capture().then(async (details) => {
                   // success toast
                   alert(`Thank you for your donation ${details.payer.name.given_name}!
 A receipt of this donation has been downloaded to your downloads folder. Keep this receipt for your records as it can be used for IRS tax deductions. Quartzion Technology Solutions Corp. is a 501(c)(3) nonprofit organization. Donations are tax-deductible to the fullest extent allowed by law.`);
                   // generate PDF receipt
                   generateReceipt(details, amount);
+                  // log donation to db
+                    try {
+                      await createFollowUpRequest({
+                      name: `${details.payer.name.given_name} ${details.payer.name.surname}`,
+                      email: details.payer.email_address,
+                      notes: `PayPal donation of $${amount}. Transaction ID: ${details.id}`,
+                      campaignRun: "ToyBox4Lucy Donation"
+                      });
+                      console.log("Donation logged to follow-up collection");
+                      } catch (err) {
+                      console.error("Failed to log donation:", err);
+                      }
                   // close overlay 
                   setShowOverlay(false);
                 });
