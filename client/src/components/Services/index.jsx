@@ -119,14 +119,23 @@ export default function Services() {
 
     // toggle handler
     const handleToggleFn = (actualIdx) => handleToggle(qtsServices, navigate, expandedIdx, actualIdx, "services");
-
+    const helpDetails = <>
+        <p> If you wish to donate a toy, follow the instructions below:</p>
+        <p> 1. Select a gift box shown below.</p>
+        <p> 2. fill out the form and submit it.</p>
+        <p> 3. After confirming you gift selection, purchase your gift and send it to the address</p>
+        <div className ='help-details-note'>
+            <p> Peter Smith - Quartzion Technology Services </p>
+            <p> 690 Main St #253 Safety Harbor, FL 34695 </p>
+        </div>
+        </>
     return (
         <section className="services-section image-overlay" role="region" aria-label="Services">
             <header className="services-header">
                 <h3 id="services" aria-live="polite">
                     {visibleServices.length === 0
                         ? "Thank you! We have collected all the presents for this campaign, thanks for making a kids day awesome!!"
-                        : "Select a box below to see donation details."}
+                        : helpDetails}
                 </h3>
             </header>
             <section
