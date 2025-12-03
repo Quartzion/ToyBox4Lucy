@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import ReactDOM from "react-dom";
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import Overlay from "../Overlay";
 import { generateQtsServices } from '../../utils/servicesData';
 import {
@@ -23,35 +23,37 @@ export default function Services() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Local state for services and configuration fetched from API
     const [qtsServices, setQtsServices] = useState([]);
-    const [visibleCount, setVisibleCount] = useState(10); // fallback if API doesn't provide
+    const [visibleCount, setVisibleCount] = useState(10);
     const [startIdx, setStartIdx] = useState(0);
 
-    // Compute expandedIdx from the currently generated services
+    // NEW — loading + error states
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const expandedIdx = getExpandedIdx(qtsServices, slug);
 
-    // get cards in a loop for carousel (only when qtsServices is available)
-    const visibleServices = qtsServices.length > 0
-        ? Array.from({ length: Math.min(visibleCount, qtsServices.length) }).map((_, i) =>
-            qtsServices[(startIdx + i) % qtsServices.length]
-        )
-        : [];
+    const visibleServices =
+        qtsServices.length > 0
+            ? Array.from({ length: Math.min(visibleCount, qtsServices.length) }).map((_, i) =>
+                qtsServices[(startIdx + i) % qtsServices.length]
+            )
+            : [];
 
-    // pause carousel on hover
     const [isPaused, setIsPaused] = useState(false);
 
     useEffect(() => {
-        if (isPaused) return;
-        if (qtsServices.length === 0) return;
-        // Also pause carousel when other overlays or admin panels are open
-        const bodyHasOverlay = typeof document !== 'undefined' && document.body.classList.contains('overlay-open');
-        const domOverlay = typeof document !== 'undefined' && !!document.querySelector('.card-overlay-bg');
-        if (expandedIdx !== -1 || bodyHasOverlay || domOverlay) return;
+        if (isPaused || qtsServices.length === 0) return;
+        const overlayOpen =
+            expandedIdx !== -1 ||
+            document.body.classList.contains('overlay-open') ||
+            document.querySelector('.card-overlay-bg');
+
+        if (overlayOpen) return;
 
         const interval = setInterval(() => {
             setStartIdx((prev) => (prev + 1) % qtsServices.length);
-        }, 7000); //7 seconds
+        }, 7000);
 
         return () => clearInterval(interval);
     }, [isPaused, qtsServices.length, expandedIdx]);
@@ -60,55 +62,43 @@ export default function Services() {
         setIsPaused(expandedIdx !== -1);
     }, [expandedIdx]);
 
-    // overlay effect imported from utils
     useOverlayEffect(location, expandedIdx, setSearchParams);
 
-    // Fetch toy box settings from the API on mount and set up polling
     useEffect(() => {
         let cancelled = false;
         let pollInterval;
 
-        // Check if any overlay is open
-        const isOverlayOpen = expandedIdx !== -1 || document.body.classList.contains('overlay-open');
-
-        if (isOverlayOpen) {
-            // Don't start polling while overlays are open
-            return () => {
-                cancelled = true;
-                if (pollInterval) clearInterval(pollInterval);
-            };
+        if (expandedIdx !== -1 || document.body.classList.contains('overlay-open')) {
+            return () => (cancelled = true);
         }
 
         async function fetchSettings() {
             try {
                 const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
-                if (!res.ok) {
-                    console.warn('Could not fetch toyBoxSettings, status:', res.status);
-                    return;
-                }
+                if (!res.ok) throw new Error(`Status ${res.status}`);
+
                 const data = await res.json();
                 if (cancelled) return;
 
-                // Expecting an array of documents; take the first
                 const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
-                if (!doc) return;
+                if (!doc) throw new Error("No toyBoxSettings found");
 
-                const numberOfBoys = parseInt(doc.numberOfBoys, 10) || 0;
-                const numberOfGirls = parseInt(doc.numberOfGirls, 10) || 0;
-                const visible = parseInt( numberOfBoys + numberOfGirls, 10) || 10;
+                const boys = parseInt(doc.numberOfBoys, 10) || 0;
+                const girls = parseInt(doc.numberOfGirls, 10) || 0;
 
+                const visible = boys + girls;
                 setVisibleCount(visible);
-                const generated = generateQtsServices(numberOfBoys, numberOfGirls);
-                setQtsServices(generated);
+                setQtsServices(generateQtsServices(boys, girls));
+
+                setLoading(false); // END LOADING
             } catch (err) {
-                console.error('Error fetching toyBoxSettings:', err);
+                console.error("Error fetching toyBoxSettings:", err);
+                setError(err);
+                setLoading(false); // END LOADING EVEN ON ERROR
             }
         }
 
-        // Fetch immediately on mount
         fetchSettings();
-
-        // Poll for updates every 10 seconds (reduced from 5 to minimize rate limit impact)
         pollInterval = setInterval(fetchSettings, 10000);
 
         return () => {
@@ -117,18 +107,44 @@ export default function Services() {
         };
     }, [expandedIdx]);
 
-    // toggle handler
-    const handleToggleFn = (actualIdx) => handleToggle(qtsServices, navigate, expandedIdx, actualIdx, "services");
-    const helpDetails = <>
-        <p> If you wish to donate a toy, follow the instructions below:</p>
-        <p> 1. Select a gift box shown below.</p>
-        <p> 2. fill out the form and submit it.</p>
-        <p> 3. After confirming you gift selection, purchase your gift and send it to the address</p>
-        <div className ='help-details-note'>
-            <p> Peter Smith - Quartzion Technology Services </p>
-            <p> 690 Main St #253 Safety Harbor, FL 34695 </p>
-        </div>
+    const handleToggleFn = (actualIdx) =>
+        handleToggle(qtsServices, navigate, expandedIdx, actualIdx, "services");
+
+    const helpDetails = (
+        <>
+            <p>If you wish to donate a toy, follow the instructions below:</p>
+            <p>1. Select a gift box shown below.</p>
+            <p>2. Fill out the form and submit it.</p>
+            <p>3. After confirming your gift selection, purchase your gift and send it to the address</p>
+            <div className="help-details-note">
+                <p>Peter Smith - Quartzion Technology Services</p>
+                <p>690 Main St #253 Safety Harbor, FL 34695</p>
+            </div>
         </>
+    );
+
+    // 🚀 NEW LOADING STATE OUTPUT
+    if (loading) {
+        return (
+            <section className="services-section image-overlay">
+                <header className="services-header">
+                    <h3>Please wait while we load available gifts…</h3>
+                </header>
+            </section>
+        );
+    }
+
+    // 🚀 NEW ERROR OUTPUT
+    if (error) {
+        return (
+            <section className="services-section image-overlay">
+                <header className="services-header">
+                    <h3 style={{ color: "red" }}>Unable to load gift information.</h3>
+                </header>
+            </section>
+        );
+    }
+
     return (
         <section className="services-section image-overlay" role="region" aria-label="Services">
             <header className="services-header">
@@ -138,34 +154,50 @@ export default function Services() {
                         : helpDetails}
                 </h3>
             </header>
+
             <section
                 className="services-content"
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
             >
-
                 {visibleServices.map((service, i) => {
-                    const actualIdx = qtsServices.length > 0 ? (startIdx + i) % qtsServices.length : i;
+                    const actualIdx =
+                        qtsServices.length > 0 ? (startIdx + i) % qtsServices.length : i;
+
                     const isExpanded = expandedIdx === actualIdx;
-                    return expandedIdx !== -1 & isExpanded
-                        ? (
-                            <div key={actualIdx} style={{ visibility: "hidden", height: 0 }} />
-                        )
-                        : renderCard(service, actualIdx, expandedIdx, cardRefs, handleToggleFn, false, "gift");
+
+                    return expandedIdx !== -1 && isExpanded
+                        ? <div key={actualIdx} style={{ visibility: "hidden", height: 0 }} />
+                        : renderCard(
+                            service,
+                            actualIdx,
+                            expandedIdx,
+                            cardRefs,
+                            handleToggleFn,
+                            false,
+                            "gift"
+                        );
                 })}
             </section>
+
             <div className="carousel-controls">
                 <button
                     className="svc-fwrd-btn"
-                    onClick={() => qtsServices.length > 0 && setStartIdx((prev) => (prev - 1 + qtsServices.length) % qtsServices.length)}
-                    aria-label="Previous services"
+                    onClick={() =>
+                        qtsServices.length > 0 &&
+                        setStartIdx((prev) => (prev - 1 + qtsServices.length) % qtsServices.length)
+                    }
                 >◀</button>
+
                 <button
                     className="svc-bkwrd-btn"
-                    onClick={() => qtsServices.length > 0 && setStartIdx((prev) => (prev + 1) % qtsServices.length)}
-                    aria-label="Next services"
+                    onClick={() =>
+                        qtsServices.length > 0 &&
+                        setStartIdx((prev) => (prev + 1) % qtsServices.length)
+                    }
                 >▶</button>
             </div>
+
             {expandedIdx !== -1 &&
                 ReactDOM.createPortal(
                     <Overlay
@@ -180,4 +212,4 @@ export default function Services() {
                 )}
         </section>
     );
-};
+}

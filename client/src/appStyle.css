@@ -89,6 +89,9 @@
     padding-top: 0;
 }
 
+.loading-message {
+    color: greenyellow;
+}
 /* about us */
 .about-us-section {
     display: flex;

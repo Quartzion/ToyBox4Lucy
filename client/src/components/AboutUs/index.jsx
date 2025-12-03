@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { getApiBaseUrl } from '../../utils/env';
-const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
+const QtsPayPal = React.lazy(() => import("../QtsPayPal"));
 
 export default function AboutUs() {
     const [totalKidsForCampaign, setTotalKidsForCampaign] = useState(0);
-    const [numberOfBoys, setNumberOfBoys] = useState(0);
-    const [numberOfGirls, setNumberOfGirls] = useState(0)
     const [totalGifts, setTotalGifts] = useState(0);
     const [lastDayForGifts, setLastDayForGifts] = useState('');
+
+    // loading + error states
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const API_BASE_URL = getApiBaseUrl();
 
@@ -16,32 +18,56 @@ export default function AboutUs() {
             try {
                 const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
                 if (!res.ok) {
-                    console.warn('Could not fetch toyBoxSettings, status:', res.status);
-                    return;
+                    throw new Error(`Status ${res.status}`);
                 }
+
                 const data = await res.json();
-
-                // Expecting an array of documents; take the first
                 const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
-                if (!doc) return;
+                if (!doc) throw new Error("No settings document found");
 
-                const totalKidsForCampaign = parseInt(doc.numberOfBoys, 10) + parseInt(doc.numberOfGirls, 10) || 0;
+                // Compute values
+                const totalKidsForCampaign =
+                    (parseInt(doc.numberOfBoys, 10)) +
+                    (parseInt(doc.numberOfGirls, 10));
                 setTotalKidsForCampaign(totalKidsForCampaign);
-
-                const totalGifts = parseInt(doc.totalGifts, 10) || 0;
-                setTotalGifts(totalGifts);
-
-                const lastDay = doc.lastDayForGifts || '';
-                setLastDayForGifts(lastDay);
-
+                setTotalGifts(parseInt(doc.totalGifts, 10));
+                setLastDayForGifts(doc.lastDayForGifts);
             } catch (err) {
-                console.error('Error fetching', err);
+                console.error("Error fetching:", err);
+                setError(err);
+            } finally {
+                // ALWAYS ends loading state
+                setLoading(false);
             }
         }
-
         fetchTotalKids();
-    }, []);
+    }, [API_BASE_URL]);
 
+    // CONDITIONAL RENDERING
+    if (loading) {
+        return (
+            <section className="about-us-section image-overlay">
+                <hr className="divider" />
+                <article className="about-us-content">
+                    <p className="loading-message"><strong>Please wait while we get the most current info…</strong></p>
+                </article>
+                <hr className="divider" />
+            </section>
+        );
+    }
+    if (error) {
+        return (
+            <section className="about-us-section image-overlay">
+                <hr className="divider" />
+                <article className="about-us-content">
+                    <p style={{ color: "red" }}>
+                        Unable to load information. Please try again shortly.
+                    </p>
+                </article>
+                <hr className="divider" />
+            </section>
+        );
+    }
     return (
         <section aria-labelledby="about-us" className="about-us-section image-overlay">
             <hr className="divider" />
@@ -55,7 +81,7 @@ export default function AboutUs() {
                     <br />
                     <section className="admin-notice">
                         <p>Currently we have <strong className='bold-text'>{totalGifts}</strong> presents to deliver!</p>
-                        <p>we need to collect gifts for <strong className='bold-text'>{totalKidsForCampaign}</strong> remaining kids.</p>
+                        <p>We need to collect gifts for <strong className='bold-text'>{totalKidsForCampaign}</strong> remaining kids.</p>
                         {lastDayForGifts && !['N/A', 'n/a'].includes(lastDayForGifts.trim()) && (
                             <p>Last day for gifts: <strong className='bold-text'>{lastDayForGifts}</strong></p>
                         )}

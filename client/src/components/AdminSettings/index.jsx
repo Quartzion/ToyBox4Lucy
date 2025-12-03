@@ -5,13 +5,13 @@ import { updateToyBoxSettings, getFollowUpRecords, adminLogin } from '../../util
 
 const adminSettingsFields = [
     { label: "Admin Password", name: "adminPassword", type: "password", required: true, placeholder: "Enter admin password"},
-    { label: "Occasion", name: "occasion", type:"text"},
-    { label: "Number of Boys", name: "numberOfBoys", type: "text"},
-    { label: "Number of Girls", name: "numberOfGirls", type: "text"},
-    { label: "Total Gifts", name: "totalGifts", type:"text"},
-    { label: "Campaign", name: "campaignRun", type:"text"},
+    { label: "Occasion", name: "occasion", type:"text", placeholder:"Occasion"},
+    { label: "Number of Boys", name: "numberOfBoys", type: "text", placeholder:"number of boys"},
+    { label: "Number of Girls", name: "numberOfGirls", type: "text", placeholder: "number of girls"},
+    { label: "Total Gifts", name: "totalGifts", type:"text", placeholder:"total gifts"},
+    { label: "Campaign", name: "campaignRun", type:"text", placeholder: "campaign"},
     { label: "Last Day for Gifts", name:"lastDayForGifts", placeholder: "MM-DD-YYYY", type:"text"},
-    { label: "Address For Gifts", name:"sendGiftsAddress", type:"text"}
+    { label: "Address For Gifts", name:"sendGiftsAddress", type:"text", placeholder:"Address to send gifts"}
 ];
 
 export default function AdminSettings({formClass = "admin-settings", onSuccess}) {
