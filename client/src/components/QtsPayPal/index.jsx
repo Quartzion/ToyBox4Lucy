@@ -8,7 +8,7 @@ import QtsLogo from "../../assets/QTS_L2_B_C.png"
 
 const businessName = import.meta.env.VITE_BIZ_NAME;
 
-export default function QtsPayPal() {
+export default function QtsPayPal({ onDonation }) {
   const [showOverlay, setShowOverlay] = useState(false);
   const [amount, setAmount] = useState("25.00");
 
@@ -109,6 +109,15 @@ export default function QtsPayPal() {
               }}
               onApprove={(data, actions) => {
                 return actions.order.capture().then(async (details) => {
+
+                  // reduce toy count if amount >= 25
+                  if (donationAmount >= 25) {
+                    const toyCount = Math.floor(donationAmount / 25);
+                    if(onDonation) {
+                      onDonation(toyCount)
+                    }
+                  }
+
                   // success toast
                   alert(`Thank you for your donation ${details.payer.name.given_name}!
 A receipt of this donation has been downloaded to your downloads folder. Keep this receipt for your records as it can be used for IRS tax deductions. Quartzion Technology Solutions Corp. is a 501(c)(3) nonprofit organization. Donations are tax-deductible to the fullest extent allowed by law.`);

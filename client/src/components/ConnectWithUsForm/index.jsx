@@ -13,6 +13,19 @@ const PayPalFallback = () => (
     </div>
 );
 
+const handleDonation = async (toyCount) => {
+  try {
+    await fetch(`${API_BASE_URL}/api/decrementToyBoxGiftCountByDonation`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ count: toyCount })
+    });
+  } catch (err) {
+    console.error("Error applying toy count decrement from donation:", err);
+  }
+};
+
+
 const API_BASE_URL = getApiBaseUrl();
 
 const connectWithUsFormFields = [
@@ -137,7 +150,7 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
       )}
       <br/>
       <Suspense fallback={<PayPalFallback />}>
-        <QtsPayPal />
+        <QtsPayPal onDonation={handleDonation}/>
       </Suspense>
     </article>
     </>
