@@ -2,6 +2,13 @@ import { getApiBaseUrl } from '../utils/env';
 
 const API_BASE_URL = getApiBaseUrl();
 
+export const getToyBoxSettings = async () => {
+  const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
+  if (!res.ok) throw new Error("Failed to fetch toy box settings");
+  const data = await res.json();
+  return data[0]; // Assuming only one settings doc
+};
+
 /**
  * -----------------------------
  * FOLLOW-UP REQUESTS (CWU)
@@ -65,13 +72,13 @@ export const deleteAllFollowUpRecords = async (adminPassword) => {
  */
 
 // Decrement a gift count (no admin password required)
-export const decrementToyBoxGiftCount = async (giftType) => {
+export const decrementToyBoxGiftCount = async (giftType, count = 1) => {
   return await fetch(`${API_BASE_URL}/api/toyBoxSettings/decrement`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ giftType }),
+    body: JSON.stringify({ giftType, count }),
   });
 };
 

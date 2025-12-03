@@ -110,6 +110,8 @@ export default function QtsPayPal({ onDonation }) {
               onApprove={(data, actions) => {
                 return actions.order.capture().then(async (details) => {
 
+                  const donationAmount = Number(amount);
+
                   // reduce toy count if amount >= 25
                   if (donationAmount >= 25) {
                     const toyCount = Math.floor(donationAmount / 25);

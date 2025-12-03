@@ -15,15 +15,30 @@ const PayPalFallback = () => (
 
 const handleDonation = async (toyCount) => {
   try {
-    await fetch(`${API_BASE_URL}/api/decrementToyBoxGiftCountByDonation`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ count: toyCount })
-    });
+    for (let i = 0; i < toyCount; i++) {
+      // 1. Fetch current toy box counts
+      const settings = await getToyBoxSettings();
+      const boysRemaining = settings.boysRemaining || 0;
+      const girlsRemaining = settings.girlsRemaining || 0;
+
+      // 2. Decide which category to decrement
+      let giftType;
+      if (boysRemaining > girlsRemaining) {
+        giftType = "boysRemaining";
+      } else if (girlsRemaining > boysRemaining) {
+        giftType = "girlsRemaining";
+      } else {
+        giftType = "boysRemaining"; // fallback if equal
+      }
+
+      // 3. Decrement the chosen category
+      await decrementToyBoxGiftCount(giftType);
+    }
   } catch (err) {
     console.error("Error applying toy count decrement from donation:", err);
   }
 };
+
 
 
 const API_BASE_URL = getApiBaseUrl();
