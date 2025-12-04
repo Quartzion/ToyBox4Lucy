@@ -16,7 +16,7 @@ import { getApiBaseUrl } from '../../utils/env';
 const API_BASE_URL = getApiBaseUrl();
 
 export default function Services() {
-
+    const [sendGiftsAddress, setSendGiftAddress] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const slug = searchParams.get('slug');
     const cardRefs = useRef([]);
@@ -27,7 +27,7 @@ export default function Services() {
     const [visibleCount, setVisibleCount] = useState(10);
     const [startIdx, setStartIdx] = useState(0);
 
-    // NEW — loading + error states
+    // loading + error states
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -85,6 +85,8 @@ export default function Services() {
 
                 const boys = parseInt(doc.numberOfBoys, 10) || 0;
                 const girls = parseInt(doc.numberOfGirls, 10) || 0;
+                const sendGiftsAddress = (doc.sendGiftsAddress)
+                setSendGiftAddress(sendGiftsAddress)
 
                 const visible = boys + girls;
                 setVisibleCount(visible);
@@ -118,7 +120,7 @@ export default function Services() {
             <p>3. After confirming your gift selection, purchase your gift and send it to the address</p>
             <div className="help-details-note">
                 <p>Peter Smith - Quartzion Technology Services</p>
-                <p>690 Main St #253 Safety Harbor, FL 34695</p>
+                <p>{sendGiftsAddress}</p>
             </div>
         </>
     );

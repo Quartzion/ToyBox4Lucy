@@ -23,7 +23,7 @@ export default function AboutUs() {
 
                 const data = await res.json();
                 const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
-                if (!doc) throw new Error("No settings document found");
+                if (!doc) throw new Error(`No settings found ${API_BASE_URL}/api/toyBoxSettings`);
 
                 // Compute values
                 const totalKidsForCampaign =
