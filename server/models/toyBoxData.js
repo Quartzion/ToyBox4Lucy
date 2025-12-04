@@ -7,15 +7,15 @@ const toyBoxDataSchema = new Schema(
             required: true
         },
         totalGifts: {
-            type: String,
+            type: Number,
             required: true
         },
         numberOfBoys: {
-            type: String,
+            type: Number,
             required: true
         },
         numberOfGirls: {
-            type: String,
+            type: Number,
             required: true
         },
         lastDayForGifts: {

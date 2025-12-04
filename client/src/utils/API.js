@@ -73,14 +73,19 @@ export const deleteAllFollowUpRecords = async (adminPassword) => {
 
 // Decrement a gift count (no admin password required)
 export const decrementToyBoxGiftCount = async (giftType, count = 1) => {
-  return await fetch(`${API_BASE_URL}/api/toyBoxSettings/decrement`, {
+  const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings/decrement`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ giftType, count }),
   });
+
+  const data = await res.json();
+  console.log('Decrement response:', data);
+
+  // Return both the HTTP status and the parsed JSON
+  return { ok: res.ok, status: res.status, data };
 };
+
 
 // Update toy box settings (admin only)
 export const updateToyBoxSettings = async (settingsData) => {

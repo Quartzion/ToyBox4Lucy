@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { createFollowUpRequest } from "../../utils/API"; 
+import { createFollowUpRequest } from "../../utils/API";
 import Overlay from "../Overlay";
 import { jsPDF } from "jspdf";
 import QtsLogo from "../../assets/QTS_L2_B_C.png"
@@ -108,39 +108,40 @@ export default function QtsPayPal({ onDonation }) {
                 });
               }}
               onApprove={(data, actions) => {
+                console.log("onApprove fired", data, amount);
                 return actions.order.capture().then(async (details) => {
-
-                  const donationAmount = Number(amount);
-
-                  // reduce toy count if amount >= 25
-                  if (donationAmount >= 25) {
-                    const toyCount = Math.floor(donationAmount / 25);
-                    if(onDonation) {
-                      onDonation(toyCount)
+                  const donationAmount = Number(amount) || 0;
+                  const toyCount = Math.floor(donationAmount / 25);
+                console.log("Donation amount:", donationAmount, "Toy count:", toyCount);
+                  try {
+                    if (toyCount > 0 && onDonation) {
+                      await onDonation(toyCount);
                     }
-                  }
 
-                  // success toast
-                  alert(`Thank you for your donation ${details.payer.name.given_name}!
-A receipt of this donation has been downloaded to your downloads folder. Keep this receipt for your records as it can be used for IRS tax deductions. Quartzion Technology Solutions Corp. is a 501(c)(3) nonprofit organization. Donations are tax-deductible to the fullest extent allowed by law.`);
-                  // generate PDF receipt
-                  generateReceipt(details, amount);
-                  // log donation to db
-                    try {
-                      await createFollowUpRequest({
+                    // Generate receipt
+                    generateReceipt(details, donationAmount);
+
+                    // Log donation
+                    await createFollowUpRequest({
                       name: `${details.payer.name.given_name} ${details.payer.name.surname}`,
                       email: details.payer.email_address,
-                      notes: `PayPal donation of $${amount}. Transaction ID: ${details.id}`,
+                      notes: `PayPal donation of $${donationAmount}. Transaction ID: ${details.id}`,
                       campaignRun: "ToyBox4Lucy Donation"
-                      });
-                      console.log("Donation logged to follow-up collection");
-                      } catch (err) {
-                      console.error("Failed to log donation:", err);
-                      }
-                  // close overlay 
-                  setShowOverlay(false);
+                    });
+                    console.log("Donation logged to follow-up collection");
+
+                    alert(`Thank you for your donation ${details.payer.name.given_name}!`);
+                  } catch (err) {
+                    console.error("Donation post-processing error:", err);
+                    alert("Donation processed, but there was an error updating counts or logging.");
+                  } finally {
+                    // Always close overlay
+                    setShowOverlay(false);
+                  }
                 });
               }}
+
+
             />
 
             <br />
