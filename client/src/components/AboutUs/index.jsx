@@ -43,6 +43,20 @@ export default function AboutUs() {
         fetchTotalKids();
     }, [API_BASE_URL]);
 
+    // Toy decrement callback for PayPal
+      const handleDonation = async (toyCount) => {
+        if (!toyCount || toyCount <= 0) return;
+    
+        try {
+          for (let i = 0; i < toyCount; i++) {
+            const { ok, status, data } = await decrementOneToy();
+            if (!ok) console.warn("Failed to decrement a toy:", status, data);
+          }
+        } catch (err) {
+          console.error("Error decrementing toys via PayPal:", err);
+        }
+      };
+
     // CONDITIONAL RENDERING
     if (loading) {
         return (
@@ -88,7 +102,7 @@ export default function AboutUs() {
                     </section>
                     <br />
                 </div>
-                <QtsPayPal />
+                <QtsPayPal onDonation={handleDonation}/>
             </article>
             <hr className="divider" />
         </section>

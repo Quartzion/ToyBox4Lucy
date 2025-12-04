@@ -51,7 +51,7 @@ export default function Header() {
     }
     if (error) {
         return (
-                        <section className="about-us-section image-overlay">
+                <section className="about-us-section image-overlay">
                 <hr className="divider" />
                 <article className="about-us-content">
                     <p style={{ color: "red" }}>

@@ -1,23 +1,24 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { createFollowUpRequest } from "../../utils/API";
+import { createFollowUpRequest, decrementOneToy } from "../../utils/API";
 import Overlay from "../Overlay";
 import { jsPDF } from "jspdf";
-import QtsLogo from "../../assets/QTS_L2_B_C.png"
+import QtsLogo from "../../assets/QTS_L2_B_C.png";
 
 const businessName = import.meta.env.VITE_BIZ_NAME;
 
-export default function QtsPayPal({ onDonation }) {
+export default function QtsPayPal() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [amount, setAmount] = useState("25.00");
+  const [loading, setLoading] = useState(false);
 
   // PDF receipt generator
   const generateReceipt = (details, amount) => {
     const doc = new jsPDF();
 
-    //logo
-    doc.addImage(QtsLogo, "png", 80, 5, 50, 20)
+    // Logo
+    doc.addImage(QtsLogo, "png", 80, 5, 50, 20);
 
     // Header
     doc.setFontSize(18);
@@ -56,19 +57,57 @@ export default function QtsPayPal({ onDonation }) {
     doc.setFontSize(10);
     doc.text("Thank you for supporting our mission!", 105, 280, { align: "center" });
 
-    // Trigger download
     doc.save(`QTS-Donation-Receipt-${details.id}.pdf`);
+  };
+
+  // Handle donation logic
+  const handleDonation = async (details) => {
+    const donationAmount = Number(amount) || 0;
+    const toyCount = Math.floor(donationAmount / 25);
+
+    try {
+      setLoading(true);
+
+      // 1) Decrement toy counts
+      if (toyCount > 0) {
+        const { ok, data } = await decrementOneToy("toy", toyCount);
+        if (!ok) console.warn("Toy decrement failed:", data);
+      }
+
+      // 2) Log donation to follow-up collection
+      await createFollowUpRequest({
+        name: `${details.payer.name.given_name} ${details.payer.name.surname}`,
+        email: details.payer.email_address,
+        notes: `PayPal donation of $${donationAmount}. Transaction ID: ${details.id}`,
+        campaignRun: "ToyBox4Lucy Donation",
+      });
+
+      // 3) Generate PDF receipt
+      generateReceipt(details, donationAmount);
+
+    } catch (err) {
+      console.error("Error processing donation:", err);
+      alert("Donation processed, but there was an error updating counts or logging.");
+    } finally {
+      setLoading(false);
+      setShowOverlay(false);
+    }
   };
 
   return (
     <>
-      <section className='additional-form-details'>
-        <p>If you would like our team to purchase a gift on your behalf, you can use the donate options below to make a financial contribution for your gift!</p>
+      <section className="additional-form-details">
+        <p>
+          If you would like our team to purchase a gift on your behalf, you can use the donate options below
+          to make a financial contribution for your gift!
+        </p>
       </section>
+
       <Button
         className="donate-to-qts-btn"
         variant="primary"
         onClick={() => setShowOverlay(true)}
+        disabled={loading}
       >
         💙 Donate to {businessName} 💙
       </Button>
@@ -85,74 +124,40 @@ export default function QtsPayPal({ onDonation }) {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 style={{ maxWidth: "200px" }}
+                disabled={loading}
               />
             </Form.Group>
 
             <PayPalButtons
-              // key forces re-render when the amount changes
-              key={amount}
+              key={amount} // re-render when amount changes
               style={{ layout: "vertical", color: "gold", shape: "rect", label: "donate" }}
-              createOrder={(data, actions) => {
-                return actions.order.create({
+              createOrder={(data, actions) =>
+                actions.order.create({
                   purchase_units: [
-                    {
-                      amount: {
-                        value: amount || "25.00",
-                      },
-                    },
+                    { amount: { value: amount || "25.00" } },
                   ],
-                  // suppresses shipping fields
-                  application_context: {
-                    shipping_preference: "NO_SHIPPING",
-                  },
-                });
-              }}
-              onApprove={(data, actions) => {
-                console.log("onApprove fired", data, amount);
-                return actions.order.capture().then(async (details) => {
-                  const donationAmount = Number(amount) || 0;
-                  const toyCount = Math.floor(donationAmount / 25);
-                console.log("Donation amount:", donationAmount, "Toy count:", toyCount);
-                  try {
-                    if (toyCount > 0 && onDonation) {
-                      await onDonation(toyCount);
-                    }
-
-                    // Generate receipt
-                    generateReceipt(details, donationAmount);
-
-                    // Log donation
-                    await createFollowUpRequest({
-                      name: `${details.payer.name.given_name} ${details.payer.name.surname}`,
-                      email: details.payer.email_address,
-                      notes: `PayPal donation of $${donationAmount}. Transaction ID: ${details.id}`,
-                      campaignRun: "ToyBox4Lucy Donation"
-                    });
-                    console.log("Donation logged to follow-up collection");
-
-                    alert(`Thank you for your donation ${details.payer.name.given_name}!`);
-                  } catch (err) {
-                    console.error("Donation post-processing error:", err);
-                    alert("Donation processed, but there was an error updating counts or logging.");
-                  } finally {
-                    // Always close overlay
-                    setShowOverlay(false);
-                  }
-                });
-              }}
-
-
+                  application_context: { shipping_preference: "NO_SHIPPING" },
+                })
+              }
+              onApprove={(data, actions) =>
+                actions.order.capture().then(async (details) => {
+                  await handleDonation(details);
+                })
+              }
             />
 
             <br />
             <p style={{ fontSize: "0.9rem", marginTop: "1rem" }}>
-              Quartzion Technology Solutions Corp. is a 501(c)(3) nonprofit organization. Donations are tax-deductible to the fullest extent allowed by law.
+              Quartzion Technology Solutions Corp. is a 501(c)(3) nonprofit organization.
+              Donations are tax-deductible to the fullest extent allowed by law.
             </p>
+
             <Button
               className="close-donate-window-btn"
               variant="secondary"
               onClick={() => setShowOverlay(false)}
               aria-label="Close PayPal overlay"
+              disabled={loading}
             >
               Close Donation Window
             </Button>

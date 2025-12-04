@@ -162,6 +162,7 @@ async decrementOneAvailableGift(req, res) {
     );
 
     console.log(`Decremented ${giftType}: ${toyBoxData[fieldToUpdate]} -> ${newValue}`);
+    console.log('Received request to decrementOne - remote:', req.ip);
 
     return res.status(200).json({ message: `Decremented 1 ${giftType}`, data: updatedData });
   } catch (err) {

@@ -86,6 +86,15 @@ export const decrementToyBoxGiftCount = async (giftType, count = 1) => {
   return { ok: res.ok, status: res.status, data };
 };
 
+// Add to client/src/utils/API.js
+export const decrementOneToy = async () => {
+  const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings/decrementOne`, {
+    method: 'POST',
+  });
+  const data = await res.json().catch(() => null);
+  return { ok: res.ok, status: res.status, data };
+};
+
 
 // Update toy box settings (admin only)
 export const updateToyBoxSettings = async (settingsData) => {

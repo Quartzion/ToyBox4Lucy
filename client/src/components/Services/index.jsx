@@ -101,7 +101,7 @@ export default function Services() {
         }
 
         fetchSettings();
-        pollInterval = setInterval(fetchSettings, 10000);
+        pollInterval = setInterval(fetchSettings, 50000);
 
         return () => {
             cancelled = true;
