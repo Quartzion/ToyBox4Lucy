@@ -92,7 +92,7 @@ module.exports = {
     // decrement gift count by giftType (Boy Gift or Girl Gift)
     async decrementGiftCount(req, res) {
         try {
-            const { giftType, count = 1 } = req.body;
+            const { giftType } = req.body;
 
             if (!giftType) {
                 return res.status(400).json({ message: "giftType is required (e.g., 'Boy Gift' or 'Girl Gift')" });
@@ -111,7 +111,7 @@ module.exports = {
             if (!toyBoxData) return res.status(404).json({ message: "Toy box data not found" });
 
             const currentValue = parseInt(toyBoxData[fieldToUpdate], 10) || 0;
-            const newValue = Math.max(currentValue - count, 0); // decrement by `count`
+            const newValue = Math.max(currentValue - 1, 0);
 
             const updatedData = await ToyBoxData.findOneAndUpdate(
                 {},
