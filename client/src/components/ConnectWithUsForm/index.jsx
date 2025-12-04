@@ -3,15 +3,37 @@ import { Alert, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm';
 import { createFollowUpRequest, decrementToyBoxGiftCount } from '../../utils/API';
 import { getApiBaseUrl } from '../../utils/env';
-const QtsPayPal = React.lazy(()=> import("../QtsPayPal"));
+const QtsPayPal = React.lazy(() => import("../QtsPayPal"));
 
 const PayPalFallback = () => (
-    <div style={{ textAlign: 'center', padding: '2rem' }}>
-        <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading payment options...</span>
-        </Spinner>
-    </div>
+  <div style={{ textAlign: 'center', padding: '2rem' }}>
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading payment options...</span>
+    </Spinner>
+  </div>
 );
+
+const handleDonation = async (toyCount) => {
+  if (!toyCount || toyCount <= 0) return;
+
+  try {
+    for (let i = 0; i < toyCount; i++) {
+      const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings/decrementOne`, {
+        method: 'POST',
+      });
+      const data = await res.json();
+      console.log("Decrement response:", data);
+    }
+  } catch (err) {
+    console.error("Error decrementing toy count:", err);
+  }
+};
+
+
+
+
+
+
 
 const API_BASE_URL = getApiBaseUrl();
 
@@ -35,7 +57,7 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
 
   const [showAlert, setShowAlert] = useState(false);
   const [campaignRun, setCampaignRun] = useState(null);
-  const [sendGiftsAddress, setSendGiftsAddress ] = useState(null);
+  const [sendGiftsAddress, setSendGiftsAddress] = useState(null);
 
   // When ConnectWithUsForm is mounted (visible), add a body class so other components can pause behavior (e.g., carousel)
   useEffect(() => {
@@ -88,17 +110,16 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
         try {
           const decrementRes = await decrementToyBoxGiftCount(giftType);
           if (!decrementRes.ok) {
-            console.warn('Warning: followUp created but failed to decrement gift count', decrementRes.status);
+            console.warn('Warning: followUp created but failed to decrement gift count', decrementRes.status, decrementRes.data);
           }
         } catch (err) {
           console.error('Error decrementing gift count:', err);
-          // Don't throw - the followUp was already created successfully
         }
       }
 
-      onSuccess?.();   
-      setShowAlert(false);  
-      setCwuFormData({         
+      onSuccess?.();
+      setShowAlert(false);
+      setCwuFormData({
         name: '',
         email: '',
         phone: '',
@@ -113,33 +134,39 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
 
   return (
     <>
-    <section className="cwu-disclaimer">
-      <p> Please send gifts to:</p>
-      <p> Peter Smith - Quartzion Technology Solutions </p>
-      <p> </p>
-      <p>{sendGiftsAddress}</p>
-    </section>
-    <br />
-    <article>
-      <GeneralForm
-        fields={connectWithUsFormFields}
-        submitLabel='Click here to confirm'
-        formClass={formClass}
-        formDetails={connectWithUsFormDetails}
-        onSubmit={handleFormSubmit}
-      />
-      <br/>
-      {/*Error Alert */}
-      {showAlert && (
-        <Alert variant="danger">
-          Sorry, something went wrong. Please try again later.
-        </Alert>
-      )}
-      <br/>
-      <Suspense fallback={<PayPalFallback />}>
-        <QtsPayPal />
-      </Suspense>
-    </article>
+      <section className="cwu-disclaimer">
+        <p> Please send gifts to:</p>
+        <p> Peter Smith - Quartzion Technology Solutions </p>
+        <p> </p>
+        <p>{sendGiftsAddress}</p>
+      </section>
+      <br />
+      <article>
+        <GeneralForm
+          fields={connectWithUsFormFields}
+          submitLabel='Click here to confirm'
+          formClass={formClass}
+          formDetails={connectWithUsFormDetails}
+          onSubmit={handleFormSubmit}
+        />
+        <br />
+        {/*Error Alert */}
+        {showAlert && (
+          <Alert variant="danger">
+            Sorry, something went wrong. Please try again later.
+          </Alert>
+        )}
+        <br />
+        <Suspense fallback={<PayPalFallback />}>
+          <QtsPayPal
+            onDonation={async (toyCount) => {
+              console.log("Donation callback fired. Toys to decrement:", toyCount);
+              await handleDonation(toyCount);
+            }}
+          />
+        </Suspense>
+
+      </article>
     </>
   );
 }

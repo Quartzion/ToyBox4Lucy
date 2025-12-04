@@ -4,7 +4,8 @@ const router = require('express').Router();
 const {
     updateToyBoxDataWithPassword,
     getCampaignData,
-    decrementGiftCount
+    decrementGiftCount,
+    decrementOneAvailableGift
 } = require('../../controllers/toyBoxDataController');
 
 router.route('/toyBoxSettings')
@@ -13,5 +14,9 @@ router.route('/toyBoxSettings')
 
 router.route('/toyBoxSettings/decrement')
     .post(decrementGiftCount);
+
+router.route('/toyBoxSettings/decrementOne')
+    .post(decrementOneAvailableGift);
+
 
 module.exports = router;
