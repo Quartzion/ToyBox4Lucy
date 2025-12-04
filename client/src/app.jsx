@@ -4,6 +4,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { isProd, getApiBaseUrl, getPayPalClientId } from '../../client/src/utils/env';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import { ToyBoxProvider } from './context/ToyBoxContext';
 import './appStyle.css'
 
 
@@ -39,11 +40,13 @@ export default function App() {
 
     return (
         <PayPalScriptProvider options={{ "client-id": `${VITE_PAYPAL_APP_CLIENT}`}}>
+            <ToyBoxProvider>
             <div className='appStyle-main-content'>
                 <Header />
                 <Outlet />
                 <Footer />
             </div>
+            </ToyBoxProvider>
         </PayPalScriptProvider>
     );
 };

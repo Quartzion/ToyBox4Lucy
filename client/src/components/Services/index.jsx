@@ -12,10 +12,12 @@ import {
     renderCard
 } from '../../utils/cardUtils';
 import { getApiBaseUrl } from '../../utils/env';
+import { useToyBox } from '../../context/ToyBoxContext';
 
 const API_BASE_URL = getApiBaseUrl();
 
 export default function Services() {
+    const { refreshKey, triggerRefresh } = useToyBox();
     const [sendGiftsAddress, setSendGiftAddress] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const slug = searchParams.get('slug');
@@ -107,7 +109,7 @@ export default function Services() {
             cancelled = true;
             if (pollInterval) clearInterval(pollInterval);
         };
-    }, [expandedIdx]);
+    }, [expandedIdx, refreshKey]);
 
     const handleToggleFn = (actualIdx) =>
         handleToggle(qtsServices, navigate, expandedIdx, actualIdx, "services");

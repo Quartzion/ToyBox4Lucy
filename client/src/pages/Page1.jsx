@@ -13,7 +13,7 @@ export default function Page1() {
                 <title>Lucy's Toy Box</title>
                 <link rel="canonical" href="" />
             </Helmet>
-            < HelmetJsonLd />
+            <HelmetJsonLd />
             <a href="#main-content" className="skip-link visually-hidden">Skip to main content</a>
             <main id="main-content" className="py-2">
                 <AboutUs />

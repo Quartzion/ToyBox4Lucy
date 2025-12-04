@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext  } from 'react';
 import { getApiBaseUrl } from '../../utils/env';
+import { useToyBox } from '../../context/ToyBoxContext';
 const QtsPayPal = React.lazy(() => import("../QtsPayPal"));
 
 export default function AboutUs() {
+    const { refreshKey, triggerRefresh } = useToyBox();
     const [totalKidsForCampaign, setTotalKidsForCampaign] = useState(0);
     const [totalGifts, setTotalGifts] = useState(0);
     const [lastDayForGifts, setLastDayForGifts] = useState('');
@@ -41,7 +43,7 @@ export default function AboutUs() {
             }
         }
         fetchTotalKids();
-    }, [API_BASE_URL]);
+    }, [API_BASE_URL, refreshKey]);
 
     // Toy decrement callback for PayPal
       const handleDonation = async (toyCount) => {

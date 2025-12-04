@@ -5,10 +5,13 @@ import { createFollowUpRequest, decrementOneToy } from "../../utils/API";
 import Overlay from "../Overlay";
 import { jsPDF } from "jspdf";
 import QtsLogo from "../../assets/QTS_L2_B_C.png";
+import { useToyBox } from '../../context/ToyBoxContext';
 
 const businessName = import.meta.env.VITE_BIZ_NAME;
 
+
 export default function QtsPayPal() {
+  const { triggerRefresh } = useToyBox();
   const [showOverlay, setShowOverlay] = useState(false);
   const [amount, setAmount] = useState("25.00");
   const [loading, setLoading] = useState(false);
@@ -71,6 +74,7 @@ export default function QtsPayPal() {
       // 1) Decrement toy counts
       if (toyCount > 0) {
         const { ok, data } = await decrementOneToy("toy", toyCount);
+        triggerRefresh();
         if (!ok) console.warn("Toy decrement failed:", data);
       }
 

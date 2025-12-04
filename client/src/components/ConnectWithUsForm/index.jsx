@@ -1,8 +1,9 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, useContext  } from 'react';
 import { Alert, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm';
 import { createFollowUpRequest, decrementToyBoxGiftCount, decrementOneToy } from '../../utils/API';
 import { getApiBaseUrl } from '../../utils/env';
+import { useToyBox } from '../../context/ToyBoxContext';
 
 const QtsPayPal = React.lazy(() => import("../QtsPayPal"));
 const API_BASE_URL = getApiBaseUrl();
@@ -26,6 +27,7 @@ const connectWithUsFormDetails =
   "By clicking confirm you are agreeing to send a gift to the address listed above. Thank you!";
 
 export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fields", onSuccess, onError, giftType }) {
+  const { triggerRefresh } = useToyBox();
   const [cwuFormdata, setCwuFormData] = useState({ name: '', email: '', phone: '', notes: '' });
   const [showAlert, setShowAlert] = useState(false);
   const [campaignRun, setCampaignRun] = useState(null);
@@ -83,6 +85,7 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
       // Decrement giftType count
       if (giftType) {
         const dec = await decrementToyBoxGiftCount(giftType);
+        triggerRefresh();
         if (!dec.ok) console.warn("Gift type decrement failed:", dec.status, dec.data);
       }
 
