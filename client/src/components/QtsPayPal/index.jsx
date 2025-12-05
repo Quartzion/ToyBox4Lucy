@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { createFollowUpRequest, decrementOneToy } from "../../utils/API";
+import { createFollowUpRequest, decrementToyBoxGiftCount  } from "../../utils/API";
 import Overlay from "../Overlay";
 import { jsPDF } from "jspdf";
 import QtsLogo from "../../assets/QTS_L2_B_C.png";
@@ -73,7 +73,10 @@ export default function QtsPayPal() {
 
       // 1) Decrement toy counts
       if (toyCount > 0) {
-        const { ok, data } = await decrementOneToy("toy", toyCount);
+        const { ok, data } = await decrementToyBoxGiftCount({
+          count: toyCount,
+          mode: "auto",
+          strategy: "balanced"});
         triggerRefresh();
         if (!ok) console.warn("Toy decrement failed:", data);
       }

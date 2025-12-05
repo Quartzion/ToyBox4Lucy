@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, useContext  } from 'react';
+import React, { useState, useEffect, Suspense, useContext } from 'react';
 import { Alert, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm';
 import { createFollowUpRequest, decrementToyBoxGiftCount, decrementOneToy } from '../../utils/API';
@@ -60,13 +60,21 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
   }, []);
 
   // Toy decrement callback for PayPal
-  const handleDonation = async (toyCount) => {
-    if (!toyCount || toyCount <= 0) return;
+  const handleDonation = async (details) => {
+    const donationAmount = Number(amount) || 0;
+    const toyCount = Math.floor(donationAmount / 25);
 
     try {
-      for (let i = 0; i < toyCount; i++) {
-        const { ok, status, data } = await decrementOneToy();
-        if (!ok) console.warn("Failed to decrement a toy:", status, data);
+
+      // 1) Decrement toy counts
+      if (toyCount > 0) {
+        const { ok, data } = await decrementToyBoxGiftCount({
+          count: toyCount,
+          mode: "auto",
+          strategy: "balanced"
+        });
+        triggerRefresh();
+        if (!ok) console.warn("Toy decrement failed:", data);
       }
     } catch (err) {
       console.error("Error decrementing toys via PayPal:", err);
@@ -82,11 +90,33 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
 
       if (!response.ok) throw new Error(result?.message || "Something went wrong submitting your request.");
 
-      // Decrement giftType count
+      // Decrement giftType count (use the /decrement endpoint in 'specific' mode)
       if (giftType) {
-        const dec = await decrementToyBoxGiftCount(giftType);
-        triggerRefresh();
-        if (!dec.ok) console.warn("Gift type decrement failed:", dec.status, dec.data);
+        try {
+          // normalize giftType to expected server values if needed
+          // server expects "Boy Gift" or "Girl Gift" — adjust if your card titles are different
+          let normalized = giftType;
+          if (!/boy/i.test(giftType) && !/girl/i.test(giftType)) {
+            // fallback: try to parse title text (if item.title contains 'Boy' or 'Girl' somewhere)
+            if (/boy/i.test(giftType)) normalized = "Boy Gift";
+            else if (/girl/i.test(giftType)) normalized = "Girl Gift";
+          } else {
+            // ensure exact casing/format server expects
+            if (/boy/i.test(giftType)) normalized = "Boy Gift";
+            if (/girl/i.test(giftType)) normalized = "Girl Gift";
+          }
+
+          const payload = { count: 1, mode: "specific", giftType: normalized };
+          const dec = await decrementToyBoxGiftCount(payload);
+
+          if (!dec.ok) {
+            console.warn("Gift type decrement failed:", dec.status, dec.data);
+          } else {
+            triggerRefresh();
+          }
+        } catch (err) {
+          console.error("Error decrementing specific gift type:", err);
+        }
       }
 
       setCwuFormData({ name: "", email: "", phone: "", notes: "" });

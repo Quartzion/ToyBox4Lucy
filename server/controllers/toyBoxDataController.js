@@ -89,89 +89,148 @@ module.exports = {
         }
     },
 
-    // decrement gift count by giftType (Boy Gift or Girl Gift)
+    // decrement gift count (supports single or multiple, specific or auto)
     async decrementGiftCount(req, res) {
         try {
-            const { giftType } = req.body;
+            const { count, mode = "specific", giftType, strategy = "balanced" } = req.body;
 
-            if (!giftType) {
-                return res.status(400).json({ message: "giftType is required (e.g., 'Boy Gift' or 'Girl Gift')" });
-            }
-
-            let fieldToUpdate;
-            if (giftType === "Boy Gift") {
-                fieldToUpdate = "numberOfBoys";
-            } else if (giftType === "Girl Gift") {
-                fieldToUpdate = "numberOfGirls";
-            } else {
-                return res.status(400).json({ message: "Invalid giftType. Must be 'Boy Gift' or 'Girl Gift'" });
+            if (!count || count < 1) {
+                return res.status(400).json({ message: "Count must be >= 1" });
             }
 
             const toyBoxData = await ToyBoxData.findOne({});
-            if (!toyBoxData) return res.status(404).json({ message: "Toy box data not found" });
+            if (!toyBoxData) {
+                return res.status(404).json({ message: "Toy box data not found" });
+            }
 
-            const currentValue = parseInt(toyBoxData[fieldToUpdate], 10) || 0;
-            const newValue = Math.max(currentValue - 1, 0);
+            let numberOfBoys = parseInt(toyBoxData.numberOfBoys, 10) || 0;
+            let numberOfGirls = parseInt(toyBoxData.numberOfGirls, 10) || 0;
 
+            let decremented = { boys: 0, girls: 0 };
+
+            // -----------------------------
+            // MODE: SPECIFIC (one from form)
+            // -----------------------------
+            if (mode === "specific") {
+                if (!giftType) {
+                    return res.status(400).json({ message: "giftType is required for mode:'specific'" });
+                }
+
+                for (let i = 0; i < count; i++) {
+                    if (giftType === "Boy Gift" && numberOfBoys > 0) {
+                        numberOfBoys--;
+                        decremented.boys++;
+                    }
+                    else if (giftType === "Girl Gift" && numberOfGirls > 0) {
+                        numberOfGirls--;
+                        decremented.girls++;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+
+            // -----------------------------
+            // MODE: AUTO (PayPal donations)
+            // -----------------------------
+            else if (mode === "auto") {
+                for (let i = 0; i < count; i++) {
+                    // pick which bucket to decrement
+                    let pick;
+
+                    if (strategy === "random") {
+                        pick = Math.random() < 0.5 ? "boy" : "girl";
+                    } else {
+                        // balanced mode: pick whichever has more remaining
+                        pick = numberOfBoys >= numberOfGirls ? "boy" : "girl";
+                    }
+
+                    // decrement whichever is available
+                    if (pick === "boy" && numberOfBoys > 0) {
+                        numberOfBoys--;
+                        decremented.boys++;
+                    }
+                    else if (pick === "girl" && numberOfGirls > 0) {
+                        numberOfGirls--;
+                        decremented.girls++;
+                    }
+                    else if (numberOfBoys > 0) {
+                        numberOfBoys--;
+                        decremented.boys++;
+                    }
+                    else if (numberOfGirls > 0) {
+                        numberOfGirls--;
+                        decremented.girls++;
+                    }
+                    else {
+                        break; // out of gifts
+                    }
+                }
+            }
+
+            // -----------------------------
+            // Save update
+            // -----------------------------
             const updatedData = await ToyBoxData.findOneAndUpdate(
                 {},
-                { [fieldToUpdate]: newValue},
+                {
+                    numberOfBoys,
+                    numberOfGirls
+                },
                 { new: true }
             );
-            console.log(`Decrementing ${giftType}: ${currentValue} -> ${newValue}`);
+
             return res.status(200).json({
-                message: `Successfully decremented ${giftType} by ${count}`,
+                message: `Successfully decremented gifts.`,
+                decremented,
                 data: updatedData
             });
+
         } catch (err) {
             console.error("Error decrementing gift count:", err);
-            return res.status(501).json({
-                message: "Something went wrong...we're sorry",
+            return res.status(500).json({
+                message: "Server error",
                 error: err.message
             });
         }
     },
 
-    // Decrement one gift of whichever type is available
-    // Decrement one gift of whichever type is available (fixed)
-async decrementOneAvailableGift(req, res) {
-  try {
-    const toyBoxData = await ToyBoxData.findOne({});
-    if (!toyBoxData) return res.status(404).json({ message: "Toy box data not found" });
+    // Decrement one gift of whichever type is available 
+    async decrementOneAvailableGift(req, res) {
+        try {
+            const toyBoxData = await ToyBoxData.findOne({});
+            if (!toyBoxData) return res.status(404).json({ message: "Toy box data not found" });
 
-    // Ensure we are working with numbers
-    const numberOfBoys = parseInt(toyBoxData.numberOfBoys, 10) || 0;
-    const numberOfGirls = parseInt(toyBoxData.numberOfGirls, 10) || 0;
+            // Ensure we are working with numbers
+            const numberOfBoys = parseInt(toyBoxData.numberOfBoys, 10) || 0;
+            const numberOfGirls = parseInt(toyBoxData.numberOfGirls, 10) || 0;
 
-    let giftType;
-    if (numberOfBoys > 0) {
-      giftType = "Boy Gift";
-    } else if (numberOfGirls > 0) {
-      giftType = "Girl Gift";
-    } else {
-      return res.status(400).json({ message: "No gifts remaining" });
+            let giftType;
+            if (numberOfBoys > 0) {
+                giftType = "Boy Gift";
+            } else if (numberOfGirls > 0) {
+                giftType = "Girl Gift";
+            } else {
+                return res.status(400).json({ message: "No gifts remaining" });
+            }
+
+            const fieldToUpdate = giftType === "Boy Gift" ? "numberOfBoys" : "numberOfGirls";
+            const newValue = fieldToUpdate === "numberOfBoys" ? numberOfBoys - 1 : numberOfGirls - 1;
+
+            const updatedData = await ToyBoxData.findOneAndUpdate(
+                {},
+                { [fieldToUpdate]: newValue },
+                { new: true }
+            );
+
+            console.log(`Decremented ${giftType}: ${toyBoxData[fieldToUpdate]} -> ${newValue}`);
+            console.log('Received request to decrementOne - remote:', req.ip);
+
+            return res.status(200).json({ message: `Decremented 1 ${giftType}`, data: updatedData });
+        } catch (err) {
+            console.error("Error decrementing gift:", err);
+            return res.status(500).json({ message: "Server error", error: err.message });
+        }
     }
-
-    const fieldToUpdate = giftType === "Boy Gift" ? "numberOfBoys" : "numberOfGirls";
-    const newValue = fieldToUpdate === "numberOfBoys" ? numberOfBoys - 1 : numberOfGirls - 1;
-
-    const updatedData = await ToyBoxData.findOneAndUpdate(
-      {},
-      { [fieldToUpdate]: newValue },
-      { new: true }
-    );
-
-    console.log(`Decremented ${giftType}: ${toyBoxData[fieldToUpdate]} -> ${newValue}`);
-    console.log('Received request to decrementOne - remote:', req.ip);
-
-    return res.status(200).json({ message: `Decremented 1 ${giftType}`, data: updatedData });
-  } catch (err) {
-    console.error("Error decrementing gift:", err);
-    return res.status(500).json({ message: "Server error", error: err.message });
-  }
-}
-
-
-
-
 }
