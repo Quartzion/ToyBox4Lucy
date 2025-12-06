@@ -5,10 +5,10 @@ import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
 
 export default function Header() {
     const {
-            settings,
-            loading,
-            error,
-        } = useToyBoxSettings();
+        settings,
+        loading,
+        error,
+    } = useToyBoxSettings();
 
     // conditional rendering
     if (loading || !settings) {
@@ -24,7 +24,7 @@ export default function Header() {
     }
     if (error) {
         return (
-                <section className="about-us-section image-overlay">
+            <section className="about-us-section image-overlay">
                 <hr className="divider" />
                 <article className="about-us-content">
                     <p style={{ color: "red" }}>
@@ -35,7 +35,11 @@ export default function Header() {
             </section>
         );
     }
-    const { occasion } = settings;
+    const { occasion, numberOfBoys, numberOfGirls, totalBearsForBox } = settings;
+    const currentRemainingGifts = numberOfBoys + numberOfGirls
+    const bearsToShow = totalBearsForBox - currentRemainingGifts;
+    const maxBears = 20;
+    const bearCount = Math.min(bearsToShow, maxBears);
     return (
         <header className="tb4l-Header image-overlay">
             <Container fluid className="header-container">
@@ -48,15 +52,32 @@ export default function Header() {
                     </div>
                 </section>
                 <h1 className="visually-hidden">Lucy's Toy Box Logo</h1>
-                <picture>
-                    <source srcSet='./lt4b-logo-1.webp' type="image/webp"/>
-                    <img 
-                        src="./lt4b-logo-1.webp" 
-                        alt="Lucy's Toy Box Logo" 
-                        className="header-logo"
-                        loading='lazy'
+                <div className="toybox-container">
+
+                    {/* BACK / INSIDE OF BOX */}
+                    <img
+                        src="./lt4b-box-inside.webp"
+                        alt="Toy Box Inside"
+                        className="toybox-back"
                     />
-                </picture>
+                    {/* BEARS */}
+                    <div className="bear-grid">
+                        {Array.from({ length: bearCount }).map((_, i) => (
+                            <img
+                                key={i}
+                                src="./bBear-sm.webp"
+                                className="bear"
+                                alt="Bear"
+                            />
+                        ))}
+                    </div>
+                    {/* FRONT OF BOX (the part that hides lower half of bears) */}
+                    <img
+                        src="./lt4b-box-ani.webp"
+                        alt="Toy Box Front"
+                        className="toybox-front"
+                    />
+                </div>
             </Container>
         </header>
     );

@@ -8,6 +8,7 @@ const adminSettingsFields = [
     { label: "Occasion", name: "occasion", type:"text", placeholder:"Occasion"},
     { label: "Number of Boys", name: "numberOfBoys", type: "text", placeholder:"number of boys"},
     { label: "Number of Girls", name: "numberOfGirls", type: "text", placeholder: "number of girls"},
+    { label: "Number of Bears for Animation", name: "totalBearsForBox", type: "text", placeholder: "Bears = boys + girls" },
     { label: "Total Gifts", name: "totalGifts", type:"text", placeholder:"total gifts"},
     { label: "Campaign", name: "campaignRun", type:"text", placeholder: "campaign"},
     { label: "Last Day for Gifts", name:"lastDayForGifts", placeholder: "MM-DD-YYYY", type:"text"},

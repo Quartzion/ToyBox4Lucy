@@ -18,6 +18,10 @@ const toyBoxDataSchema = new Schema(
             type: Number,
             required: true
         },
+        totalBearsForBox: {
+            type: Number,
+            required: true
+        },
         lastDayForGifts: {
             type: String,
         },

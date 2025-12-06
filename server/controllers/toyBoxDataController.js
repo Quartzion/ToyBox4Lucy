@@ -5,7 +5,7 @@ module.exports = {
     // update toy box data with password protection
     async updateToyBoxDataWithPassword({ body }, res) {
         try {
-            const { adminPassword, numberOfBoys, numberOfGirls, campaignRun, totalGifts, lastDayForGifts, occasion, sendGiftsAddress } = body;
+            const { adminPassword, numberOfBoys, numberOfGirls, totalBearsForBox, campaignRun, totalGifts, lastDayForGifts, occasion, sendGiftsAddress } = body;
 
             // Validate password
             if (!adminPassword) {
@@ -35,6 +35,9 @@ module.exports = {
             }
             if (numberOfGirls !== undefined && numberOfGirls !== null) {
                 updateData.numberOfGirls = String(numberOfGirls);
+            }
+            if ( totalBearsForBox !== undefined && totalBearsForBox !== null) {
+                updateData.totalBearsForBox = String(totalBearsForBox);
             }
             if (campaignRun !== undefined && campaignRun !== null) {
                 updateData.campaignRun = String(campaignRun);
