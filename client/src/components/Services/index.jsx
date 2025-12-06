@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import ReactDOM from "react-dom";
-import { Button } from 'react-bootstrap';
 import Overlay from "../Overlay";
 import { generateQtsServices } from '../../utils/servicesData';
 import {
@@ -12,12 +11,12 @@ import {
     renderCard
 } from '../../utils/cardUtils';
 import { getApiBaseUrl } from '../../utils/env';
-import { useToyBox } from '../../context/ToyBoxContext';
+import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
 
 const API_BASE_URL = getApiBaseUrl();
 
 export default function Services() {
-    const { refreshKey, triggerRefresh } = useToyBox();
+    const { refresh } = useToyBoxSettings();
     const [sendGiftsAddress, setSendGiftAddress] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const slug = searchParams.get('slug');
@@ -109,7 +108,7 @@ export default function Services() {
             cancelled = true;
             if (pollInterval) clearInterval(pollInterval);
         };
-    }, [expandedIdx, refreshKey]);
+    }, [expandedIdx, refresh ]);
 
     const handleToggleFn = (actualIdx) =>
         handleToggle(qtsServices, navigate, expandedIdx, actualIdx, "services");

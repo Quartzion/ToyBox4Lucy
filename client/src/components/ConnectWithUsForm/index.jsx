@@ -3,7 +3,7 @@ import { Alert, Spinner } from 'react-bootstrap';
 import GeneralForm from '../GeneralForm';
 import { createFollowUpRequest, decrementToyBoxGiftCount, decrementOneToy } from '../../utils/API';
 import { getApiBaseUrl } from '../../utils/env';
-import { useToyBox } from '../../context/ToyBoxContext';
+import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
 
 const QtsPayPal = React.lazy(() => import("../QtsPayPal"));
 const API_BASE_URL = getApiBaseUrl();
@@ -27,7 +27,7 @@ const connectWithUsFormDetails =
   "By clicking confirm you are agreeing to send a gift to the address listed above. Thank you!";
 
 export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fields", onSuccess, onError, giftType }) {
-  const { triggerRefresh } = useToyBox();
+  const { refresh } = useToyBoxSettings();
   const [cwuFormdata, setCwuFormData] = useState({ name: '', email: '', phone: '', notes: '' });
   const [showAlert, setShowAlert] = useState(false);
   const [campaignRun, setCampaignRun] = useState(null);
@@ -59,27 +59,26 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
     })();
   }, []);
 
-  // Toy decrement callback for PayPal
-  const handleDonation = async (details) => {
-    const donationAmount = Number(amount) || 0;
-    const toyCount = Math.floor(donationAmount / 25);
+const handleDonation = async ({ amount }) => {
+  const donationAmount = Number(amount) || 0;
+  const toyCount = Math.floor(donationAmount / 25);
 
-    try {
+  if (toyCount <= 0) return;
 
-      // 1) Decrement toy counts
-      if (toyCount > 0) {
-        const { ok, data } = await decrementToyBoxGiftCount({
-          count: toyCount,
-          mode: "auto",
-          strategy: "balanced"
-        });
-        triggerRefresh();
-        if (!ok) console.warn("Toy decrement failed:", data);
-      }
-    } catch (err) {
-      console.error("Error decrementing toys via PayPal:", err);
-    }
-  };
+  try {
+    const { ok, data } = await decrementToyBoxGiftCount({
+      count: toyCount,
+      mode: "auto",
+      strategy: "balanced"
+    });
+
+    if (!ok) console.warn("Toy decrement failed:", data);
+
+    refresh();
+  } catch (err) {
+    console.error("Error decrementing toys via PayPal:", err);
+  }
+};
 
   // CWU form submission (gift shipping)
   const handleFormSubmit = async (formData) => {
@@ -91,33 +90,23 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
       if (!response.ok) throw new Error(result?.message || "Something went wrong submitting your request.");
 
       // Decrement giftType count (use the /decrement endpoint in 'specific' mode)
-      if (giftType) {
-        try {
-          // normalize giftType to expected server values if needed
-          // server expects "Boy Gift" or "Girl Gift" — adjust if your card titles are different
-          let normalized = giftType;
-          if (!/boy/i.test(giftType) && !/girl/i.test(giftType)) {
-            // fallback: try to parse title text (if item.title contains 'Boy' or 'Girl' somewhere)
-            if (/boy/i.test(giftType)) normalized = "Boy Gift";
-            else if (/girl/i.test(giftType)) normalized = "Girl Gift";
-          } else {
-            // ensure exact casing/format server expects
-            if (/boy/i.test(giftType)) normalized = "Boy Gift";
-            if (/girl/i.test(giftType)) normalized = "Girl Gift";
-          }
+if (giftType) {
+  let normalized =
+    /boy/i.test(giftType) ? "Boy Gift" :
+    /girl/i.test(giftType) ? "Girl Gift" :
+    giftType;
 
-          const payload = { count: 1, mode: "specific", giftType: normalized };
-          const dec = await decrementToyBoxGiftCount(payload);
+  const dec = await decrementToyBoxGiftCount({
+    count: 1,
+    mode: "specific",
+    giftType: normalized
+  });
 
-          if (!dec.ok) {
-            console.warn("Gift type decrement failed:", dec.status, dec.data);
-          } else {
-            triggerRefresh();
-          }
-        } catch (err) {
-          console.error("Error decrementing specific gift type:", err);
-        }
-      }
+  if (!dec.ok) console.warn("Gift type decrement failed:", dec.status, dec.data);
+
+  await refresh();
+}
+
 
       setCwuFormData({ name: "", email: "", phone: "", notes: "" });
       setShowAlert(false);

@@ -5,13 +5,13 @@ import { createFollowUpRequest, decrementToyBoxGiftCount  } from "../../utils/AP
 import Overlay from "../Overlay";
 import { jsPDF } from "jspdf";
 import QtsLogo from "../../assets/QTS_L2_B_C.png";
-import { useToyBox } from '../../context/ToyBoxContext';
+import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
 
 const businessName = import.meta.env.VITE_BIZ_NAME;
 
 
 export default function QtsPayPal() {
-  const { triggerRefresh } = useToyBox();
+  const { refresh } = useToyBoxSettings();
   const [showOverlay, setShowOverlay] = useState(false);
   const [amount, setAmount] = useState("25.00");
   const [loading, setLoading] = useState(false);
@@ -77,7 +77,7 @@ export default function QtsPayPal() {
           count: toyCount,
           mode: "auto",
           strategy: "balanced"});
-        triggerRefresh();
+          refresh();
         if (!ok) console.warn("Toy decrement failed:", data);
       }
 
