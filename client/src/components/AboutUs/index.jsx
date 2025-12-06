@@ -65,7 +65,7 @@ export default function AboutUs() {
                         )}
                     </section>
                 </div>
-
+                <br />
                 {/* --- PAYPAL DONATION --- */}
                 <QtsPayPal onDonation={handleDonation} />
             </article>
