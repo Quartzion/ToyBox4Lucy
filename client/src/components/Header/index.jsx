@@ -1,44 +1,17 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import { getApiBaseUrl } from '../../utils/env';
 import { Container } from 'react-bootstrap'
+import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
 
 export default function Header() {
-    const [occasion, setOccasion] = useState('Christmas');
-    const API_BASE_URL = getApiBaseUrl();
-    // Loading & error states
-    const [loading, setLoading] = useState(true);
-    const [error, setError ] = useState(null);
-
-    useEffect(() => {
-        let cancelled = false;
-
-        async function fetchOccasion() {
-            try {
-                const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
-                if (!res.ok) {
-                    throw new Error(`status ${res.status}`);
-                }
-                const data = await res.json();
-                const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
-                if (!doc) throw new Error("Setting not found");
-
-                // prefer `occasion` field but fall back to `campaignRun` if present
-                const occ = doc.occasion || doc.campaignRun;
-                if (occ && !cancelled) setOccasion(occ);
-            } catch (err) {
-                console.warn('Error fetching occasion from toyBoxSettings:', err);
-                setError(err);
-            } finally {
-                // end loading state
-                setLoading(false);
-            }
-        }
-        fetchOccasion();
-        return () => { cancelled = true };
-    }, []);
+    const {
+            settings,
+            loading,
+            error,
+        } = useToyBoxSettings();
 
     // conditional rendering
-    if (loading) {
+    if (loading || !settings) {
         return (
             <section className="about-us-section image-overlay">
                 <hr className="divider" />
@@ -62,6 +35,7 @@ export default function Header() {
             </section>
         );
     }
+    const { occasion } = settings;
     return (
         <header className="tb4l-Header image-overlay">
             <Container fluid className="header-container">
