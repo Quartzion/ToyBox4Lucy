@@ -146,25 +146,23 @@
 
 .top-row {
   position: absolute;
-  top: 5%;        /* adjust */
+  top: 5%; /* adjust */
   left: 50%;
   transform: translateX(-50%);
-  width: 75%;     /* controls spacing */
+  width: 75%; /* controls spacing */
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
-  z-index: 3;     /* above inside back */
+  z-index: 3; /* above inside back */
 }
 
 .bottom-row {
   position: absolute;
-  top: 20%;                 /* tweak to match art */
+  top: 20%; /* tweak to match art */
   left: 50%;
   transform: translateX(-50%);
-
   /* LOCK the visible columns to exactly 5 "slots" wide */
   width: var(--bottom-row-width);
-
   display: flex;
   flex-wrap: wrap;          /* allow multiple rows */
   justify-content: flex-end;/* pack each row to the right */
@@ -537,7 +535,8 @@ body:has(.card-overlay-bg) {
 
 .donate-to-qts-btn:hover,
 .admin-notice:hover,
-.gift-card:hover {
+.gift-card:hover
+{
     transform: scale(1.08);
     box-shadow: 0 0 20px rgba(255, 122, 24, 0.6);
 }
