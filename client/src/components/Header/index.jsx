@@ -1,7 +1,6 @@
-import React, { Suspense, useState, useEffect } from 'react';
-import { getApiBaseUrl } from '../../utils/env';
 import { Container } from 'react-bootstrap'
 import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
+import LucysToyBox from '../LucysToyBox';
 
 export default function Header() {
     const {
@@ -35,11 +34,7 @@ export default function Header() {
             </section>
         );
     }
-    const { occasion, numberOfBoys, numberOfGirls, totalBearsForBox } = settings;
-    const currentRemainingGifts = numberOfBoys + numberOfGirls
-    const bearsToShow = totalBearsForBox - currentRemainingGifts;
-    const maxBears = 20;
-    const bearCount = Math.min(bearsToShow, maxBears);
+    const { occasion } = settings;
     return (
         <header className="tb4l-Header image-overlay">
             <Container fluid className="header-container">
@@ -52,32 +47,7 @@ export default function Header() {
                     </div>
                 </section>
                 <h1 className="visually-hidden">Lucy's Toy Box Logo</h1>
-                <div className="toybox-container">
-
-                    {/* BACK / INSIDE OF BOX */}
-                    <img
-                        src="./lt4b-box-inside.webp"
-                        alt="Toy Box Inside"
-                        className="toybox-back"
-                    />
-                    {/* BEARS */}
-                    <div className="bear-grid">
-                        {Array.from({ length: bearCount }).map((_, i) => (
-                            <img
-                                key={i}
-                                src="./bBear-sm.webp"
-                                className="bear"
-                                alt="Bear"
-                            />
-                        ))}
-                    </div>
-                    {/* FRONT OF BOX (the part that hides lower half of bears) */}
-                    <img
-                        src="./lt4b-box-ani.webp"
-                        alt="Toy Box Front"
-                        className="toybox-front"
-                    />
-                </div>
+                <LucysToyBox />
             </Container>
         </header>
     );

@@ -1,6 +1,6 @@
 {
   "name": "toybox4lucy",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "A web application for managing toy donations",
   "main": "index.js",
   "scripts": {

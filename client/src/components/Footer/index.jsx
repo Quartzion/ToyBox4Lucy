@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
+import React, { useState } from 'react';
 import { getQtsVersion } from '../../utils/env';
+import LucysToyBox from '../LucysToyBox';
+
 import {
     Container,
     Nav,
@@ -10,70 +11,14 @@ import {
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import AdminSettings from '../AdminSettings';
-// const QtsPayPal = React.lazy(()=> import("../QtsPayPal"))
 
 export default function Footer() {
 
     const [showAdminSettings, setShowAdminSettings] = useState(false);
-    const prevCountRef = useRef(0);
-    const [newlyAdded, setNewlyAdded] = useState(0);
 
     const toggleAdminSettings = () => {
         setShowAdminSettings(!showAdminSettings);
     };
-
-    const {
-        settings,
-        loading,
-        error,
-    } = useToyBoxSettings();
-
-    useEffect(() => {
-    if (!settings) return;
-
-    const { numberOfBoys, numberOfGirls, totalBearsForBox } = settings;
-    const currentRemainingGifts = numberOfBoys + numberOfGirls;
-    const bearsToShow = totalBearsForBox - currentRemainingGifts;
-    const maxBears = 20;
-    const newBearCount = Math.min(bearsToShow, maxBears);
-
-    const oldCount = prevCountRef.current;
-
-    if (newBearCount > oldCount) {
-        setNewlyAdded(newBearCount - oldCount);
-    } else {
-        setNewlyAdded(0);
-    }
-
-    prevCountRef.current = newBearCount;
-}, [settings]);
-
-    // Prevent destructuring null settings
-    if (loading || !settings) {
-        return (
-            <footer className="footer-section image-overlay">
-                <Container className="QTS-Header navbar navbar-expand-md navbar-light">
-                    <p className="loading-message"><strong>Loading campaign info…</strong></p>
-                </Container>
-            </footer>
-        );
-    }
-
-    if (error) {
-        return (
-            <footer className="footer-section image-overlay">
-                <Container className="QTS-Header navbar navbar-expand-md navbar-light">
-                    <p style={{ color: "red" }}>Unable to load campaign info.</p>
-                </Container>
-            </footer>
-        );
-    }
-
-    const { numberOfBoys, numberOfGirls, totalBearsForBox } = settings;
-    const currentRemainingGifts = numberOfBoys + numberOfGirls;
-    const bearsToShow = totalBearsForBox - currentRemainingGifts;
-    const maxBears = 20;
-    const bearCount = Math.min(bearsToShow, maxBears);
 
     return (
         <footer className="footer-section image-overlay">
@@ -103,31 +48,7 @@ export default function Footer() {
                     </section>
                     <section className="footer-right">
                         <h2 className="visually-hidden">Company Logo</h2>
-                        <div className="toybox-container">
-                            {/* BACK OF BOX */}
-                            <img src="./lt4b-box-inside.webp" alt="Toy Box Inside" className="toybox-back" />
-
-                            {/* BEARS */}
-                            <div className="bear-grid">
-                                {Array.from({ length: bearCount }).map((_, i) => {
-                                    const isAnimated =
-                                        // TRUE for the last `newlyAdded` bears
-                                        i >= bearCount - newlyAdded;
-
-                                    return (
-                                        <img
-                                            key={i}
-                                            src="./bBear-sm.webp"
-                                            className={`bear ${isAnimated ? "bear-added" : ""}`}
-                                            alt="Bear"
-                                        />
-                                    );
-                                })}
-                            </div>
-
-                            {/* FRONT OF BOX */}
-                            <img src="./lt4b-box-ani.webp" alt="Toy Box Front" className="toybox-front" />
-                        </div>
+                        < LucysToyBox />
                     </section>
                     <section className="footer-center">
                         <div className="developer-promo">
@@ -137,7 +58,7 @@ export default function Footer() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Go to Quartzion website"
-                                title="www.quartzion.com"   // <-- Tooltip on hover
+                                title="www.quartzion.com"
                                 className="qts-logo-link"
                             >
                                 <img
