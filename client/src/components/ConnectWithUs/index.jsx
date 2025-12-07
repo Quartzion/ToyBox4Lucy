@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import Confetti from "react-confetti";
 import { Button, Alert } from "react-bootstrap";
 import { isProd, getApiBaseUrl } from '../../utils/env';
-// import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
 import ConnectWithUsForm from "../ConnectWithUsForm";
 import LucysToyBox from '../LucysToyBox';
 
@@ -11,47 +10,6 @@ export default function ConnectWithUs({ giftType }) {
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [showConfetti, setShowConfetti] = useState(false);
-    const prevCountRef = useRef(0);
-    const [newlyAdded, setNewlyAdded] = useState(0);
-
-    // const {
-    //     settings,
-    //     loading,
-    //     error,
-    // } = useToyBoxSettings();
-
-    // if (loading || !settings) {
-    //     return (
-    //         <section className="connect-with-us-section image-overlay">
-    //             <hr className="divider" />
-    //             <article className="connect-with-us-content">
-    //                 <p className="loading-message">
-    //                     <strong>Please wait while we get the most current info…</strong>
-    //                 </p>
-    //             </article>
-    //             <hr className="divider" />
-    //         </section>
-    //     );
-    // }
-
-    // if (error) {
-    //     return (
-    //         <section className="connect-with-us-section image-overlay">
-    //             <hr className="divider" />
-    //             <article className="connect-with-us-content">
-    //                 <p style={{ color: "red" }}>
-    //                     Unable to load information. Please try again shortly.
-    //                 </p>
-    //             </article>
-    //             <hr className="divider" />
-    //         </section>
-    //     );
-    // }
-    // const { numberOfBoys, numberOfGirls, totalBearsForBox } = settings;
-    // const currentRemainingGifts = numberOfBoys + numberOfGirls;
-    // const bearsToShow = totalBearsForBox - currentRemainingGifts;
-    // const maxBears = 20;
-    // const bearCount = Math.min(bearsToShow, maxBears);
 
     const handleToggle = async () => {
         const willExpand = !expanded;
@@ -93,24 +51,6 @@ export default function ConnectWithUs({ giftType }) {
             </header>
             <br />
             <article>
-                {/* <div className="toybox-container">
-                    <img src="./lt4b-box-inside.webp" alt="Toy Box Inside" className="toybox-back" />
-                    <div className="bear-grid">
-                        {Array.from({ length: bearCount }).map((_, i) => {
-                            const isAnimated =
-                                i >= bearCount - newlyAdded;
-                            return (
-                                <img
-                                    key={i}
-                                    src="./bBear-sm.webp"
-                                    className={`bear ${isAnimated ? "bear-added" : ""}`}
-                                    alt="Bear"
-                                />
-                            );
-                        })}
-                    </div>
-                    <img src="./lt4b-box-ani.webp" alt="Toy Box Front" className="toybox-front" />
-                </div> */}
                 <LucysToyBox />
                 <Button
                     aria-label={expanded ? "Hide the email Form" : "click here to show the email form"}
