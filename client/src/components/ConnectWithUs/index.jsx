@@ -51,7 +51,9 @@ export default function ConnectWithUs({ giftType }) {
             </header>
             <br />
             <article>
-                <LucysToyBox />
+                <LucysToyBox 
+                    animateVersion={Date.now()}
+                />
                 <Button
                     aria-label={expanded ? "Hide the email Form" : "click here to show the email form"}
                     className="show-connect-with-us-form-button"

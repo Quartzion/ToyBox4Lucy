@@ -1,7 +1,7 @@
 import react from 'react';
 import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
 
-export default function LucysToyBox() {
+export default function LucysToyBox({ animateVersion }) {
 
     const {
         settings,
@@ -37,8 +37,10 @@ export default function LucysToyBox() {
     const { numberOfBoys, numberOfGirls, totalBearsForBox } = settings;
     const currentRemainingGifts = numberOfBoys + numberOfGirls
     const bearsToShow = totalBearsForBox - currentRemainingGifts;
-    const maxBears = 17;
+    const maxBears = 18;
     const bearCount = Math.min(bearsToShow, maxBears);
+    const topRowCount = Math.min(bearCount, 4);
+    const bottomRowCount = Math.max(bearCount - 4, 0);
 
     return (
         <div className="toybox-container">
@@ -50,14 +52,28 @@ export default function LucysToyBox() {
             />
             {/* BEARS */}
             <div className="bear-grid">
-                {Array.from({ length: bearCount }).map((_, i) => (
+                {/* top row */}
+                <div className="bear-row top-row">
+                {Array.from({ length: topRowCount }).map((_, i) => (
                     <img
-                        key={i}
+                        key={`top-${i}`} 
                         src="./bBear-sm.webp"
                         className="bear"
                         alt="Bear"
                     />
                 ))}
+                </div>
+                {/* bottom row */}
+                <div className="bear-row bottom-row">
+                {Array.from({ length: bottomRowCount }).map((_, i) => (
+                    <img
+                        key={`bottom-${i}`}
+                        src="./bBear-sm.webp"
+                        className="bear"
+                        alt="Bear"
+                    />
+                ))}
+                </div>
             </div>
             {/* FRONT OF BOX (the part that hides lower half of bears) */}
             <img

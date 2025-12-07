@@ -48,7 +48,9 @@ export default function Footer() {
                     </section>
                     <section className="footer-right">
                         <h2 className="visually-hidden">Company Logo</h2>
-                        < LucysToyBox />
+                        < LucysToyBox 
+                                animateVersion={Date.now()}
+                        />
                     </section>
                     <section className="footer-center">
                         <div className="developer-promo">

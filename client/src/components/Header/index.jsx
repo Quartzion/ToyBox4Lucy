@@ -47,7 +47,9 @@ export default function Header() {
                     </div>
                 </section>
                 <h1 className="visually-hidden">Lucy's Toy Box Logo</h1>
-                <LucysToyBox />
+                <LucysToyBox 
+                    animateVersion={Date.now()}
+                />
             </Container>
         </header>
     );
