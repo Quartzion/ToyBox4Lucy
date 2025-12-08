@@ -13,7 +13,8 @@ export default function LucysToyBox({ animateVersion }) {
     const topRowCount = Math.min(bearCount, 4);
     const bottomRowCount = Math.max(bearCount - 4, 0);
 
-    const explodeBears = () => {
+    // toybox explode
+    function explodeBears(containerRef, totalClones = 25) {
         const root = containerRef.current;
         if (!root) return;
 
@@ -21,38 +22,74 @@ export default function LucysToyBox({ animateVersion }) {
         if (!bears.length) return;
 
         const boxRect = root.getBoundingClientRect();
-        bears.forEach(bear => {
-            const cloneCount = 10;
-            for (let i = 0; i < cloneCount; i++) {
 
-                const clone = bear.cloneNode(true);
-                clone.style.position = 'fixed';
-                clone.style.left = `${boxRect.left + bear.offsetLeft}px`;
-                clone.style.top = `${boxRect.top + bear.offsetTop}px`;
-                clone.style.zIndex = 9999;
-                clone.style.pointerEvents = 'none';
-                clone.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
-                document.body.appendChild(clone);
+        for (let i = 0; i < totalClones; i++) {
+            const bear = bears[Math.floor(Math.random() * bears.length)];
+            const clone = bear.cloneNode(true);
 
-                // random direction
-                const angle = Math.random() * 2 * Math.PI;
-                const distance = 150 + Math.random() * 1000; // pixels
-                const dx = Math.cos(angle) * distance;
-                const dy = Math.sin(angle) * distance;
+            // Start position: inside the toybox
+            const startX = boxRect.left + bear.offsetLeft;
+            const startY = boxRect.top + bear.offsetTop;
 
-                requestAnimationFrame(() => {
-                    clone.style.transform = `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`;
-                    clone.style.opacity = 0;
-                });
+            clone.style.position = 'fixed';
+            clone.style.left = `${startX}px`;
+            clone.style.top = `${startY}px`;
+            clone.style.width = `${bear.offsetWidth}px`;
+            clone.style.height = 'auto';
+            clone.style.zIndex = 9999;
+            clone.style.pointerEvents = 'none';
+            clone.style.opacity = 1;
+
+            document.body.appendChild(clone);
+
+            // Randomized velocity for explosion
+            let vx = (Math.random() - 0.5) * 12;  // horizontal speed
+            let vy = -Math.random() * 10 - 5;     // upward speed
+            const gravity = 0.5;
+            const damping = 0.7;                  // bounce damping
+            const lifespan = 10000 + Math.random() * 5000; // 20-25 seconds
+            let x = startX;
+            let y = startY;
+
+            function animate() {
+                // Apply physics
+                vy += gravity;
+                x += vx;
+                y += vy;
+
+                // Bounce off viewport edges
+                const vw = window.innerWidth;
+                const vh = window.innerHeight;
+                const rect = clone.getBoundingClientRect();
+
+                if (x < 0) { x = 0; vx *= -damping; }
+                if (x + rect.width > vw) { x = vw - rect.width; vx *= -damping; }
+                if (y < 0) { y = 0; vy *= -damping; }
+                if (y + rect.height > vh) { y = vh - rect.height; vy *= -damping; }
+
+                // Fade out slowly near end of lifespan
+                const elapsed = performance.now() - startTime;
+                const opacity = 1 - elapsed / lifespan;
+                clone.style.opacity = opacity;
+
+                // Rotation proportional to horizontal velocity
+                const rotation = vx * 5; // tweak multiplier for spin effect
+                clone.style.transform = `translate(${x - startX}px, ${y - startY}px) rotate(${rotation}deg)`;
+
+                if (elapsed < lifespan) {
+                    requestAnimationFrame(animate);
+                } else {
+                    clone.remove();
+                }
             }
 
-            // cleanup after animation
-            setTimeout(() => clone.remove(), 1200);
-        });
-
-        // optional: add confetti here if desired
-        // confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
+            const startTime = performance.now();
+            requestAnimationFrame(animate);
+        }
     };
+
+
+
 
     if (loading || !settings) {
         return (
@@ -81,7 +118,7 @@ export default function LucysToyBox({ animateVersion }) {
     }
 
     return (
-        <div className="toybox-container" ref={containerRef} onClick={explodeBears}>
+        <div className="toybox-container" ref={containerRef} onClick={() => explodeBears(containerRef, 200)}>
             <img src="./LucysToyBox-2-back.webp" alt="Toy Box Inside" className="toybox-back" />
             <div className="bear-grid">
                 <div className="bear-row top-row">
