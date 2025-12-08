@@ -12,6 +12,16 @@ export default function LucysToyBox({ animateVersion }) {
     const bearCount = Math.min(bearsToShow, maxBears);
     const topRowCount = Math.min(bearCount, 4);
     const bottomRowCount = Math.max(bearCount - 4, 0);
+    const [showCat, setShowCat] = React.useState(false);
+
+    useEffect(() => {
+        if (!showCat) return;
+
+        // Hide cat after 3 seconds (adjust if needed)
+        const timer = setTimeout(() => setShowCat(false), 5000);
+
+        return () => clearTimeout(timer);
+    }, [showCat]);
 
     // toybox explode
     function explodeBears(containerRef, totalClones = 25) {
@@ -119,7 +129,11 @@ export default function LucysToyBox({ animateVersion }) {
     }
 
     return (
-        <div className="toybox-container" ref={containerRef} onClick={() => explodeBears(containerRef, 200)}>
+        <div className="toybox-container" ref={containerRef} onClick={() => {
+            explodeBears(containerRef, 200);
+            setShowCat(true);
+        }
+        }>
             <img src="./LucysToyBox-2-back.webp" alt="Toy Box Inside" className="toybox-back" />
             <div className="bear-grid">
                 <div className="bear-row top-row">
@@ -133,6 +147,13 @@ export default function LucysToyBox({ animateVersion }) {
                     ))}
                 </div>
             </div>
+            {showCat && (
+                <img
+                    src="./toyBoxKitty.gif"
+                    alt="Curious Cat"
+                    className="toybox-cat"
+                />
+            )}
             <img src="./LucysToyBox-2-front.webp" alt="Toy Box Front" className="toybox-front" />
         </div>
     );
