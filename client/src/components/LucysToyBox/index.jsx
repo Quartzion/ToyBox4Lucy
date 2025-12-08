@@ -26,6 +26,7 @@ export default function LucysToyBox({ animateVersion }) {
         for (let i = 0; i < totalClones; i++) {
             const bear = bears[Math.floor(Math.random() * bears.length)];
             const clone = bear.cloneNode(true);
+            clone.classList.remove('bear-added');
 
             // Start position: inside the toybox
             const startX = boxRect.left + bear.offsetLeft;
@@ -123,12 +124,12 @@ export default function LucysToyBox({ animateVersion }) {
             <div className="bear-grid">
                 <div className="bear-row top-row">
                     {Array.from({ length: topRowCount }).map((_, i) => (
-                        <img key={`top-${i}`} src="./bBear-sm.webp" className="bear" alt="Bear" />
+                        <img key={`top-${i}`} src="./bBear-sm.webp" className="bear bear-added" alt="Bear" />
                     ))}
                 </div>
                 <div className="bear-row bottom-row">
                     {Array.from({ length: bottomRowCount }).map((_, i) => (
-                        <img key={`bottom-${i}`} src="./bBear-sm.webp" className="bear" alt="Bear" />
+                        <img key={`bottom-${i}`} src="./bBear-sm.webp" className="bear bear-added" alt="Bear" />
                     ))}
                 </div>
             </div>
