@@ -255,11 +255,11 @@
 
 .toybox-cat {
     position: absolute;
-    top: 2%;        /* raise the cat (lower % = higher visually) */
-    left: 50%;
+    top: 3%;        /* raise the cat (lower % = higher visually) */
+    left: 52%;
     transform: translateX(-50%);
     height: 50%;
-    width: 50%;
+    width: 40%;
     z-index: 4;      /* keeps cat above bears & box edges */
     opacity: 1;      /* ensure fully opaque */
     pointer-events: none;

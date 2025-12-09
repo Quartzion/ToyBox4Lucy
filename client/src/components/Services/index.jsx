@@ -16,7 +16,7 @@ import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
 const API_BASE_URL = getApiBaseUrl();
 
 export default function Services() {
-    const { refresh } = useToyBoxSettings();
+    const { settings, refresh } = useToyBoxSettings();
     const [sendGiftsAddress, setSendGiftAddress] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const slug = searchParams.get('slug');
@@ -66,49 +66,18 @@ export default function Services() {
     useOverlayEffect(location, expandedIdx, setSearchParams);
 
     useEffect(() => {
-        let cancelled = false;
-        let pollInterval;
+        if (!settings) return;
 
-        if (expandedIdx !== -1 || document.body.classList.contains('overlay-open')) {
-            return () => (cancelled = true);
-        }
+        const boys = parseInt(settings.numberOfBoys, 10) || 0;
+        const girls = parseInt(settings.numberOfGirls, 10) || 0;
 
-        async function fetchSettings() {
-            try {
-                const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
-                if (!res.ok) throw new Error(`Status ${res.status}`);
+        setSendGiftAddress(settings.sendGiftsAddress || "");
+        setVisibleCount(boys + girls);
+        setQtsServices(generateQtsServices(boys, girls));
 
-                const data = await res.json();
-                if (cancelled) return;
+        setLoading(false);
+    }, [settings]);
 
-                const doc = Array.isArray(data) && data.length > 0 ? data[0] : null;
-                if (!doc) throw new Error("No toyBoxSettings found");
-
-                const boys = parseInt(doc.numberOfBoys, 10) || 0;
-                const girls = parseInt(doc.numberOfGirls, 10) || 0;
-                const sendGiftsAddress = (doc.sendGiftsAddress)
-                setSendGiftAddress(sendGiftsAddress)
-
-                const visible = boys + girls;
-                setVisibleCount(visible);
-                setQtsServices(generateQtsServices(boys, girls));
-
-                setLoading(false); // END LOADING
-            } catch (err) {
-                console.error("Error fetching toyBoxSettings:", err);
-                setError(err);
-                setLoading(false); // END LOADING EVEN ON ERROR
-            }
-        }
-
-        fetchSettings();
-        pollInterval = setInterval(fetchSettings, 50000);
-
-        return () => {
-            cancelled = true;
-            if (pollInterval) clearInterval(pollInterval);
-        };
-    }, [expandedIdx, refresh ]);
 
     const handleToggleFn = (actualIdx) =>
         handleToggle(qtsServices, navigate, expandedIdx, actualIdx, "services");

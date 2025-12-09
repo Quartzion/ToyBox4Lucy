@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+// ToyBoxSettingsContext.jsx
+import React, { createContext, useState, useContext, useEffect, useRef } from 'react';
 import { getApiBaseUrl } from '../utils/env';
 import { decrementOneToy } from '../utils/API';
 
@@ -10,10 +11,10 @@ export const ToyBoxSettingsProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch settings
+  const pollRef = useRef(null);
+
   const fetchSettings = async () => {
     try {
-      setLoading(true);
       const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
       if (!res.ok) throw new Error(`Status ${res.status}`);
 
@@ -28,26 +29,40 @@ export const ToyBoxSettingsProvider = ({ children }) => {
     }
   };
 
-  // Run on mount
+  // Initial fetch (once)
   useEffect(() => {
     fetchSettings();
   }, []);
 
-  /**
-   * -------------------------------------
-   *  Donation handler (centralized!)
-   * -------------------------------------
-   */
+  // Poll every 50s — but pause if any overlay is active
+  useEffect(() => {
+    const startPolling = () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+
+      pollRef.current = setInterval(() => {
+        // If overlay is open, skip this cycle
+        if (document.body.classList.contains('overlay-open')) {
+          return;
+        }
+        fetchSettings();
+      }, 50000);
+    };
+
+    startPolling();
+
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
+  }, []);
+
   const handleDonation = async (toyCount) => {
     if (!toyCount || toyCount <= 0) return;
 
     try {
       for (let i = 0; i < toyCount; i++) {
-        const { ok, status, data } = await decrementOneToy();
-        if (!ok) console.warn("Failed to decrement:", status, data);
+        const { ok } = await decrementOneToy();
+        if (!ok) console.warn("Failed to decrement");
       }
-
-      // Rehydrate after decrement
       await fetchSettings();
     } catch (err) {
       console.error("Donation decrement error:", err);

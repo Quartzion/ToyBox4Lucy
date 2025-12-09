@@ -42,22 +42,13 @@ export default function ConnectWithUsForm({ formClass = "connect-with-us-form-fi
     setCwuFormData({ ...cwuFormdata, [e.target.name]: e.target.value });
   };
 
-  // Load campaign settings
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/toyBoxSettings`);
-        if (!res.ok) return;
-        const data = await res.json();
-        const doc = Array.isArray(data) && data[0] ? data[0] : null;
+  const { settings } = useToyBoxSettings();
 
-        setCampaignRun(doc?.campaignRun || null);
-        setSendGiftsAddress(doc?.sendGiftsAddress || null);
-      } catch (err) {
-        console.error("Error loading campaign settings:", err);
-      }
-    })();
-  }, []);
+  useEffect(() => {
+  if (!settings) return;
+  setCampaignRun(settings.campaignRun || null);
+  setSendGiftsAddress(settings.sendGiftsAddress || null);
+}, [settings]);
 
 const handleDonation = async ({ amount }) => {
   const donationAmount = Number(amount) || 0;
