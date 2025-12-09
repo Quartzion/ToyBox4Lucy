@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { createFollowUpRequest, decrementToyBoxGiftCount  } from "../../utils/API";
-import Overlay from "../Overlay";
+import Overlay from "../CardOverlay";
 import { jsPDF } from "jspdf";
 import QtsLogo from "../../assets/QTS_L2_B_C.png";
 import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';

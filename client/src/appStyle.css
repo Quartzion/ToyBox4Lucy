@@ -476,6 +476,28 @@
     align-items: center;
 }
 
+/* PanelOverlay */
+.panel-overlay-wrapper {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  padding: 2rem 1rem;
+  z-index: 9999;
+}
+
+.panel-overlay-content {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 800px;
+  width: 100%;
+}
+
+
 /* === Gift Card Expanded (modal) === */
 .gift-card.overlay,
 .blog-card.overlay {

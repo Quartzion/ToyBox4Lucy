@@ -196,6 +196,9 @@ export default function AdminSettings({formClass = "admin-settings", onSuccess})
                     </Table>
                 </div>
             )}
+            <Button variant="secondary" onClick={() => onSuccess?.()}>
+                Close
+            </Button>
         </section>
         </>
     )

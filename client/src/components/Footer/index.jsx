@@ -11,6 +11,8 @@ import {
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import AdminSettings from '../AdminSettings';
+import PanelOverlay from '../PanelOverlay';
+import panelOverlayUtils from '../../utils/panelOverlayUtils'
 
 export default function Footer() {
 
@@ -38,9 +40,14 @@ export default function Footer() {
                             {showAdminSettings ? "Hide Admin Settings" : "Show Admin Settings"}
                         </Button>
                         {showAdminSettings && (
+                            <PanelOverlay 
+                                className="admin-overlay"
+                                onClose={() => setShowAdminSettings(false)}
+                            >
                             <AdminSettings
                                 onSuccess={() => setShowAdminSettings(false)}
                             />
+                            </PanelOverlay>
                         )}
                         <br />
                         <h2 className="visually-hidden">legal</h2>

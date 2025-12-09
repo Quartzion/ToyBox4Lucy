@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import ReactDOM from "react-dom";
-import Overlay from "../Overlay";
+import CardOverlay from "../CardOverlay";
 import { generateQtsServices } from '../../utils/servicesData';
 import {
     getExpandedIdx,
@@ -172,14 +172,14 @@ export default function Services() {
 
             {expandedIdx !== -1 &&
                 ReactDOM.createPortal(
-                    <Overlay
+                    <CardOverlay
                         className="card-overlay-bg"
                         onClose={() => closeOverlay(setSearchParams)}
                         onMouseEnter={() => setIsPaused(true)}
                         onMouseLeave={() => setIsPaused(false)}
                     >
                         {renderCard(qtsServices[expandedIdx], expandedIdx, expandedIdx, cardRefs, handleToggleFn, true)}
-                    </Overlay>,
+                    </CardOverlay>,
                     document.body
                 )}
         </section>

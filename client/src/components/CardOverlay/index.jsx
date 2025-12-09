@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 
-export default function Overlay({ children, className = "", onClose }) {
+export default function CardOverlay({ children, className = "", onClose }) {
     const overlayRef = useRef(null);
     const navigate = useNavigate();
 

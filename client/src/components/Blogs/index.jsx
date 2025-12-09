@@ -2,7 +2,7 @@ import React from 'react';
 import { useRef } from "react";
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import ReactDOM from "react-dom";
-import Overlay from "../Overlay";
+import CardOverlay from "../CardOverlay";
 import blogs from '../../utils/blogData';
 import {
     getExpandedIdx,
