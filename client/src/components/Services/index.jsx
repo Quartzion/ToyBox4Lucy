@@ -95,7 +95,6 @@ export default function Services() {
         </>
     );
 
-    // 🚀 NEW LOADING STATE OUTPUT
     if (loading) {
         return (
             <section className="services-section image-overlay">
@@ -106,7 +105,6 @@ export default function Services() {
         );
     }
 
-    // 🚀 NEW ERROR OUTPUT
     if (error) {
         return (
             <section className="services-section image-overlay">

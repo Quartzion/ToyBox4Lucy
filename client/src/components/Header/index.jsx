@@ -1,6 +1,7 @@
 import { Container } from 'react-bootstrap'
 import { useToyBoxSettings } from '../../context/ToyBoxSettingsContex';
 import LucysToyBox from '../LucysToyBox';
+import NewsLetter from '../NewsLetter';
 
 export default function Header() {
     const {
@@ -44,6 +45,8 @@ export default function Header() {
                     </div>
                     <div className="tb4l-slogan">
                         <h2 className="header-slogan">Help us make a great day for kids this {occasion}!</h2>
+                        <br />  
+                        <NewsLetter />
                     </div>
                 </section>
                 <h1 className="visually-hidden">Lucy's Toy Box Logo</h1>
